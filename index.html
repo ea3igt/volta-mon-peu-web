@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Magnituds, mapa i rastre digital de la volta al món a peu d’Enric Luzan, actualitzats a partir dels tracks GPX públics.">
+  <title>La volta al món a peu · Enric Luzan</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#contingut">Ves al contingut</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <div>
+        <p class="eyebrow">Enric Luzan · rastre digital</p>
+        <h1>La volta al món a peu</h1>
+        <p class="lede">Una lectura viva del trajecte, el ritme i els extrems d’un viatge construït pas a pas.</p>
+      </div>
+      <p class="update-status" id="update-status">Carregant les dades més recents…</p>
+    </div>
+  </header>
+
+  <nav class="section-nav" aria-label="Seccions de la pàgina">
+    <div class="shell nav-inner">
+      <a href="#trajecte">Trajecte</a>
+      <a href="#evolucio">Evolució</a>
+      <a href="#fites">Fites</a>
+      <a href="#extrems">Extrems</a>
+      <a href="#territoris">Territoris</a>
+    </div>
+  </nav>
+
+  <main id="contingut">
+    <section class="section hero-section" id="trajecte" aria-labelledby="trajecte-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Estat del viatge</p>
+            <h2 id="trajecte-title">Del Mediterrani al Caucas</h2>
+          </div>
+          <p class="section-period" id="journey-period"></p>
+        </div>
+
+        <dl class="summary-grid" aria-label="Magnituds principals">
+          <div class="stat-card">
+            <dt>Distància acumulada</dt>
+            <dd id="total-km">—</dd>
+            <span id="route-ratio"></span>
+          </div>
+          <div class="stat-card">
+            <dt>Dies efectius a peu</dt>
+            <dd id="walking-days">—</dd>
+            <span id="walking-average"></span>
+          </div>
+          <div class="stat-card">
+            <dt>Territoris del registre</dt>
+            <dd id="territories">—</dd>
+            <span id="track-count"></span>
+          </div>
+        </dl>
+
+        <figure class="map-figure">
+          <div class="map-wrap">
+            <svg id="route-map" viewBox="0 0 900 440" role="img" aria-labelledby="map-title map-description">
+              <title id="map-title">Mapa del trajecte de la volta al món a peu</title>
+              <desc id="map-description">Ruta acumulada amb els punts geogràfics extrems i els episodis de temperatura màxima i mínima.</desc>
+            </svg>
+            <div class="tooltip" id="map-tooltip" role="status" aria-hidden="true"></div>
+          </div>
+          <figcaption class="map-caption">
+            <span><i class="legend-line" aria-hidden="true"></i> Trajecte</span>
+            <span><i class="legend-diamond" aria-hidden="true"></i> N · S · E · O</span>
+            <span><i class="legend-circle" aria-hidden="true"></i> Temperatura</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="evolucio" aria-labelledby="evolucio-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Temps i distància</p>
+            <h2 id="evolucio-title">Com creix el viatge</h2>
+          </div>
+          <p class="section-period" id="natural-average"></p>
+        </div>
+        <div class="chart-grid">
+          <figure class="chart-block chart-wide">
+            <figcaption>Distància acumulada</figcaption>
+            <svg id="cumulative-chart" viewBox="0 0 900 310" role="img" aria-label="Evolució de la distància acumulada per dia"></svg>
+          </figure>
+          <figure class="chart-block">
+            <figcaption>Volum mensual</figcaption>
+            <svg id="monthly-chart" viewBox="0 0 520 310" role="img" aria-label="Quilòmetres caminats cada mes"></svg>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fites" aria-labelledby="fites-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Fites singulars</p>
+            <h2 id="fites-title">Una ruta fora d’escala</h2>
+          </div>
+        </div>
+        <dl class="milestone-grid" id="milestone-grid"></dl>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="extrems" aria-labelledby="extrems-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Geografia i cos</p>
+            <h2 id="extrems-title">Extrems del rastre</h2>
+          </div>
+        </div>
+        <div class="detail-grid">
+          <section aria-labelledby="geo-title">
+            <h3 id="geo-title">Punts geogràfics</h3>
+            <dl class="detail-list" id="geographic-list"></dl>
+          </section>
+          <section aria-labelledby="temp-title">
+            <h3 id="temp-title">Temperatura del dispositiu</h3>
+            <dl class="detail-list" id="temperature-list"></dl>
+          </section>
+          <section aria-labelledby="heart-title">
+            <h3 id="heart-title">Freqüència cardíaca</h3>
+            <dl class="detail-list" id="heart-list"></dl>
+          </section>
+          <section aria-labelledby="digital-title">
+            <h3 id="digital-title">Densitat del rastre digital</h3>
+            <dl class="detail-list" id="digital-list"></dl>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="territoris" aria-labelledby="territoris-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Geografia recorreguda</p>
+            <h2 id="territoris-title">Distància per territori</h2>
+          </div>
+          <p class="section-period">quilòmetres · dies caminats</p>
+        </div>
+        <div class="country-list" id="country-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <p>Les xifres es recalculen a partir dels <a href="https://github.com/Ercoman2/GPX-LVM">tracks GPX públics</a>. Les temperatures corresponen al dispositiu i no necessàriament a la temperatura ambiental.</p>
+      <p id="footer-update"></p>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/app.js"></script>
+</body>
+</html>
