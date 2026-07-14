@@ -221,7 +221,10 @@ h3 {
   box-shadow: var(--shadow);
 }
 
-.map-wrap { position: relative; }
+.map-wrap {
+  position: relative;
+  overflow: hidden;
+}
 
 #route-map,
 #cumulative-chart,
