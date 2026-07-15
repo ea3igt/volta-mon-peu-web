@@ -261,8 +261,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                 "elevation_gain": 0.0,
                 "heart_sum": 0.0,
                 "heart_count": 0,
-                "temp_sum": 0.0,
-                "temp_count": 0,
+                "temperatures_by_date": defaultdict(lambda: {"min": None, "max": None}),
             }
         country = countries[row["country"]]
         country["km"] += row["km"]
@@ -360,8 +359,11 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
 
             temperature = point.get("temp")
             if temperature is not None:
-                country["temp_sum"] += temperature
-                country["temp_count"] += 1
+                daily_temperature = country["temperatures_by_date"][row["date"]]
+                if daily_temperature["min"] is None or temperature < daily_temperature["min"]:
+                    daily_temperature["min"] = temperature
+                if daily_temperature["max"] is None or temperature > daily_temperature["max"]:
+                    daily_temperature["max"] = temperature
                 temp_record = {"value": temperature, **record}
                 if temp_min is None or temperature < temp_min:
                     temp_min = temperature
@@ -417,19 +419,24 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
             "countries": [name for name in country_order if name in elevation_gain_countries_by_date[gain_date]],
         }
 
-    country_data = [
-        {
+    country_data = []
+    for name, values in sorted(countries.items(), key=lambda item: item[1]["first"]):
+        daily_temperatures = [
+            (temperature["min"] + temperature["max"]) / 2
+            for temperature in values["temperatures_by_date"].values()
+            if temperature["min"] is not None and temperature["max"] is not None
+        ]
+        country_data.append({
             "name": name,
             "km": round(values["km"], 1),
             "days": len(values["days"]),
-            "temperature_average": round(values["temp_sum"] / values["temp_count"], 1)
-            if values["temp_count"] else None,
+            "temperature_average": round(sum(daily_temperatures) / len(daily_temperatures), 1)
+            if daily_temperatures else None,
+            "temperature_days": len(daily_temperatures),
             "heart_rate_average": round(values["heart_sum"] / values["heart_count"])
             if values["heart_count"] else None,
             "elevation_gain_m": round(values["elevation_gain"] / 100) * 100,
-        }
-        for name, values in sorted(countries.items(), key=lambda item: item[1]["first"])
-    ]
+        })
     month_data = [
         {
             "key": key,

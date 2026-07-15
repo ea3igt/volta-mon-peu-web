@@ -384,14 +384,23 @@ h3 {
 
 .country-table {
   width: 100%;
-  min-width: 850px;
+  min-width: 820px;
   border-collapse: collapse;
   font-size: .84rem;
+  table-layout: fixed;
 }
+
+.country-col-name { width: 11%; }
+.country-col-temperature { width: 11%; }
+.country-col-heart { width: 9%; }
+.country-col-days { width: 6%; }
+.country-col-bar { width: 42%; }
+.country-col-distance { width: 10%; }
+.country-col-elevation { width: 11%; }
 
 .country-table th,
 .country-table td {
-  padding: .9rem .65rem;
+  padding: .9rem .45rem;
   border-top: 1px solid var(--border);
   vertical-align: middle;
 }
@@ -409,13 +418,16 @@ h3 {
 .country-table th:first-child { padding-left: 0; text-align: left; }
 .country-table td:last-child { padding-right: 0; }
 
+.country-table abbr {
+  text-decoration: none;
+  cursor: help;
+}
+
 .country-name {
   font-weight: 500;
   text-align: left;
   white-space: nowrap;
 }
-
-.country-bar-cell { width: 28%; }
 
 .country-bar {
   height: .8rem;
@@ -435,6 +447,12 @@ h3 {
   text-align: right;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+
+.country-note {
+  margin: .8rem 0 0;
+  color: var(--muted);
+  font-size: .75rem;
 }
 
 .site-footer {

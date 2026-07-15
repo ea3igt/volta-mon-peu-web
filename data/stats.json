@@ -3369,7 +3369,8 @@
       "name": "Catalunya",
       "km": 259.1,
       "days": 9,
-      "temperature_average": 22.3,
+      "temperature_average": 22.9,
+      "temperature_days": 8,
       "heart_rate_average": 109,
       "elevation_gain_m": 3200
     },
@@ -3377,7 +3378,8 @@
       "name": "França",
       "km": 720.7,
       "days": 22,
-      "temperature_average": 20.0,
+      "temperature_average": 21.9,
+      "temperature_days": 22,
       "heart_rate_average": 105,
       "elevation_gain_m": 7300
     },
@@ -3385,7 +3387,8 @@
       "name": "Itàlia",
       "km": 850.8,
       "days": 25,
-      "temperature_average": 17.2,
+      "temperature_average": 20.2,
+      "temperature_days": 25,
       "heart_rate_average": 101,
       "elevation_gain_m": 6300
     },
@@ -3393,7 +3396,8 @@
       "name": "Croàcia",
       "km": 747.5,
       "days": 25,
-      "temperature_average": 20.7,
+      "temperature_average": 22.0,
+      "temperature_days": 25,
       "heart_rate_average": 101,
       "elevation_gain_m": 9400
     },
@@ -3401,7 +3405,8 @@
       "name": "Montenegro",
       "km": 166.3,
       "days": 5,
-      "temperature_average": 24.2,
+      "temperature_average": 23.8,
+      "temperature_days": 5,
       "heart_rate_average": 103,
       "elevation_gain_m": 2500
     },
@@ -3409,7 +3414,8 @@
       "name": "Albània",
       "km": 414.0,
       "days": 12,
-      "temperature_average": 24.5,
+      "temperature_average": 23.8,
+      "temperature_days": 12,
       "heart_rate_average": 102,
       "elevation_gain_m": 4300
     },
@@ -3417,7 +3423,8 @@
       "name": "Grècia",
       "km": 847.8,
       "days": 26,
-      "temperature_average": 24.3,
+      "temperature_average": 24.5,
+      "temperature_days": 26,
       "heart_rate_average": 102,
       "elevation_gain_m": 7600
     },
@@ -3425,7 +3432,8 @@
       "name": "Turquia",
       "km": 1812.7,
       "days": 50,
-      "temperature_average": 29.1,
+      "temperature_average": 29.7,
+      "temperature_days": 50,
       "heart_rate_average": 99,
       "elevation_gain_m": 19100
     },
@@ -3433,7 +3441,8 @@
       "name": "Geòrgia",
       "km": 239.3,
       "days": 7,
-      "temperature_average": 28.8,
+      "temperature_average": 29.4,
+      "temperature_days": 7,
       "heart_rate_average": 101,
       "elevation_gain_m": 3700
     }

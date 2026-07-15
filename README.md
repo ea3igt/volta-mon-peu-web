@@ -53,5 +53,6 @@ Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings
 - Dades de ruta: [Ercoman2/GPX-LVM](https://github.com/Ercoman2/GPX-LVM).
 - Topònims: geocodificació inversa d’OpenStreetMap Nominatim, amb memòria cau local.
 - La temperatura és la lectura del dispositiu; no s’interpreta com a temperatura ambiental.
+- La temperatura mitjana de cada territori és la mitjana dels valors diaris `(màxima + mínima) / 2` dels dies amb lectures.
 - La velocitat màxima rebutja salts GPS i exigeix una finestra contínua d’almenys cinc minuts amb cadència registrada.
 - El desnivell positiu és una estimació derivada de les mostres d’altitud del GPX.
