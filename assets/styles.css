@@ -377,23 +377,45 @@ h3 {
 .detail-list { margin: 0; }
 .detail-list dd { font-size: 1.05rem; }
 
-.country-list { display: grid; gap: .8rem; }
-
-.country-row {
-  display: grid;
-  grid-template-columns: minmax(9rem, 1.1fr) minmax(12rem, 3fr) 6.5rem;
-  gap: 1rem;
-  align-items: center;
+.country-table-wrap {
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
+
+.country-table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+  font-size: .84rem;
+}
+
+.country-table th,
+.country-table td {
+  padding: .9rem .65rem;
+  border-top: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.country-table thead th {
+  padding-top: 0;
+  border-top: 0;
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.country-table th:first-child { padding-left: 0; text-align: left; }
+.country-table td:last-child { padding-right: 0; }
 
 .country-name {
-  display: flex;
-  justify-content: space-between;
-  gap: .75rem;
-  font-size: .88rem;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
 }
 
-.country-name span:last-child { color: var(--muted); }
+.country-bar-cell { width: 28%; }
 
 .country-bar {
   height: .8rem;
@@ -411,8 +433,8 @@ h3 {
 
 .country-value {
   text-align: right;
-  font-size: .88rem;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .site-footer {
@@ -458,8 +480,7 @@ h3 {
   .section-period { margin-top: .75rem; text-align: left; }
   .stat-card { min-height: 8rem; }
   .milestone-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .country-row { grid-template-columns: minmax(7rem, 1fr) minmax(7rem, 1.8fr); gap: .65rem; }
-  .country-value { grid-column: 2; }
+  .country-table { min-width: 760px; }
 }
 
 @media (max-width: 430px) {

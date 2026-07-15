@@ -237,6 +237,8 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
     short_gap_seconds = 0.0
     short_gap_count = 0
     elevation_gain = 0.0
+    elevation_gain_by_date: dict[date, float] = defaultdict(float)
+    elevation_gain_countries_by_date: dict[date, set[str]] = defaultdict(set)
     altitude_max = None
     heart_min = heart_max = None
     heart_sum = heart_count = 0
@@ -252,9 +254,19 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
         months[month_key]["km"] += row["km"]
         months[month_key]["days"].add(row["date"])
         if row["country"] not in countries:
-            countries[row["country"]] = {"km": 0.0, "days": set(), "first": row["date"]}
-        countries[row["country"]]["km"] += row["km"]
-        countries[row["country"]]["days"].add(row["date"])
+            countries[row["country"]] = {
+                "km": 0.0,
+                "days": set(),
+                "first": row["date"],
+                "elevation_gain": 0.0,
+                "heart_sum": 0.0,
+                "heart_count": 0,
+                "temp_sum": 0.0,
+                "temp_count": 0,
+            }
+        country = countries[row["country"]]
+        country["km"] += row["km"]
+        country["days"].add(row["date"])
 
         points = read_track(source / row["file"])
         if not points:
@@ -328,13 +340,19 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                 if altitude_max is None or elevation > altitude_max["value"]:
                     altitude_max = {"value": elevation, **record}
                 if previous_ele is not None and elevation - previous_ele >= 0.4:
-                    elevation_gain += elevation - previous_ele
+                    gain = elevation - previous_ele
+                    elevation_gain += gain
+                    country["elevation_gain"] += gain
+                    elevation_gain_by_date[row["date"]] += gain
+                    elevation_gain_countries_by_date[row["date"]].add(row["country"])
                 previous_ele = elevation
 
             heart = point.get("hr")
             if heart is not None and heart > 0:
                 heart_sum += heart
                 heart_count += 1
+                country["heart_sum"] += heart
+                country["heart_count"] += 1
                 if heart_min is None or heart < heart_min["value"]:
                     heart_min = {"value": heart, **record}
                 if heart_max is None or heart > heart_max["value"]:
@@ -342,6 +360,8 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
 
             temperature = point.get("temp")
             if temperature is not None:
+                country["temp_sum"] += temperature
+                country["temp_count"] += 1
                 temp_record = {"value": temperature, **record}
                 if temp_min is None or temperature < temp_min:
                     temp_min = temperature
@@ -387,8 +407,27 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
     gap_end = walking_days[gap_index + 1] - timedelta(days=1) if gaps else first_day
     longest_stage = max(rows, key=lambda row: row["km"])
 
+    elevation_gain_max_day = None
+    if elevation_gain_by_date:
+        gain_date, gain_value = max(elevation_gain_by_date.items(), key=lambda item: item[1])
+        country_order = [name for name, _ in sorted(countries.items(), key=lambda item: item[1]["first"])]
+        elevation_gain_max_day = {
+            "date": gain_date.isoformat(),
+            "m": round(gain_value / 100) * 100,
+            "countries": [name for name in country_order if name in elevation_gain_countries_by_date[gain_date]],
+        }
+
     country_data = [
-        {"name": name, "km": round(values["km"], 1), "days": len(values["days"])}
+        {
+            "name": name,
+            "km": round(values["km"], 1),
+            "days": len(values["days"]),
+            "temperature_average": round(values["temp_sum"] / values["temp_count"], 1)
+            if values["temp_count"] else None,
+            "heart_rate_average": round(values["heart_sum"] / values["heart_count"])
+            if values["heart_count"] else None,
+            "elevation_gain_m": round(values["elevation_gain"] / 100) * 100,
+        }
         for name, values in sorted(countries.items(), key=lambda item: item[1]["first"])
     ]
     month_data = [
@@ -460,6 +499,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
             },
             "altitude_max": altitude_max,
             "elevation_gain_m": round(elevation_gain / 100) * 100,
+            "elevation_gain_max_day": elevation_gain_max_day,
             "speed_max_5min": speed_max,
         },
         "digital_trace": {

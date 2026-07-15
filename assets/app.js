@@ -81,6 +81,7 @@ function renderMilestones() {
     ["Velocitat màxima", `${number1.format(speed.value)} km/h`, `finestra sostinguda de 5 min · ${formatDate(speed.date, true)} · ${speed.country}`],
     ["Altitud màxima", `${number0.format(altitude.value)} m`, `${formatDate(altitude.date, true)} · ${altitude.country}`],
     ["Desnivell positiu", `≈${number0.format(milestones.elevation_gain_m)} m`, "estimació calculada a partir dels GPX"],
+    ["Dia amb més desnivell positiu", `≈${number0.format(milestones.elevation_gain_max_day.m)} m`, `${formatDate(milestones.elevation_gain_max_day.date)} · ${milestones.elevation_gain_max_day.countries.join(" · ")}`],
     ["Pausa més llarga", `${milestones.longest_pause.days} dies`, `${formatDate(milestones.longest_pause.start, true)} — ${formatDate(milestones.longest_pause.end)}`],
     ["Ruta / línia recta", `${number2.format(summary.route_ratio)}×`, `${number0.format(summary.total_km)} vs. ${number0.format(summary.straight_km)} km`],
   ];
@@ -129,12 +130,18 @@ function renderDetails() {
 function renderCountries() {
   const maximum = Math.max(...stats.countries.map(item => item.km));
   const items = stats.countries.map(item => {
-    const row = document.createElement("div");
-    row.className = "country-row";
+    const temperature = item.temperature_average == null ? "—" : `${number1.format(item.temperature_average)} °C`;
+    const heartRate = item.heart_rate_average == null ? "—" : `${number0.format(item.heart_rate_average)} bpm`;
+    const elevationGain = item.elevation_gain_m == null ? "—" : `≈${number0.format(item.elevation_gain_m)} m`;
+    const row = document.createElement("tr");
     row.innerHTML = `
-      <div class="country-name"><span>${item.name}</span><span>${item.days} dies</span></div>
-      <div class="country-bar" aria-hidden="true"><span style="width:${(item.km / maximum * 100).toFixed(2)}%"></span></div>
-      <div class="country-value">${number1.format(item.km)} km</div>`;
+      <th class="country-name" scope="row">${item.name}</th>
+      <td class="country-value">${temperature}</td>
+      <td class="country-value">${heartRate}</td>
+      <td class="country-value">${number0.format(item.days)}</td>
+      <td class="country-bar-cell"><div class="country-bar" aria-hidden="true"><span style="width:${(item.km / maximum * 100).toFixed(2)}%"></span></div></td>
+      <td class="country-value">${number1.format(item.km)} km</td>
+      <td class="country-value">${elevationGain}</td>`;
     return row;
   });
   document.getElementById("country-list").replaceChildren(...items);

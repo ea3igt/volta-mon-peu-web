@@ -6,8 +6,8 @@ Pàgina responsive que transforma els tracks GPX públics d’Enric Luzan en un 
 
 - distància acumulada, dies efectius, mitjanes, tracks i territoris;
 - mapa complet, inici i final, extrems N/S/E/O i temperatures;
-- evolució acumulada, volum mensual i distància per territori;
-- etapa més llarga, ratxes, pausa, desnivell, altitud i relació ruta/línia recta;
+- evolució acumulada, volum mensual i distància, temperatura, freqüència cardíaca i desnivell per territori;
+- etapa més llarga, ratxes, pausa, desnivell total i diari, altitud i relació ruta/línia recta;
 - velocitat màxima calculada en una finestra sostinguda de cinc minuts;
 - extrems de freqüència cardíaca, temperatura i densitat del rastre digital.
 
