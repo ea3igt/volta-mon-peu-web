@@ -9,6 +9,7 @@ import hashlib
 import json
 import math
 import shutil
+import statistics
 import tempfile
 import time
 import urllib.parse
@@ -38,6 +39,8 @@ MONTHS_CA = [
     "gen.", "febr.", "març", "abr.", "maig", "juny",
     "jul.", "ag.", "set.", "oct.", "nov.", "des.",
 ]
+ELEVATION_RESAMPLE_METERS = 10.0
+ELEVATION_SMOOTHING_POINTS = 7
 
 
 def haversine(a: tuple[float, float], b: tuple[float, float]) -> float:
@@ -48,6 +51,47 @@ def haversine(a: tuple[float, float], b: tuple[float, float]) -> float:
     dlon = lon2 - lon1
     h = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
     return 2 * radius * math.asin(min(1, math.sqrt(h)))
+
+
+def elevation_gain_from_points(points: list[dict]) -> float:
+    """Calcula l'ascens sobre un perfil regularitzat i filtrat per distància."""
+    profile = [point for point in points if point.get("ele") is not None]
+    if len(profile) < 2:
+        return 0.0
+
+    elevations = [profile[0]["ele"]]
+    cumulative_distance = 0.0
+    next_sample_distance = ELEVATION_RESAMPLE_METERS
+    last_sample_distance = 0.0
+
+    for previous, point in zip(profile, profile[1:]):
+        segment_distance = haversine(
+            (previous["lat"], previous["lon"]),
+            (point["lat"], point["lon"]),
+        )
+        if segment_distance <= 0:
+            continue
+        while cumulative_distance + segment_distance >= next_sample_distance:
+            fraction = (next_sample_distance - cumulative_distance) / segment_distance
+            elevations.append(previous["ele"] + (point["ele"] - previous["ele"]) * fraction)
+            last_sample_distance = next_sample_distance
+            next_sample_distance += ELEVATION_RESAMPLE_METERS
+        cumulative_distance += segment_distance
+
+    if cumulative_distance - last_sample_distance >= ELEVATION_RESAMPLE_METERS / 2:
+        elevations.append(profile[-1]["ele"])
+
+    half_window = ELEVATION_SMOOTHING_POINTS // 2
+    padded = (
+        [elevations[0]] * half_window
+        + elevations
+        + [elevations[-1]] * half_window
+    )
+    filtered = []
+    for index in range(len(elevations)):
+        filtered.append(statistics.median(padded[index:index + ELEVATION_SMOOTHING_POINTS]))
+
+    return sum(max(0.0, point - previous) for previous, point in zip(filtered, filtered[1:]))
 
 
 def parse_time(value: str | None) -> datetime | None:
@@ -319,7 +363,6 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                         if speed_max is None or speed > speed_max["value"]:
                             speed_max = {"value": speed, **event_record(sequence[right], row)}
 
-        previous_ele = None
         for point in points:
             position = (point["lat"], point["lon"])
             if first_point is None:
@@ -343,13 +386,6 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
             if elevation is not None:
                 if altitude_max is None or elevation > altitude_max["value"]:
                     altitude_max = {"value": elevation, **record}
-                if previous_ele is not None and elevation - previous_ele >= 0.4:
-                    gain = elevation - previous_ele
-                    elevation_gain += gain
-                    country["elevation_gain"] += gain
-                    elevation_gain_by_date[row["date"]] += gain
-                    elevation_gain_countries_by_date[row["date"]].add(row["country"])
-                previous_ele = elevation
 
             heart = point.get("hr")
             if heart is not None and heart > 0:
@@ -378,6 +414,12 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                     temp_max_records = [temp_record]
                 elif temperature == temp_max:
                     temp_max_records.append(temp_record)
+
+        track_elevation_gain = elevation_gain_from_points(points)
+        elevation_gain += track_elevation_gain
+        country["elevation_gain"] += track_elevation_gain
+        elevation_gain_by_date[row["date"]] += track_elevation_gain
+        elevation_gain_countries_by_date[row["date"]].add(row["country"])
 
         final = points[-1]
         final_lonlat = [round(final["lon"], 5), round(final["lat"], 5)]

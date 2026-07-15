@@ -3372,7 +3372,7 @@
       "temperature_average": 22.9,
       "temperature_days": 8,
       "average_speed_kmh": 5.8,
-      "elevation_gain_m": 3200
+      "elevation_gain_m": 4300
     },
     {
       "name": "França",
@@ -3381,7 +3381,7 @@
       "temperature_average": 21.9,
       "temperature_days": 22,
       "average_speed_kmh": 5.3,
-      "elevation_gain_m": 7300
+      "elevation_gain_m": 8100
     },
     {
       "name": "Itàlia",
@@ -3390,7 +3390,7 @@
       "temperature_average": 20.2,
       "temperature_days": 25,
       "average_speed_kmh": 5.3,
-      "elevation_gain_m": 6300
+      "elevation_gain_m": 7900
     },
     {
       "name": "Croàcia",
@@ -3399,7 +3399,7 @@
       "temperature_average": 22.0,
       "temperature_days": 25,
       "average_speed_kmh": 5.2,
-      "elevation_gain_m": 9400
+      "elevation_gain_m": 11900
     },
     {
       "name": "Montenegro",
@@ -3408,7 +3408,7 @@
       "temperature_average": 23.8,
       "temperature_days": 5,
       "average_speed_kmh": 4.9,
-      "elevation_gain_m": 2500
+      "elevation_gain_m": 3200
     },
     {
       "name": "Albània",
@@ -3417,7 +3417,7 @@
       "temperature_average": 23.8,
       "temperature_days": 12,
       "average_speed_kmh": 5.2,
-      "elevation_gain_m": 4300
+      "elevation_gain_m": 5300
     },
     {
       "name": "Grècia",
@@ -3426,7 +3426,7 @@
       "temperature_average": 24.5,
       "temperature_days": 26,
       "average_speed_kmh": 5.2,
-      "elevation_gain_m": 7600
+      "elevation_gain_m": 9200
     },
     {
       "name": "Turquia",
@@ -3435,7 +3435,7 @@
       "temperature_average": 29.7,
       "temperature_days": 50,
       "average_speed_kmh": 5.1,
-      "elevation_gain_m": 19100
+      "elevation_gain_m": 23100
     },
     {
       "name": "Geòrgia",
@@ -3444,7 +3444,7 @@
       "temperature_average": 29.4,
       "temperature_days": 7,
       "average_speed_kmh": 4.8,
-      "elevation_gain_m": 3700
+      "elevation_gain_m": 5200
     }
   ],
   "months": [
@@ -3653,10 +3653,10 @@
       "place": "Akhoseila · Adjàra · Geòrgia",
       "local_time": "2026-07-12T10:59:24+04:00"
     },
-    "elevation_gain_m": 63300,
+    "elevation_gain_m": 78200,
     "elevation_gain_max_day": {
       "date": "2026-07-11",
-      "m": 1200,
+      "m": 1700,
       "countries": [
         "Geòrgia"
       ]

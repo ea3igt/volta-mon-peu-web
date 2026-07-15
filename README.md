@@ -56,4 +56,4 @@ Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings
 - La temperatura mitjana de cada territori és la mitjana dels valors diaris `(màxima + mínima) / 2` dels dies amb lectures.
 - La velocitat mitjana de cada territori divideix la distància total pel temps dels trams en moviment, amb cadència registrada i sense salts GPS.
 - La velocitat màxima rebutja salts GPS i exigeix una finestra contínua d’almenys cinc minuts amb cadència registrada.
-- El desnivell positiu és una estimació derivada de les mostres d’altitud del GPX.
+- El desnivell positiu es calcula sobre un perfil reomplert cada 10 metres i filtrat amb una mediana centrada de 7 mostres (70 metres), abans de sumar-ne els increments positius.
