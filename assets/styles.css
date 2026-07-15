@@ -392,11 +392,11 @@ h3 {
 
 .country-col-name { width: 11%; }
 .country-col-temperature { width: 11%; }
-.country-col-heart { width: 9%; }
 .country-col-days { width: 6%; }
 .country-col-bar { width: 42%; }
 .country-col-distance { width: 10%; }
-.country-col-elevation { width: 11%; }
+.country-col-speed { width: 10%; }
+.country-col-elevation { width: 10%; }
 
 .country-table th,
 .country-table td {

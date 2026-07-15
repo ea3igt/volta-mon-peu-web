@@ -259,8 +259,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                 "days": set(),
                 "first": row["date"],
                 "elevation_gain": 0.0,
-                "heart_sum": 0.0,
-                "heart_count": 0,
+                "moving_seconds": 0.0,
                 "temperatures_by_date": defaultdict(lambda: {"min": None, "max": None}),
             }
         country = countries[row["country"]]
@@ -297,6 +296,12 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                 current_sequence = [point]
         if len(current_sequence) > 1:
             active_sequences.append(current_sequence)
+
+        country["moving_seconds"] += sum(
+            (point["time"] - previous["time"]).total_seconds()
+            for sequence in active_sequences
+            for previous, point in zip(sequence, sequence[1:])
+        )
 
         for sequence in active_sequences:
             cumulative = [0.0]
@@ -350,8 +355,6 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
             if heart is not None and heart > 0:
                 heart_sum += heart
                 heart_count += 1
-                country["heart_sum"] += heart
-                country["heart_count"] += 1
                 if heart_min is None or heart < heart_min["value"]:
                     heart_min = {"value": heart, **record}
                 if heart_max is None or heart > heart_max["value"]:
@@ -433,8 +436,8 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
             "temperature_average": round(sum(daily_temperatures) / len(daily_temperatures), 1)
             if daily_temperatures else None,
             "temperature_days": len(daily_temperatures),
-            "heart_rate_average": round(values["heart_sum"] / values["heart_count"])
-            if values["heart_count"] else None,
+            "average_speed_kmh": round(values["km"] / (values["moving_seconds"] / 3600), 1)
+            if values["moving_seconds"] else None,
             "elevation_gain_m": round(values["elevation_gain"] / 100) * 100,
         })
     month_data = [

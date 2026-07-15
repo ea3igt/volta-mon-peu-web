@@ -131,16 +131,16 @@ function renderCountries() {
   const maximum = Math.max(...stats.countries.map(item => item.km));
   const items = stats.countries.map(item => {
     const temperature = item.temperature_average == null ? "—" : `${number1.format(item.temperature_average)} °C`;
-    const heartRate = item.heart_rate_average == null ? "—" : `${number0.format(item.heart_rate_average)} bpm`;
+    const averageSpeed = item.average_speed_kmh == null ? "—" : `${number1.format(item.average_speed_kmh)} km/h`;
     const elevationGain = item.elevation_gain_m == null ? "—" : `≈${number0.format(item.elevation_gain_m)} m`;
     const row = document.createElement("tr");
     row.innerHTML = `
       <th class="country-name" scope="row">${item.name}</th>
       <td class="country-value">${temperature}</td>
-      <td class="country-value">${heartRate}</td>
       <td class="country-value">${number0.format(item.days)}</td>
       <td class="country-bar-cell"><div class="country-bar" aria-hidden="true"><span style="width:${(item.km / maximum * 100).toFixed(2)}%"></span></div></td>
       <td class="country-value">${number1.format(item.km)} km</td>
+      <td class="country-value">${averageSpeed}</td>
       <td class="country-value">${elevationGain}</td>`;
     return row;
   });

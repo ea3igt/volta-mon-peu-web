@@ -3371,7 +3371,7 @@
       "days": 9,
       "temperature_average": 22.9,
       "temperature_days": 8,
-      "heart_rate_average": 109,
+      "average_speed_kmh": 5.8,
       "elevation_gain_m": 3200
     },
     {
@@ -3380,7 +3380,7 @@
       "days": 22,
       "temperature_average": 21.9,
       "temperature_days": 22,
-      "heart_rate_average": 105,
+      "average_speed_kmh": 5.3,
       "elevation_gain_m": 7300
     },
     {
@@ -3389,7 +3389,7 @@
       "days": 25,
       "temperature_average": 20.2,
       "temperature_days": 25,
-      "heart_rate_average": 101,
+      "average_speed_kmh": 5.3,
       "elevation_gain_m": 6300
     },
     {
@@ -3398,7 +3398,7 @@
       "days": 25,
       "temperature_average": 22.0,
       "temperature_days": 25,
-      "heart_rate_average": 101,
+      "average_speed_kmh": 5.2,
       "elevation_gain_m": 9400
     },
     {
@@ -3407,7 +3407,7 @@
       "days": 5,
       "temperature_average": 23.8,
       "temperature_days": 5,
-      "heart_rate_average": 103,
+      "average_speed_kmh": 4.9,
       "elevation_gain_m": 2500
     },
     {
@@ -3416,7 +3416,7 @@
       "days": 12,
       "temperature_average": 23.8,
       "temperature_days": 12,
-      "heart_rate_average": 102,
+      "average_speed_kmh": 5.2,
       "elevation_gain_m": 4300
     },
     {
@@ -3425,7 +3425,7 @@
       "days": 26,
       "temperature_average": 24.5,
       "temperature_days": 26,
-      "heart_rate_average": 102,
+      "average_speed_kmh": 5.2,
       "elevation_gain_m": 7600
     },
     {
@@ -3434,7 +3434,7 @@
       "days": 50,
       "temperature_average": 29.7,
       "temperature_days": 50,
-      "heart_rate_average": 99,
+      "average_speed_kmh": 5.1,
       "elevation_gain_m": 19100
     },
     {
@@ -3443,7 +3443,7 @@
       "days": 7,
       "temperature_average": 29.4,
       "temperature_days": 7,
-      "heart_rate_average": 101,
+      "average_speed_kmh": 4.8,
       "elevation_gain_m": 3700
     }
   ],
