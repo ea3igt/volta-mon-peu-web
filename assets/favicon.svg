@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Persona caminant">
+  <rect width="64" height="64" rx="14" fill="#14211d"/>
+  <path d="M8 51c12-6 22-5 31 0 6 3 11 2 17-3" fill="none" stroke="#1677d2" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="33" cy="14" r="5" fill="#f7f5ef"/>
+  <g fill="none" stroke="#f7f5ef" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 23 28 36"/>
+    <path d="m31 26-10 6"/>
+    <path d="m31 26 9 5 6-6"/>
+    <path d="m28 36-10 15"/>
+    <path d="m28 36 10 10 9 5"/>
+  </g>
+</svg>
