@@ -394,10 +394,10 @@ h3 {
 .country-col-temperature { width: 9%; }
 .country-col-stages { width: 6%; }
 .country-col-natural-days { width: 4%; }
-.country-col-bar { width: 46%; }
+.country-col-bar { width: 47%; }
 .country-col-distance { width: 8%; }
 .country-col-speed { width: 8%; }
-.country-col-elevation { width: 10%; }
+.country-col-elevation { width: 9%; }
 
 .country-table th,
 .country-table td {
