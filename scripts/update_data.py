@@ -300,15 +300,18 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
         if row["country"] not in countries:
             countries[row["country"]] = {
                 "km": 0.0,
-                "days": set(),
+                "track_days": set(),
                 "first": row["date"],
+                "last": row["date"],
                 "elevation_gain": 0.0,
                 "moving_seconds": 0.0,
                 "temperatures_by_date": defaultdict(lambda: {"min": None, "max": None}),
             }
         country = countries[row["country"]]
         country["km"] += row["km"]
-        country["days"].add(row["date"])
+        country["track_days"].add(row["date"])
+        country["first"] = min(country["first"], row["date"])
+        country["last"] = max(country["last"], row["date"])
 
         points = read_track(source / row["file"])
         if not points:
@@ -474,7 +477,8 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
         country_data.append({
             "name": name,
             "km": round(values["km"], 1),
-            "days": len(values["days"]),
+            "stages": len(values["track_days"]),
+            "natural_days": (values["last"] - values["first"]).days + 1,
             "temperature_average": round(sum(daily_temperatures) / len(daily_temperatures), 1)
             if daily_temperatures else None,
             "temperature_days": len(daily_temperatures),

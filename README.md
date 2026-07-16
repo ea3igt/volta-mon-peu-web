@@ -54,6 +54,7 @@ Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings
 - Topònims: geocodificació inversa d’OpenStreetMap Nominatim, amb memòria cau local.
 - La temperatura és la lectura del dispositiu; no s’interpreta com a temperatura ambiental.
 - La temperatura mitjana de cada territori és la mitjana dels valors diaris `(màxima + mínima) / 2` dels dies amb lectures.
+- Les etapes per territori són els dies diferents amb almenys un track; els dies naturals són el període inclusiu entre el primer i l’últim dia amb track al territori.
 - La velocitat mitjana de cada territori divideix la distància total pel temps dels trams en moviment, amb cadència registrada i sense salts GPS.
 - La velocitat màxima rebutja salts GPS i exigeix una finestra contínua d’almenys cinc minuts amb cadència registrada.
 - El desnivell positiu es calcula sobre un perfil reomplert cada 10 metres i filtrat amb una mediana centrada de 7 mostres (70 metres), abans de sumar-ne els increments positius.

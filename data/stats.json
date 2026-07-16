@@ -3368,7 +3368,8 @@
     {
       "name": "Catalunya",
       "km": 259.1,
-      "days": 9,
+      "stages": 9,
+      "natural_days": 9,
       "temperature_average": 22.9,
       "temperature_days": 8,
       "average_speed_kmh": 5.8,
@@ -3377,7 +3378,8 @@
     {
       "name": "França",
       "km": 720.7,
-      "days": 22,
+      "stages": 22,
+      "natural_days": 26,
       "temperature_average": 21.9,
       "temperature_days": 22,
       "average_speed_kmh": 5.3,
@@ -3386,7 +3388,8 @@
     {
       "name": "Itàlia",
       "km": 850.8,
-      "days": 25,
+      "stages": 25,
+      "natural_days": 30,
       "temperature_average": 20.2,
       "temperature_days": 25,
       "average_speed_kmh": 5.3,
@@ -3395,7 +3398,8 @@
     {
       "name": "Croàcia",
       "km": 747.5,
-      "days": 25,
+      "stages": 25,
+      "natural_days": 27,
       "temperature_average": 22.0,
       "temperature_days": 25,
       "average_speed_kmh": 5.2,
@@ -3404,7 +3408,8 @@
     {
       "name": "Montenegro",
       "km": 166.3,
-      "days": 5,
+      "stages": 5,
+      "natural_days": 5,
       "temperature_average": 23.8,
       "temperature_days": 5,
       "average_speed_kmh": 4.9,
@@ -3413,7 +3418,8 @@
     {
       "name": "Albània",
       "km": 414.0,
-      "days": 12,
+      "stages": 12,
+      "natural_days": 13,
       "temperature_average": 23.8,
       "temperature_days": 12,
       "average_speed_kmh": 5.2,
@@ -3422,7 +3428,8 @@
     {
       "name": "Grècia",
       "km": 847.8,
-      "days": 26,
+      "stages": 26,
+      "natural_days": 40,
       "temperature_average": 24.5,
       "temperature_days": 26,
       "average_speed_kmh": 5.2,
@@ -3431,7 +3438,8 @@
     {
       "name": "Turquia",
       "km": 1812.7,
-      "days": 50,
+      "stages": 50,
+      "natural_days": 70,
       "temperature_average": 29.7,
       "temperature_days": 50,
       "average_speed_kmh": 5.1,
@@ -3440,7 +3448,8 @@
     {
       "name": "Geòrgia",
       "km": 239.3,
-      "days": 7,
+      "stages": 7,
+      "natural_days": 7,
       "temperature_average": 29.4,
       "temperature_days": 7,
       "average_speed_kmh": 4.8,

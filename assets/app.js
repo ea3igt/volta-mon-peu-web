@@ -137,7 +137,8 @@ function renderCountries() {
     row.innerHTML = `
       <th class="country-name" scope="row">${item.name}</th>
       <td class="country-value">${temperature}</td>
-      <td class="country-value">${number0.format(item.days)}</td>
+      <td class="country-value">${number0.format(item.stages)}</td>
+      <td class="country-value">${number0.format(item.natural_days)}</td>
       <td class="country-bar-cell"><div class="country-bar" aria-hidden="true"><span style="width:${(item.km / maximum * 100).toFixed(2)}%"></span></div></td>
       <td class="country-value">${number1.format(item.km)} km</td>
       <td class="country-value">${averageSpeed}</td>

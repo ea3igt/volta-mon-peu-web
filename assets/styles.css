@@ -384,18 +384,19 @@ h3 {
 
 .country-table {
   width: 100%;
-  min-width: 820px;
+  min-width: 900px;
   border-collapse: collapse;
   font-size: .84rem;
   table-layout: fixed;
 }
 
-.country-col-name { width: 11%; }
-.country-col-temperature { width: 11%; }
-.country-col-days { width: 6%; }
+.country-col-name { width: 9%; }
+.country-col-temperature { width: 9%; }
+.country-col-stages { width: 6%; }
+.country-col-natural-days { width: 8%; }
 .country-col-bar { width: 42%; }
-.country-col-distance { width: 10%; }
-.country-col-speed { width: 10%; }
+.country-col-distance { width: 8%; }
+.country-col-speed { width: 8%; }
 .country-col-elevation { width: 10%; }
 
 .country-table th,
@@ -498,7 +499,7 @@ h3 {
   .section-period { margin-top: .75rem; text-align: left; }
   .stat-card { min-height: 8rem; }
   .milestone-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .country-table { min-width: 760px; }
+  .country-table { min-width: 900px; }
 }
 
 @media (max-width: 430px) {
