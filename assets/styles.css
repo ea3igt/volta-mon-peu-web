@@ -393,8 +393,8 @@ h3 {
 .country-col-name { width: 9%; }
 .country-col-temperature { width: 9%; }
 .country-col-stages { width: 6%; }
-.country-col-natural-days { width: 8%; }
-.country-col-bar { width: 42%; }
+.country-col-natural-days { width: 4%; }
+.country-col-bar { width: 46%; }
 .country-col-distance { width: 8%; }
 .country-col-speed { width: 8%; }
 .country-col-elevation { width: 10%; }
@@ -435,6 +435,10 @@ h3 {
   overflow: hidden;
   border-radius: 999px;
   background: var(--surface-soft);
+}
+
+.country-table .country-bar-cell {
+  padding-left: 1.25rem;
 }
 
 .country-bar span {
