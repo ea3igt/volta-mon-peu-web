@@ -115,6 +115,7 @@ h3 {
   color: rgba(255, 255, 255, .74);
   font-size: .88rem;
   text-align: right;
+  white-space: pre-line;
 }
 
 .section-nav {
