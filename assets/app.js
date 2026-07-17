@@ -7,6 +7,15 @@ const number1 = new Intl.NumberFormat("ca-ES", { minimumFractionDigits: 1, maxim
 const number2 = new Intl.NumberFormat("ca-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const dateFormatter = new Intl.DateTimeFormat("ca-ES", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 const shortDateFormatter = new Intl.DateTimeFormat("ca-ES", { day: "numeric", month: "short", timeZone: "UTC" });
+const updateDateTimeFormatter = new Intl.DateTimeFormat("ca-ES", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+  timeZone: "Europe/Madrid",
+});
 const cardinalLabels = {
   north: ["N", "Més al nord"],
   south: ["S", "Més al sud"],
@@ -20,6 +29,11 @@ function formatDate(value, short = false) {
   if (!value) return "—";
   const date = new Date(`${value.slice(0, 10)}T00:00:00Z`);
   return (short ? shortDateFormatter : dateFormatter).format(date).replace(/\.$/, "");
+}
+
+function formatUpdateDateTime(value) {
+  if (!value) return "—";
+  return `${updateDateTimeFormatter.format(new Date(value))} h`;
 }
 
 function formatLocal(value, seconds = false) {
@@ -59,7 +73,7 @@ function detailItem(label, value, context = "", meta = "") {
 
 function renderTextContent() {
   const { summary, meta } = stats;
-  setText("update-status", `Dades disponibles fins al ${formatDate(meta.data_as_of)} · actualització automàtica diària`);
+  setText("update-status", `Dades disponibles fins al ${formatDate(meta.data_as_of)} · última actualització ${formatUpdateDateTime(meta.updated_at)}`);
   setText("footer-update", `Darrera activitat incorporada: ${formatDate(meta.data_as_of)}.`);
   setText("journey-period", `${formatDate(summary.first_date)} — ${formatDate(summary.last_date)}`);
   setText("total-km", `${number1.format(summary.total_km)} km`);
@@ -137,8 +151,8 @@ function renderCountries() {
     row.innerHTML = `
       <th class="country-name" scope="row">${item.name}</th>
       <td class="country-value">${temperature}</td>
-      <td class="country-value">${number0.format(item.stages)}</td>
       <td class="country-value">${number0.format(item.natural_days)}</td>
+      <td class="country-value">${number0.format(item.stages)}</td>
       <td class="country-bar-cell"><div class="country-bar" aria-hidden="true"><span style="width:${(item.km / maximum * 100).toFixed(2)}%"></span></div></td>
       <td class="country-value">${number1.format(item.km)} km</td>
       <td class="country-value">${averageSpeed}</td>

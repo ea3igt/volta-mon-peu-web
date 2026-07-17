@@ -505,6 +505,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
             "traveller": "Enric Luzan",
             "source_url": SOURCE_URL,
             "data_as_of": last_day.isoformat(),
+            "updated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
             "source_updated_at": source_latest_time.astimezone(timezone.utc).isoformat() if source_latest_time else None,
             "source_fingerprint": routes_digest,
         },
