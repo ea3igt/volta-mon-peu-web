@@ -468,14 +468,7 @@ h3 {
   font-size: .82rem;
 }
 
-.footer-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(14rem, 1fr);
-  gap: 2rem;
-}
-
-.footer-grid p { margin-bottom: 0; }
-.footer-grid p:last-child { text-align: right; }
+.footer-note { margin: 0; }
 
 .footer-credit {
   margin: 2rem 0 0;
@@ -506,9 +499,7 @@ h3 {
 }
 
 @media (max-width: 860px) {
-  .chart-grid,
-  .footer-grid { grid-template-columns: 1fr; }
-  .footer-grid p:last-child { text-align: left; }
+  .chart-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 700px) {

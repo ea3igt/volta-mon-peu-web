@@ -74,7 +74,6 @@ function detailItem(label, value, context = "", meta = "") {
 function renderTextContent() {
   const { summary, meta } = stats;
   setText("update-status", `Dades disponibles fins al ${formatDate(meta.data_as_of)}\nÚltima actualització ${formatUpdateDateTime(meta.updated_at)}`);
-  setText("footer-update", `Darrera activitat incorporada: ${formatDate(meta.data_as_of)}.`);
   setText("journey-period", `${formatDate(summary.first_date)} — ${formatDate(summary.last_date)}`);
   setText("total-km", `${number1.format(summary.total_km)} km`);
   setText("route-ratio", `${number2.format(summary.route_ratio)}× la distància en línia recta · ${number1.format(summary.straight_km)} km`);
