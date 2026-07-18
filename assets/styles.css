@@ -477,6 +477,24 @@ h3 {
 .footer-grid p { margin-bottom: 0; }
 .footer-grid p:last-child { text-align: right; }
 
+.footer-credit {
+  margin: 2rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, .2);
+  color: var(--surface);
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+.footer-credit a {
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+}
+
+.footer-credit a:hover { color: var(--accent); }
+
 .error-message {
   width: min(46rem, calc(100% - 2rem));
   margin: 4rem auto;
