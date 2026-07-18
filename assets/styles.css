@@ -392,10 +392,9 @@ h3 {
 }
 
 .country-col-name { width: 9%; }
-.country-col-temperature { width: 9%; }
 .country-col-stages { width: 6%; }
 .country-col-natural-days { width: 4%; }
-.country-col-bar { width: 47%; }
+.country-col-bar { width: 56%; }
 .country-col-distance { width: 8%; }
 .country-col-speed { width: 8%; }
 .country-col-elevation { width: 9%; }
@@ -453,12 +452,6 @@ h3 {
   text-align: right;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
-}
-
-.country-note {
-  margin: .8rem 0 0;
-  color: var(--muted);
-  font-size: .75rem;
 }
 
 .site-footer {

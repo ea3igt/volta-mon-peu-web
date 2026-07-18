@@ -5,11 +5,11 @@ Pàgina responsive que transforma els tracks GPX públics d’Enric Luzan en un 
 ## Què conserva
 
 - distància acumulada, dies efectius, mitjanes, tracks i territoris;
-- mapa complet, inici i final, extrems N/S/E/O i temperatures;
-- evolució acumulada, volum mensual i distància, temperatura, velocitat mitjana i desnivell per territori;
+- mapa complet, inici i final, extrems N/S/E/O i temperatura màxima;
+- evolució acumulada, volum mensual i distància, velocitat mitjana i desnivell per territori;
 - etapa més llarga, ratxes, pausa, desnivell total i diari, altitud i relació ruta/línia recta;
 - velocitat màxima calculada en una finestra sostinguda de cinc minuts;
-- extrems de freqüència cardíaca, temperatura i densitat del rastre digital.
+- extrems de freqüència cardíaca, temperatura màxima i densitat del rastre digital.
 
 ## Actualització manual
 
@@ -52,8 +52,7 @@ Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings
 
 - Dades de ruta: [Ercoman2/GPX-LVM](https://github.com/Ercoman2/GPX-LVM).
 - Topònims: geocodificació inversa d’OpenStreetMap Nominatim, amb memòria cau local.
-- La temperatura és la lectura del dispositiu; no s’interpreta com a temperatura ambiental.
-- La temperatura mitjana de cada territori és la mitjana dels valors diaris `(màxima + mínima) / 2` dels dies amb lectures.
+- La temperatura màxima és la lectura del dispositiu; no s’interpreta com a temperatura ambiental.
 - Les etapes per territori són els dies diferents amb almenys un track; els dies naturals són el període inclusiu entre el primer i l’últim dia amb track al territori.
 - La velocitat mitjana de cada territori divideix la distància total pel temps dels trams en moviment, amb cadència registrada i sense salts GPS.
 - La velocitat màxima rebutja salts GPS i exigeix una finestra contínua d’almenys cinc minuts amb cadència registrada.

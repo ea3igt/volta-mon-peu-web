@@ -286,8 +286,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
     altitude_max = None
     heart_min = heart_max = None
     heart_sum = heart_count = 0
-    temp_min = temp_max = None
-    temp_min_records: list[dict] = []
+    temp_max = None
     temp_max_records: list[dict] = []
     cardinal = {"north": None, "south": None, "east": None, "west": None}
     speed_max = None
@@ -305,7 +304,6 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                 "last": row["date"],
                 "elevation_gain": 0.0,
                 "moving_seconds": 0.0,
-                "temperatures_by_date": defaultdict(lambda: {"min": None, "max": None}),
             }
         country = countries[row["country"]]
         country["km"] += row["km"]
@@ -401,17 +399,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
 
             temperature = point.get("temp")
             if temperature is not None:
-                daily_temperature = country["temperatures_by_date"][row["date"]]
-                if daily_temperature["min"] is None or temperature < daily_temperature["min"]:
-                    daily_temperature["min"] = temperature
-                if daily_temperature["max"] is None or temperature > daily_temperature["max"]:
-                    daily_temperature["max"] = temperature
                 temp_record = {"value": temperature, **record}
-                if temp_min is None or temperature < temp_min:
-                    temp_min = temperature
-                    temp_min_records = [temp_record]
-                elif temperature == temp_min:
-                    temp_min_records.append(temp_record)
                 if temp_max is None or temperature > temp_max:
                     temp_max = temperature
                     temp_max_records = [temp_record]
@@ -434,7 +422,6 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
         if record:
             attach_place(record, cache, allow_network)
 
-    temp_min_episodes = group_temperature_events(temp_min_records, cache, allow_network)
     temp_max_episodes = group_temperature_events(temp_max_records, cache, allow_network)
 
     walking_days = sorted(by_date)
@@ -469,19 +456,11 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
 
     country_data = []
     for name, values in sorted(countries.items(), key=lambda item: item[1]["first"]):
-        daily_temperatures = [
-            (temperature["min"] + temperature["max"]) / 2
-            for temperature in values["temperatures_by_date"].values()
-            if temperature["min"] is not None and temperature["max"] is not None
-        ]
         country_data.append({
             "name": name,
             "km": round(values["km"], 1),
             "stages": len(values["track_days"]),
             "natural_days": (values["last"] - values["first"]).days + 1,
-            "temperature_average": round(sum(daily_temperatures) / len(daily_temperatures), 1)
-            if daily_temperatures else None,
-            "temperature_days": len(daily_temperatures),
             "average_speed_kmh": round(values["km"] / (values["moving_seconds"] / 3600), 1)
             if values["moving_seconds"] else None,
             "elevation_gain_m": round(values["elevation_gain"] / 100) * 100,
@@ -528,9 +507,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
         "months": month_data,
         "geographic_extremes": cardinal,
         "temperature": {
-            "min": temp_min,
             "max": temp_max,
-            "min_episodes": temp_min_episodes,
             "max_episodes": temp_max_episodes,
         },
         "heart_rate": {

@@ -118,10 +118,6 @@ function renderDetails() {
   for (const event of stats.temperature.max_episodes) {
     temperatureItems.push(detailItem("Màxima", `${number0.format(stats.temperature.max)} °C`, localInterval(event), `${event.place} · ${coordinatesPrecise(event)}`));
   }
-  stats.temperature.min_episodes.forEach((event, index) => {
-    const label = stats.temperature.min_episodes.length > 1 ? `Mínima · episodi ${index + 1}` : "Mínima";
-    temperatureItems.push(detailItem(label, `${number0.format(stats.temperature.min)} °C`, localInterval(event), `${event.place} · ${coordinatesPrecise(event)}`));
-  });
   temperature.replaceChildren(...temperatureItems);
 
   const heart = document.getElementById("heart-list");
@@ -143,13 +139,11 @@ function renderDetails() {
 function renderCountries() {
   const maximum = Math.max(...stats.countries.map(item => item.km));
   const items = stats.countries.map(item => {
-    const temperature = item.temperature_average == null ? "—" : `${number1.format(item.temperature_average)} °C`;
     const averageSpeed = item.average_speed_kmh == null ? "—" : `${number1.format(item.average_speed_kmh)} km/h`;
     const elevationGain = item.elevation_gain_m == null ? "—" : `≈${number0.format(item.elevation_gain_m)} m`;
     const row = document.createElement("tr");
     row.innerHTML = `
       <th class="country-name" scope="row">${item.name}</th>
-      <td class="country-value">${temperature}</td>
       <td class="country-value">${number0.format(item.natural_days)}</td>
       <td class="country-value">${number0.format(item.stages)}</td>
       <td class="country-bar-cell"><div class="country-bar" aria-hidden="true"><span style="width:${(item.km / maximum * 100).toFixed(2)}%"></span></div></td>
@@ -207,14 +201,6 @@ function renderMap() {
       label: `${number0.format(stats.temperature.max)}°`,
       coordinates: [event.lon, event.lat],
       tooltip: `Màxima · ${number0.format(stats.temperature.max)} °C · ${localInterval(event)} · ${event.place}`,
-    });
-  }
-  for (const event of stats.temperature.min_episodes) {
-    markers.push({
-      kind: "temperature",
-      label: `${number0.format(stats.temperature.min)}°`,
-      coordinates: [event.lon, event.lat],
-      tooltip: `Mínima · ${number0.format(stats.temperature.min)} °C · ${localInterval(event)} · ${event.place}`,
     });
   }
 

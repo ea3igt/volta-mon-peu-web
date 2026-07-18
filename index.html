@@ -6,7 +6,7 @@
   <meta name="description" content="Magnituds, mapa i rastre digital de la volta al món a peu d’Enric Luzan, actualitzats a partir dels tracks GPX públics.">
   <title>La volta al món a peu · Enric Luzan</title>
   <link rel="icon" href="assets/favicon.svg?v=20260715-1" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=20260718-2">
+  <link rel="stylesheet" href="assets/styles.css?v=20260718-3">
 </head>
 <body>
   <a class="skip-link" href="#contingut">Ves al contingut</a>
@@ -65,14 +65,14 @@
           <div class="map-wrap">
             <svg id="route-map" viewBox="0 0 900 440" role="img" aria-labelledby="map-title map-description">
               <title id="map-title">Mapa del trajecte de la volta al món a peu</title>
-              <desc id="map-description">Ruta acumulada amb els punts geogràfics extrems i els episodis de temperatura màxima i mínima.</desc>
+              <desc id="map-description">Ruta acumulada amb els punts geogràfics extrems i els episodis de temperatura màxima.</desc>
             </svg>
             <div class="tooltip" id="map-tooltip" role="status" aria-hidden="true"></div>
           </div>
           <figcaption class="map-caption">
             <span><i class="legend-line" aria-hidden="true"></i> Trajecte</span>
             <span><i class="legend-diamond" aria-hidden="true"></i> N · S · E · O</span>
-            <span><i class="legend-circle" aria-hidden="true"></i> Temperatura</span>
+            <span><i class="legend-circle" aria-hidden="true"></i> Temperatura màxima</span>
           </figcaption>
         </figure>
       </div>
@@ -91,7 +91,6 @@
           <table class="country-table">
             <colgroup>
               <col class="country-col-name">
-              <col class="country-col-temperature">
               <col class="country-col-natural-days">
               <col class="country-col-stages">
               <col class="country-col-bar">
@@ -102,7 +101,6 @@
             <thead>
               <tr>
                 <th scope="col">Territori</th>
-                <th scope="col"><abbr title="Temperatura mitjana del dispositiu">Temp. mitjana</abbr></th>
                 <th scope="col">Dies</th>
                 <th scope="col">Etapes</th>
                 <th scope="col">Distància relativa</th>
@@ -114,7 +112,6 @@
             <tbody id="country-list"></tbody>
           </table>
         </div>
-        <p class="country-note">Temperatura del dispositiu: mitjana dels valors diaris (màxima + mínima) / 2 dels dies amb lectures.</p>
       </div>
     </section>
 
@@ -166,7 +163,7 @@
             <dl class="detail-list" id="geographic-list"></dl>
           </section>
           <section aria-labelledby="temp-title">
-            <h3 id="temp-title">Temperatura del dispositiu</h3>
+            <h3 id="temp-title">Temperatura màxima del dispositiu</h3>
             <dl class="detail-list" id="temperature-list"></dl>
           </section>
           <section aria-labelledby="heart-title">
@@ -185,11 +182,11 @@
 
   <footer class="site-footer">
     <div class="shell">
-      <p class="footer-note">Les xifres es recalculen a partir dels <a href="https://github.com/Ercoman2/GPX-LVM">tracks GPX públics</a>. Les temperatures corresponen al dispositiu i no necessàriament a la temperatura ambiental.</p>
+      <p class="footer-note">Les xifres es recalculen a partir dels <a href="https://github.com/Ercoman2/GPX-LVM">tracks GPX públics</a>. La temperatura correspon al dispositiu i no necessàriament a la temperatura ambiental.</p>
       <p class="footer-credit"><a href="https://www.instagram.com/cesc63/" target="_blank" rel="noopener noreferrer">Powered by @cesc63</a></p>
     </div>
   </footer>
 
-  <script type="module" src="assets/app.js?v=20260718-1"></script>
+  <script type="module" src="assets/app.js?v=20260718-2"></script>
 </body>
 </html>
