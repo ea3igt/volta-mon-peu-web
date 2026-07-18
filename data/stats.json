@@ -4,7 +4,7 @@
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
     "data_as_of": "2026-07-15",
-    "updated_at": "2026-07-18T20:08:05+00:00",
+    "updated_at": "2026-07-18T20:37:18+00:00",
     "source_updated_at": "2026-07-15T11:03:56+00:00",
     "source_fingerprint": "224a661f591a7347"
   },
@@ -3371,8 +3371,6 @@
       "km": 259.1,
       "stages": 9,
       "natural_days": 9,
-      "temperature_average": 22.9,
-      "temperature_days": 8,
       "average_speed_kmh": 5.8,
       "elevation_gain_m": 4300
     },
@@ -3381,8 +3379,6 @@
       "km": 720.7,
       "stages": 22,
       "natural_days": 26,
-      "temperature_average": 21.9,
-      "temperature_days": 22,
       "average_speed_kmh": 5.3,
       "elevation_gain_m": 8100
     },
@@ -3391,8 +3387,6 @@
       "km": 850.8,
       "stages": 25,
       "natural_days": 30,
-      "temperature_average": 20.2,
-      "temperature_days": 25,
       "average_speed_kmh": 5.3,
       "elevation_gain_m": 7900
     },
@@ -3401,8 +3395,6 @@
       "km": 747.5,
       "stages": 25,
       "natural_days": 27,
-      "temperature_average": 22.0,
-      "temperature_days": 25,
       "average_speed_kmh": 5.2,
       "elevation_gain_m": 11900
     },
@@ -3411,8 +3403,6 @@
       "km": 166.3,
       "stages": 5,
       "natural_days": 5,
-      "temperature_average": 23.8,
-      "temperature_days": 5,
       "average_speed_kmh": 4.9,
       "elevation_gain_m": 3200
     },
@@ -3421,8 +3411,6 @@
       "km": 414.0,
       "stages": 12,
       "natural_days": 13,
-      "temperature_average": 23.8,
-      "temperature_days": 12,
       "average_speed_kmh": 5.2,
       "elevation_gain_m": 5300
     },
@@ -3431,8 +3419,6 @@
       "km": 847.8,
       "stages": 26,
       "natural_days": 40,
-      "temperature_average": 24.5,
-      "temperature_days": 26,
       "average_speed_kmh": 5.2,
       "elevation_gain_m": 9200
     },
@@ -3441,8 +3427,6 @@
       "km": 1812.7,
       "stages": 50,
       "natural_days": 70,
-      "temperature_average": 29.7,
-      "temperature_days": 50,
       "average_speed_kmh": 5.1,
       "elevation_gain_m": 23100
     },
@@ -3451,8 +3435,6 @@
       "km": 239.3,
       "stages": 7,
       "natural_days": 7,
-      "temperature_average": 29.4,
-      "temperature_days": 7,
       "average_speed_kmh": 4.8,
       "elevation_gain_m": 5200
     }
@@ -3565,36 +3547,7 @@
     }
   },
   "temperature": {
-    "min": 9.0,
     "max": 42.0,
-    "min_episodes": [
-      {
-        "value": 9.0,
-        "date": "2026-01-18",
-        "time_utc": "2026-01-18T15:20:16+00:00",
-        "lat": 44.993104,
-        "lon": 9.324399,
-        "country": "Itàlia",
-        "file": "2026-01-18T072024Z.gpx",
-        "end_time_utc": "2026-01-18T15:45:55+00:00",
-        "place": "Cascina Carozzo–Donelasco · Pavia · Itàlia",
-        "local_time": "2026-01-18T16:20:16+01:00",
-        "end_local_time": "2026-01-18T16:45:55+01:00"
-      },
-      {
-        "value": 9.0,
-        "date": "2026-02-06",
-        "time_utc": "2026-02-06T10:24:45+00:00",
-        "lat": 45.357656,
-        "lon": 14.268428,
-        "country": "Croàcia",
-        "file": "2026-02-06T074803Z.gpx",
-        "end_time_utc": "2026-02-06T10:36:29+00:00",
-        "place": "Vedež–Veprinac · Croàcia",
-        "local_time": "2026-02-06T11:24:45+01:00",
-        "end_local_time": "2026-02-06T11:36:29+01:00"
-      }
-    ],
     "max_episodes": [
       {
         "value": 42.0,
