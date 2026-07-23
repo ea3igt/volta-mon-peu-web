@@ -3,23 +3,23 @@
     "title": "La volta al món a peu",
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
-    "data_as_of": "2026-07-21",
-    "updated_at": "2026-07-22T16:15:12+00:00",
-    "source_updated_at": "2026-07-21T16:16:19+00:00",
-    "source_fingerprint": "ec49bf8c29cc3914"
+    "data_as_of": "2026-07-22",
+    "updated_at": "2026-07-23T07:27:21+00:00",
+    "source_updated_at": "2026-07-22T16:52:31+00:00",
+    "source_fingerprint": "ceef35047d448058"
   },
   "summary": {
-    "total_km": 6079.4,
-    "walking_days": 181,
-    "natural_days": 234,
-    "walking_average_km": 33.6,
-    "natural_average_km": 26.0,
-    "tracks": 187,
+    "total_km": 6125.9,
+    "walking_days": 182,
+    "natural_days": 235,
+    "walking_average_km": 33.7,
+    "natural_average_km": 26.1,
+    "tracks": 189,
     "territories": 9,
     "first_date": "2025-11-30",
-    "last_date": "2026-07-21",
-    "straight_km": 3344.3,
-    "route_ratio": 1.82
+    "last_date": "2026-07-22",
+    "straight_km": 3378.4,
+    "route_ratio": 1.81
   },
   "route": [
     [
@@ -2229,6 +2229,26 @@
     [
       42.88406,
       42.18683
+    ],
+    [
+      42.97171,
+      42.12453
+    ],
+    [
+      43.07412,
+      42.0764
+    ],
+    [
+      43.10038,
+      42.0632
+    ],
+    [
+      43.20268,
+      42.01506
+    ],
+    [
+      43.24763,
+      41.99266
     ]
   ],
   "calendar": [
@@ -3401,6 +3421,11 @@
       "date": "2026-07-21",
       "km": 21.14,
       "cumulative": 6079.4
+    },
+    {
+      "date": "2026-07-22",
+      "km": 46.5,
+      "cumulative": 6125.9
     }
   ],
   "countries": [
@@ -3470,11 +3495,11 @@
     },
     {
       "name": "Geòrgia",
-      "km": 260.4,
-      "stages": 8,
-      "natural_days": 13,
-      "average_speed_kmh": 4.8,
-      "elevation_gain_m": 5400
+      "km": 306.9,
+      "stages": 9,
+      "natural_days": 14,
+      "average_speed_kmh": 4.9,
+      "elevation_gain_m": 6200
     }
   ],
   "months": [
@@ -3537,9 +3562,9 @@
     {
       "key": "2026-07",
       "label": "jul.",
-      "km": 523.0,
-      "days": 15,
-      "average": 34.9
+      "km": 569.5,
+      "days": 16,
+      "average": 35.6
     }
   ],
   "geographic_extremes": {
@@ -3564,14 +3589,14 @@
       "local_time": "2026-03-29T08:34:15+03:00"
     },
     "east": {
-      "date": "2026-07-21",
-      "time_utc": "2026-07-21T16:11:36+00:00",
-      "lat": 42.186753,
-      "lon": 42.884228,
+      "date": "2026-07-22",
+      "time_utc": "2026-07-22T16:49:39+00:00",
+      "lat": 41.99239,
+      "lon": 43.248474,
       "country": "Geòrgia",
-      "file": "2026-07-21T105544Z.gpx",
-      "place": "Rodinauli · Imerètia · Geòrgia",
-      "local_time": "2026-07-21T20:11:36+04:00"
+      "file": "2026-07-22T120530Z.gpx",
+      "place": "Zarani · Imerètia · Geòrgia",
+      "local_time": "2026-07-22T20:49:39+04:00"
     },
     "west": {
       "date": "2025-11-30",
@@ -3654,7 +3679,7 @@
       "place": "Akhoseila · Adjàra · Geòrgia",
       "local_time": "2026-07-12T10:59:24+04:00"
     },
-    "elevation_gain_m": 78400,
+    "elevation_gain_m": 79200,
     "elevation_gain_max_day": {
       "date": "2026-07-11",
       "m": 1700,
@@ -3675,8 +3700,8 @@
     }
   },
   "digital_trace": {
-    "gps_points": 938611,
-    "sampled_hours": 1563,
+    "gps_points": 945263,
+    "sampled_hours": 1574,
     "typical_interval_seconds": 5.24,
     "continuous_gap_limit_seconds": 3600
   }
