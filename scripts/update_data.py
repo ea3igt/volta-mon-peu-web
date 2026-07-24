@@ -9,7 +9,6 @@ import hashlib
 import json
 import math
 import shutil
-import statistics
 import tempfile
 import time
 import urllib.parse
@@ -40,7 +39,7 @@ MONTHS_CA = [
     "jul.", "ag.", "set.", "oct.", "nov.", "des.",
 ]
 ELEVATION_RESAMPLE_METERS = 10.0
-ELEVATION_SMOOTHING_POINTS = 7
+ELEVATION_CLIMB_THRESHOLD_METERS = 3.0
 
 
 def haversine(a: tuple[float, float], b: tuple[float, float]) -> float:
@@ -54,7 +53,7 @@ def haversine(a: tuple[float, float], b: tuple[float, float]) -> float:
 
 
 def elevation_gain_from_points(points: list[dict]) -> float:
-    """Calcula l'ascens sobre un perfil regularitzat i filtrat per distància."""
+    """Calcula l'ascens sobre pujades confirmades d'un perfil regularitzat."""
     profile = [point for point in points if point.get("ele") is not None]
     if len(profile) < 2:
         return 0.0
@@ -81,17 +80,29 @@ def elevation_gain_from_points(points: list[dict]) -> float:
     if cumulative_distance - last_sample_distance >= ELEVATION_RESAMPLE_METERS / 2:
         elevations.append(profile[-1]["ele"])
 
-    half_window = ELEVATION_SMOOTHING_POINTS // 2
-    padded = (
-        [elevations[0]] * half_window
-        + elevations
-        + [elevations[-1]] * half_window
-    )
-    filtered = []
-    for index in range(len(elevations)):
-        filtered.append(statistics.median(padded[index:index + ELEVATION_SMOOTHING_POINTS]))
+    gain = 0.0
+    valley = elevations[0]
+    peak = elevations[0]
+    climbing = False
 
-    return sum(max(0.0, point - previous) for previous, point in zip(filtered, filtered[1:]))
+    for elevation in elevations[1:]:
+        if not climbing:
+            if elevation < valley:
+                valley = elevation
+            elif elevation - valley >= ELEVATION_CLIMB_THRESHOLD_METERS:
+                climbing = True
+                peak = elevation
+        elif elevation > peak:
+            peak = elevation
+        elif peak - elevation >= ELEVATION_CLIMB_THRESHOLD_METERS:
+            gain += peak - valley
+            climbing = False
+            valley = elevation
+
+    if climbing:
+        gain += peak - valley
+
+    return gain
 
 
 def parse_time(value: str | None) -> datetime | None:

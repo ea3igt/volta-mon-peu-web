@@ -56,4 +56,4 @@ Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings
 - Les etapes per territori són els dies diferents amb almenys un track; els dies naturals són el període inclusiu entre el primer i l’últim dia amb track al territori.
 - La velocitat mitjana de cada territori divideix la distància total pel temps dels trams en moviment, amb cadència registrada i sense salts GPS.
 - La velocitat màxima rebutja salts GPS i exigeix una finestra contínua d’almenys cinc minuts amb cadència registrada.
-- El desnivell positiu es calcula sobre un perfil reomplert cada 10 metres i filtrat amb una mediana centrada de 7 mostres (70 metres), abans de sumar-ne els increments positius.
+- El desnivell positiu es calcula sobre un perfil reomplert cada 10 metres. Només se sumen pujades confirmades d’almenys 3 metres, que es tanquen quan el perfil baixa 3 metres des del cim local; així s’eviten les petites oscil·lacions del GPS sense perdre els ascensos reals.

@@ -4,7 +4,7 @@
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
     "data_as_of": "2026-07-23",
-    "updated_at": "2026-07-24T14:43:22+00:00",
+    "updated_at": "2026-07-24T15:54:26+00:00",
     "source_updated_at": "2026-07-23T16:46:34+00:00",
     "source_fingerprint": "eea35c5ffe1c8a18"
   },
@@ -3460,7 +3460,7 @@
       "stages": 22,
       "natural_days": 26,
       "average_speed_kmh": 5.3,
-      "elevation_gain_m": 8100
+      "elevation_gain_m": 7600
     },
     {
       "name": "Itàlia",
@@ -3468,7 +3468,7 @@
       "stages": 25,
       "natural_days": 30,
       "average_speed_kmh": 5.3,
-      "elevation_gain_m": 7900
+      "elevation_gain_m": 7200
     },
     {
       "name": "Croàcia",
@@ -3492,7 +3492,7 @@
       "stages": 12,
       "natural_days": 13,
       "average_speed_kmh": 5.2,
-      "elevation_gain_m": 5300
+      "elevation_gain_m": 5000
     },
     {
       "name": "Grècia",
@@ -3500,7 +3500,7 @@
       "stages": 26,
       "natural_days": 40,
       "average_speed_kmh": 5.2,
-      "elevation_gain_m": 9200
+      "elevation_gain_m": 8700
     },
     {
       "name": "Turquia",
@@ -3508,7 +3508,7 @@
       "stages": 50,
       "natural_days": 70,
       "average_speed_kmh": 5.1,
-      "elevation_gain_m": 23100
+      "elevation_gain_m": 22400
     },
     {
       "name": "Geòrgia",
@@ -3696,10 +3696,10 @@
       "place": "Akhoseila · Adjàra · Geòrgia",
       "local_time": "2026-07-12T10:59:24+04:00"
     },
-    "elevation_gain_m": 80900,
+    "elevation_gain_m": 78300,
     "elevation_gain_max_day": {
       "date": "2026-07-23",
-      "m": 1700,
+      "m": 1800,
       "countries": [
         "Geòrgia"
       ]
