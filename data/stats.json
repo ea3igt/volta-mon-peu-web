@@ -4,22 +4,22 @@
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
     "data_as_of": "2026-07-25",
-    "updated_at": "2026-07-26T07:31:09+00:00",
-    "source_updated_at": "2026-07-25T11:11:21+00:00",
-    "source_fingerprint": "f40071e96b2d50df"
+    "updated_at": "2026-07-26T14:53:33+00:00",
+    "source_updated_at": "2026-07-25T16:03:34+00:00",
+    "source_fingerprint": "0316c41cc9fa3a45"
   },
   "summary": {
-    "total_km": 6223.5,
+    "total_km": 6237.3,
     "walking_days": 185,
     "natural_days": 238,
-    "walking_average_km": 33.6,
-    "natural_average_km": 26.1,
-    "tracks": 193,
+    "walking_average_km": 33.7,
+    "natural_average_km": 26.2,
+    "tracks": 194,
     "territories": 9,
     "first_date": "2025-11-30",
     "last_date": "2026-07-25",
-    "straight_km": 3421.1,
-    "route_ratio": 1.82
+    "straight_km": 3441.3,
+    "route_ratio": 1.81
   },
   "route": [
     [
@@ -2277,6 +2277,18 @@
     [
       43.67156,
       41.65917
+    ],
+    [
+      43.81154,
+      41.69384
+    ],
+    [
+      43.92027,
+      41.65503
+    ],
+    [
+      43.91785,
+      41.64444
     ]
   ],
   "calendar": [
@@ -3467,8 +3479,8 @@
     },
     {
       "date": "2026-07-25",
-      "km": 19.52,
-      "cumulative": 6223.55
+      "km": 33.3,
+      "cumulative": 6237.33
     }
   ],
   "countries": [
@@ -3538,11 +3550,11 @@
     },
     {
       "name": "Geòrgia",
-      "km": 404.6,
+      "km": 418.3,
       "stages": 12,
       "natural_days": 17,
       "average_speed_kmh": 4.9,
-      "elevation_gain_m": 10100
+      "elevation_gain_m": 10200
     }
   ],
   "months": [
@@ -3605,9 +3617,9 @@
     {
       "key": "2026-07",
       "label": "jul.",
-      "km": 667.1,
+      "km": 680.9,
       "days": 19,
-      "average": 35.1
+      "average": 35.8
     }
   ],
   "geographic_extremes": {
@@ -3633,13 +3645,13 @@
     },
     "east": {
       "date": "2026-07-25",
-      "time_utc": "2026-07-25T11:06:29+00:00",
-      "lat": 41.659142,
-      "lon": 43.671621,
+      "time_utc": "2026-07-25T15:48:35+00:00",
+      "lat": 41.652127,
+      "lon": 43.920819,
       "country": "Geòrgia",
-      "file": "2026-07-25T045309Z.gpx",
-      "place": "Samtskhé-Txavtxètia · Geòrgia",
-      "local_time": "2026-07-25T15:06:29+04:00"
+      "file": "2026-07-25T125506Z.gpx",
+      "place": "Gumbati · Kvemo Kartli · Geòrgia",
+      "local_time": "2026-07-25T19:48:35+04:00"
     },
     "west": {
       "date": "2025-11-30",
@@ -3722,7 +3734,7 @@
       "place": "Akhoseila · Adjàra · Geòrgia",
       "local_time": "2026-07-12T10:59:24+04:00"
     },
-    "elevation_gain_m": 80500,
+    "elevation_gain_m": 80600,
     "elevation_gain_max_day": {
       "date": "2026-07-23",
       "m": 1800,
@@ -3743,8 +3755,8 @@
     }
   },
   "digital_trace": {
-    "gps_points": 965716,
-    "sampled_hours": 1601,
+    "gps_points": 967595,
+    "sampled_hours": 1604,
     "typical_interval_seconds": 5.22,
     "continuous_gap_limit_seconds": 3600
   }
