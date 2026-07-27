@@ -25,6 +25,7 @@ REPO_ZIP = "https://github.com/Ercoman2/GPX-LVM/archive/refs/heads/main.zip"
 SOURCE_URL = "https://github.com/Ercoman2/GPX-LVM"
 TIMEZONES = {
     "Catalunya": "Europe/Madrid",
+    "Espanya": "Europe/Madrid",
     "França": "Europe/Paris",
     "Itàlia": "Europe/Rome",
     "Croàcia": "Europe/Zagreb",
@@ -34,12 +35,26 @@ TIMEZONES = {
     "Turquia": "Europe/Istanbul",
     "Geòrgia": "Asia/Tbilisi",
 }
+# Catalunya és sempre un territori estadístic independent d'Espanya.
+# Els àlies només normalitzen la llengua del nom i mai no fusionen tots dos territoris.
+TERRITORY_ALIASES = {
+    "Catalonia": "Catalunya",
+    "Cataluña": "Catalunya",
+    "Spain": "Espanya",
+    "España": "Espanya",
+}
 MONTHS_CA = [
     "gen.", "febr.", "març", "abr.", "maig", "juny",
     "jul.", "ag.", "set.", "oct.", "nov.", "des.",
 ]
 ELEVATION_RESAMPLE_METERS = 10.0
 ELEVATION_CLIMB_THRESHOLD_METERS = 3.0
+
+
+def normalize_territory(value: str) -> str:
+    """Normalitza el nom sense agrupar Catalunya sota Espanya."""
+    territory = value.strip()
+    return TERRITORY_ALIASES.get(territory, territory)
 
 
 def haversine(a: tuple[float, float], b: tuple[float, float]) -> float:
@@ -128,7 +143,7 @@ def read_rows(source: Path) -> list[dict]:
                 "km": float(raw[3]),
                 "file": raw[4].strip(),
                 "activity": raw[5].strip(),
-                "country": raw[6].strip(),
+                "country": normalize_territory(raw[6]),
             })
     if not rows:
         raise RuntimeError("routes.csv no conté cap etapa")
@@ -474,6 +489,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
             "natural_days": (values["last"] - values["first"]).days + 1,
             "average_speed_kmh": round(values["km"] / (values["moving_seconds"] / 3600), 1)
             if values["moving_seconds"] else None,
+            "average_stage_km": round(values["km"] / len(values["track_days"]), 1),
             "elevation_gain_m": round(values["elevation_gain"] / 100) * 100,
         })
     month_data = [

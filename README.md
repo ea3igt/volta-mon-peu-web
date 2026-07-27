@@ -53,7 +53,9 @@ Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings
 - Dades de ruta: [Ercoman2/GPX-LVM](https://github.com/Ercoman2/GPX-LVM).
 - Topònims: geocodificació inversa d’OpenStreetMap Nominatim, amb memòria cau local.
 - La temperatura màxima és la lectura del dispositiu; no s’interpreta com a temperatura ambiental.
+- Catalunya es manté sempre com un territori estadístic independent d’Espanya; els trams de Catalunya i de la resta d’Espanya no s’agrupen.
 - Les etapes per territori són els dies diferents amb almenys un track; els dies naturals són el període inclusiu entre el primer i l’últim dia amb track al territori.
+- La distància mitjana per etapa de cada territori divideix els quilòmetres totals pel nombre de dies diferents amb almenys un track.
 - La velocitat mitjana de cada territori divideix la distància total pel temps dels trams en moviment, amb cadència registrada i sense salts GPS.
 - La velocitat màxima rebutja salts GPS i exigeix una finestra contínua d’almenys cinc minuts amb cadència registrada.
 - El desnivell positiu es calcula sobre un perfil reomplert cada 10 metres. Només se sumen pujades confirmades d’almenys 3 metres, que es tanquen quan el perfil baixa 3 metres des del cim local; així s’eviten les petites oscil·lacions del GPS sense perdre els ascensos reals.

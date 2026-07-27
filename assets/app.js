@@ -140,6 +140,7 @@ function renderCountries() {
   const maximum = Math.max(...stats.countries.map(item => item.km));
   const items = stats.countries.map(item => {
     const averageSpeed = item.average_speed_kmh == null ? "—" : `${number1.format(item.average_speed_kmh)} km/h`;
+    const averageStage = item.average_stage_km == null ? "—" : `${number1.format(item.average_stage_km)} km`;
     const elevationGain = item.elevation_gain_m == null ? "—" : `≈${number0.format(item.elevation_gain_m)} m`;
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -149,6 +150,7 @@ function renderCountries() {
       <td class="country-bar-cell"><div class="country-bar" aria-hidden="true"><span style="width:${(item.km / maximum * 100).toFixed(2)}%"></span></div></td>
       <td class="country-value">${number1.format(item.km)} km</td>
       <td class="country-value">${averageSpeed}</td>
+      <td class="country-value">${averageStage}</td>
       <td class="country-value">${elevationGain}</td>`;
     return row;
   });

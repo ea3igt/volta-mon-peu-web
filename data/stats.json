@@ -4,7 +4,7 @@
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
     "data_as_of": "2026-07-26",
-    "updated_at": "2026-07-27T16:53:41+00:00",
+    "updated_at": "2026-07-27T17:08:34+00:00",
     "source_updated_at": "2026-07-26T16:32:34+00:00",
     "source_fingerprint": "52d2f45ea5c800f1"
   },
@@ -3511,6 +3511,7 @@
       "stages": 9,
       "natural_days": 9,
       "average_speed_kmh": 5.8,
+      "average_stage_km": 28.8,
       "elevation_gain_m": 4300
     },
     {
@@ -3519,6 +3520,7 @@
       "stages": 22,
       "natural_days": 26,
       "average_speed_kmh": 5.3,
+      "average_stage_km": 32.8,
       "elevation_gain_m": 7600
     },
     {
@@ -3527,6 +3529,7 @@
       "stages": 25,
       "natural_days": 30,
       "average_speed_kmh": 5.3,
+      "average_stage_km": 34.0,
       "elevation_gain_m": 7200
     },
     {
@@ -3535,6 +3538,7 @@
       "stages": 25,
       "natural_days": 27,
       "average_speed_kmh": 5.2,
+      "average_stage_km": 29.9,
       "elevation_gain_m": 11900
     },
     {
@@ -3543,6 +3547,7 @@
       "stages": 5,
       "natural_days": 5,
       "average_speed_kmh": 4.9,
+      "average_stage_km": 33.3,
       "elevation_gain_m": 3200
     },
     {
@@ -3551,6 +3556,7 @@
       "stages": 12,
       "natural_days": 13,
       "average_speed_kmh": 5.2,
+      "average_stage_km": 34.5,
       "elevation_gain_m": 5000
     },
     {
@@ -3559,6 +3565,7 @@
       "stages": 26,
       "natural_days": 40,
       "average_speed_kmh": 5.2,
+      "average_stage_km": 32.6,
       "elevation_gain_m": 8700
     },
     {
@@ -3567,6 +3574,7 @@
       "stages": 50,
       "natural_days": 70,
       "average_speed_kmh": 5.1,
+      "average_stage_km": 36.3,
       "elevation_gain_m": 22400
     },
     {
@@ -3575,6 +3583,7 @@
       "stages": 13,
       "natural_days": 18,
       "average_speed_kmh": 4.9,
+      "average_stage_km": 35.7,
       "elevation_gain_m": 10800
     }
   ],
