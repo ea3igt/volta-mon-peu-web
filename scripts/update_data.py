@@ -49,6 +49,8 @@ MONTHS_CA = [
 ]
 ELEVATION_RESAMPLE_METERS = 10.0
 ELEVATION_CLIMB_THRESHOLD_METERS = 3.0
+ROUTE_SAMPLE_METERS = 10_000.0
+ROUTE_GAP_METERS = 50.0
 
 
 def normalize_territory(value: str) -> str:
@@ -152,10 +154,19 @@ def read_rows(source: Path) -> list[dict]:
 
 def read_track(path: Path) -> list[dict]:
     points = []
-    for _, element in ET.iterparse(path, events=("end",)):
-        if local_name(element.tag) != "trkpt":
+    segment_point_index = 0
+    for event, element in ET.iterparse(path, events=("start", "end")):
+        name = local_name(element.tag)
+        if event == "start" and name == "trkseg":
+            segment_point_index = 0
             continue
-        values = {"lat": float(element.attrib["lat"]), "lon": float(element.attrib["lon"])}
+        if event != "end" or name != "trkpt":
+            continue
+        values = {
+            "lat": float(element.attrib["lat"]),
+            "lon": float(element.attrib["lon"]),
+            "segment_start": segment_point_index == 0,
+        }
         for child in element.iter():
             name = local_name(child.tag)
             if name == "time":
@@ -169,6 +180,7 @@ def read_track(path: Path) -> list[dict]:
             elif name == "cad" and child.text:
                 values["cad"] = float(child.text)
         points.append(values)
+        segment_point_index += 1
         element.clear()
     return points
 
@@ -298,8 +310,11 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
     by_date: dict[date, float] = defaultdict(float)
     countries: dict[str, dict] = {}
     months: dict[str, dict] = defaultdict(lambda: {"km": 0.0, "days": set()})
-    route: list[list[float]] = []
+    route_segments: list[list[list[float]]] = []
+    route_gaps: list[dict] = []
+    route_segment: list[list[float]] = []
     route_last_kept: tuple[float, float] | None = None
+    route_previous_point: dict | None = None
     first_point = last_point = None
     source_latest_time = None
     gps_points = 0
@@ -390,14 +405,39 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                         if speed_max is None or speed > speed_max["value"]:
                             speed_max = {"value": speed, **event_record(sequence[right], row)}
 
-        for point in points:
+        for point_index, point in enumerate(points):
             position = (point["lat"], point["lon"])
+            coordinate = [round(point["lon"], 5), round(point["lat"], 5)]
             if first_point is None:
                 first_point = position
             last_point = position
-            if route_last_kept is None or haversine(route_last_kept, position) >= 10_000:
-                route.append([round(point["lon"], 5), round(point["lat"], 5)])
+
+            if route_previous_point is not None and point.get("segment_start"):
+                previous_position = (route_previous_point["lat"], route_previous_point["lon"])
+                gap_meters = haversine(previous_position, position)
+                if gap_meters > ROUTE_GAP_METERS:
+                    previous_coordinate = [
+                        round(route_previous_point["lon"], 5),
+                        round(route_previous_point["lat"], 5),
+                    ]
+                    if not route_segment or route_segment[-1] != previous_coordinate:
+                        route_segment.append(previous_coordinate)
+                    if route_segment:
+                        route_segments.append(route_segment)
+                    route_gaps.append({
+                        "from": previous_coordinate,
+                        "to": coordinate,
+                        "meters": round(gap_meters, 1),
+                        "kind": "between_tracks" if point_index == 0 else "between_segments",
+                    })
+                    route_segment = []
+                    route_last_kept = None
+
+            if route_last_kept is None or haversine(route_last_kept, position) >= ROUTE_SAMPLE_METERS:
+                if not route_segment or route_segment[-1] != coordinate:
+                    route_segment.append(coordinate)
                 route_last_kept = position
+            route_previous_point = point
 
             record = event_record(point, row)
             if cardinal["north"] is None or point["lat"] > cardinal["north"]["lat"]:
@@ -440,9 +480,13 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
 
         final = points[-1]
         final_lonlat = [round(final["lon"], 5), round(final["lat"], 5)]
-        if not route or route[-1] != final_lonlat:
-            route.append(final_lonlat)
+        if not route_segment or route_segment[-1] != final_lonlat:
+            route_segment.append(final_lonlat)
             route_last_kept = (final["lat"], final["lon"])
+
+    if route_segment:
+        route_segments.append(route_segment)
+    route = [coordinate for segment in route_segments for coordinate in segment]
 
     for record in [*cardinal.values(), heart_min, heart_max, altitude_max, speed_max]:
         if record:
@@ -529,6 +573,8 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
             "route_ratio": round(total_km / straight_km, 2) if straight_km else None,
         },
         "route": route,
+        "route_segments": route_segments,
+        "route_gaps": route_gaps,
         "calendar": calendar,
         "countries": country_data,
         "months": month_data,

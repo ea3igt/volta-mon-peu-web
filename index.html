@@ -65,12 +65,13 @@
           <div class="map-wrap">
             <svg id="route-map" viewBox="0 0 900 440" role="img" aria-labelledby="map-title map-description">
               <title id="map-title">Mapa del trajecte de la volta al món a peu</title>
-              <desc id="map-description">Ruta acumulada amb els punts geogràfics extrems i els episodis de temperatura màxima.</desc>
+              <desc id="map-description">Ruta acumulada amb les discontinuïtats superiors a 50 metres, els punts geogràfics extrems i els episodis de temperatura màxima.</desc>
             </svg>
             <div class="tooltip" id="map-tooltip" role="status" aria-hidden="true"></div>
           </div>
           <figcaption class="map-caption">
             <span><i class="legend-line" aria-hidden="true"></i> Trajecte</span>
+            <span><i class="legend-gap" aria-hidden="true"></i> Tram sense track &gt; 50 m</span>
             <span><i class="legend-diamond" aria-hidden="true"></i> N · S · E · O</span>
             <span><i class="legend-circle" aria-hidden="true"></i> Temperatura màxima</span>
           </figcaption>

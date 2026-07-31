@@ -51,6 +51,7 @@ Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings
 ## Fonts i criteris
 
 - Dades de ruta: [Ercoman2/GPX-LVM](https://github.com/Ercoman2/GPX-LVM).
+- El mapa separa el traçat enregistrat en segments i uneix amb una línia vermella puntejada els salts superiors a 50 metres entre tracks consecutius o entre segments GPX diferenciats. La distància normal entre punts d’un mateix segment no es considera un buit de track.
 - Topònims: geocodificació inversa d’OpenStreetMap Nominatim, amb memòria cau local.
 - La temperatura màxima és la lectura del dispositiu; no s’interpreta com a temperatura ambiental.
 - Catalunya es manté sempre com un territori estadístic independent d’Espanya; els trams de Catalunya i de la resta d’Espanya no s’agrupen.

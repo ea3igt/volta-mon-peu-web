@@ -181,12 +181,23 @@ function renderMap() {
   const svg = d3.select(element).attr("viewBox", `0 0 ${width} ${height}`);
   svg.selectAll(":scope > :not(title):not(desc)").remove();
 
-  const lineFeature = { type: "Feature", geometry: { type: "LineString", coordinates: stats.route } };
+  const routeSegments = stats.route_segments?.length ? stats.route_segments : [stats.route];
+  const lineFeature = { type: "Feature", geometry: { type: "MultiLineString", coordinates: routeSegments } };
   const projection = d3.geoMercator().fitExtent([[28, 28], [width - 28, height - 30]], lineFeature);
   const path = d3.geoPath(projection);
   const countries = feature(world, world.objects.features).features;
   svg.selectAll("path.map-country").data(countries).join("path").attr("class", "map-country").attr("d", path);
   svg.append("path").datum(lineFeature).attr("class", "map-route").attr("d", path);
+  if (stats.route_gaps?.length) {
+    const gapFeature = {
+      type: "Feature",
+      geometry: {
+        type: "MultiLineString",
+        coordinates: stats.route_gaps.map(gap => [gap.from, gap.to]),
+      },
+    };
+    svg.append("path").datum(gapFeature).attr("class", "map-route-gap").attr("d", path);
+  }
 
   const markers = Object.entries(cardinalLabels).map(([key, [short, label]]) => {
     const record = stats.geographic_extremes[key];
@@ -235,8 +246,8 @@ function renderMap() {
     .attr("y", item => item.kind === "temperature" ? -10 : -9)
     .text(item => item.label);
 
-  const start = projection(stats.route[0]);
-  const end = projection(stats.route.at(-1));
+  const start = projection(routeSegments[0][0]);
+  const end = projection(routeSegments.at(-1).at(-1));
   svg.append("circle").attr("class", "map-start").attr("cx", start[0]).attr("cy", start[1]).attr("r", 5);
   svg.append("circle").attr("class", "map-end").attr("cx", end[0]).attr("cy", end[1]).attr("r", 6);
   svg.append("text").attr("class", "map-label").attr("x", start[0] + 9).attr("y", start[1] - 10).text("Barcelona");

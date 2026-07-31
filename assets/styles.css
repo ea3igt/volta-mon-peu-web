@@ -8,6 +8,7 @@
   --border: #d8d9d2;
   --route: #1677d2;
   --route-soft: #d9ebfb;
+  --route-gap: #cf3434;
   --extreme: #24865b;
   --temperature: #d4588f;
   --accent: #e36f38;
@@ -252,6 +253,15 @@ h3 {
   vector-effect: non-scaling-stroke;
 }
 
+.map-route-gap {
+  fill: none;
+  stroke: var(--route-gap);
+  stroke-width: 2.5;
+  stroke-dasharray: 7 6;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
 .map-start { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
 .map-end { fill: var(--route); stroke: var(--surface); stroke-width: 2; }
 .map-extreme { fill: var(--extreme); stroke: var(--surface); stroke-width: 2; }
@@ -288,6 +298,11 @@ h3 {
   height: 3px;
   background: var(--route);
   border-radius: 999px;
+}
+
+.legend-gap {
+  width: 1.2rem;
+  border-top: 2px dashed var(--route-gap);
 }
 
 .legend-diamond,
