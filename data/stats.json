@@ -3,23 +3,23 @@
     "title": "La volta al món a peu",
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
-    "data_as_of": "2026-07-28",
-    "updated_at": "2026-08-08T05:43:04+00:00",
-    "source_updated_at": "2026-07-28T10:30:18+00:00",
-    "source_fingerprint": "b238adb6bb159c4a"
+    "data_as_of": "2026-08-07",
+    "updated_at": "2026-08-08T10:34:49+00:00",
+    "source_updated_at": "2026-08-07T14:46:37+00:00",
+    "source_fingerprint": "b2ba7368030e1371"
   },
   "summary": {
-    "total_km": 6347.2,
-    "walking_days": 188,
-    "natural_days": 241,
+    "total_km": 6384.6,
+    "walking_days": 189,
+    "natural_days": 251,
     "walking_average_km": 33.8,
-    "natural_average_km": 26.3,
-    "tracks": 197,
-    "territories": 9,
+    "natural_average_km": 25.4,
+    "tracks": 198,
+    "territories": 10,
     "first_date": "2025-11-30",
-    "last_date": "2026-07-28",
-    "straight_km": 3511.3,
-    "route_ratio": 1.81
+    "last_date": "2026-08-07",
+    "straight_km": 5385.9,
+    "route_ratio": 1.19
   },
   "route": [
     [
@@ -2389,6 +2389,26 @@
     [
       44.8012,
       41.69312
+    ],
+    [
+      66.99663,
+      39.64581
+    ],
+    [
+      67.09746,
+      39.60031
+    ],
+    [
+      67.20494,
+      39.56502
+    ],
+    [
+      67.3155,
+      39.53608
+    ],
+    [
+      67.37703,
+      39.52613
     ]
   ],
   "route_segments": [
@@ -4797,6 +4817,28 @@
         44.8012,
         41.69312
       ]
+    ],
+    [
+      [
+        66.99663,
+        39.64581
+      ],
+      [
+        67.09746,
+        39.60031
+      ],
+      [
+        67.20494,
+        39.56502
+      ],
+      [
+        67.3155,
+        39.53608
+      ],
+      [
+        67.37703,
+        39.52613
+      ]
     ]
   ],
   "route_gaps": [
@@ -5014,6 +5056,18 @@
         41.69384
       ],
       "meters": 12248.8,
+      "kind": "between_tracks"
+    },
+    {
+      "from": [
+        44.8012,
+        41.69312
+      ],
+      "to": [
+        66.99663,
+        39.64581
+      ],
+      "meters": 1880447.1,
       "kind": "between_tracks"
     }
   ],
@@ -6222,6 +6276,56 @@
       "date": "2026-07-28",
       "km": 24.95,
       "cumulative": 6347.19
+    },
+    {
+      "date": "2026-07-29",
+      "km": 0.0,
+      "cumulative": 6347.19
+    },
+    {
+      "date": "2026-07-30",
+      "km": 0.0,
+      "cumulative": 6347.19
+    },
+    {
+      "date": "2026-07-31",
+      "km": 0.0,
+      "cumulative": 6347.19
+    },
+    {
+      "date": "2026-08-01",
+      "km": 0.0,
+      "cumulative": 6347.19
+    },
+    {
+      "date": "2026-08-02",
+      "km": 0.0,
+      "cumulative": 6347.19
+    },
+    {
+      "date": "2026-08-03",
+      "km": 0.0,
+      "cumulative": 6347.19
+    },
+    {
+      "date": "2026-08-04",
+      "km": 0.0,
+      "cumulative": 6347.19
+    },
+    {
+      "date": "2026-08-05",
+      "km": 0.0,
+      "cumulative": 6347.19
+    },
+    {
+      "date": "2026-08-06",
+      "km": 0.0,
+      "cumulative": 6347.19
+    },
+    {
+      "date": "2026-08-07",
+      "km": 37.44,
+      "cumulative": 6384.63
     }
   ],
   "countries": [
@@ -6305,6 +6409,15 @@
       "average_speed_kmh": 4.9,
       "average_stage_km": 35.2,
       "elevation_gain_m": 11900
+    },
+    {
+      "name": "Oʻzbekiston",
+      "km": 37.4,
+      "stages": 1,
+      "natural_days": 1,
+      "average_speed_kmh": 5.1,
+      "average_stage_km": 37.4,
+      "elevation_gain_m": 200
     }
   ],
   "months": [
@@ -6370,6 +6483,13 @@
       "km": 790.8,
       "days": 22,
       "average": 35.9
+    },
+    {
+      "key": "2026-08",
+      "label": "ag.",
+      "km": 37.4,
+      "days": 1,
+      "average": 37.4
     }
   ],
   "geographic_extremes": {
@@ -6384,24 +6504,24 @@
       "local_time": "2026-01-31T11:41:20+01:00"
     },
     "south": {
-      "date": "2026-03-29",
-      "time_utc": "2026-03-29T05:34:15+00:00",
-      "lat": 39.548433,
-      "lon": 21.838406,
-      "country": "Grècia",
-      "file": "2026-03-29T053415Z.gpx",
-      "place": "Megalochori · Tessàlia · Grècia",
-      "local_time": "2026-03-29T08:34:15+03:00"
+      "date": "2026-08-07",
+      "time_utc": "2026-08-07T14:35:36+00:00",
+      "lat": 39.523531,
+      "lon": 67.375856,
+      "country": "Oʻzbekiston",
+      "file": "2026-08-07T044434Z.gpx",
+      "place": "Yangiabad · Província de Samarcanda · Uzbekistan",
+      "local_time": "2026-08-07T14:35:36+00:00"
     },
     "east": {
-      "date": "2026-07-28",
-      "time_utc": "2026-07-28T10:29:20+00:00",
-      "lat": 41.692281,
-      "lon": 44.801941,
-      "country": "Geòrgia",
-      "file": "2026-07-28T034856Z.gpx",
-      "place": "Tbilissi · Geòrgia",
-      "local_time": "2026-07-28T14:29:20+04:00"
+      "date": "2026-08-07",
+      "time_utc": "2026-08-07T14:43:14+00:00",
+      "lat": 39.526097,
+      "lon": 67.377046,
+      "country": "Oʻzbekiston",
+      "file": "2026-08-07T044434Z.gpx",
+      "place": "Yangiabad · Província de Samarcanda · Uzbekistan",
+      "local_time": "2026-08-07T14:43:14+00:00"
     },
     "west": {
       "date": "2025-11-30",
@@ -6484,7 +6604,7 @@
       "place": "Akhoseila · Adjàra · Geòrgia",
       "local_time": "2026-07-12T10:59:24+04:00"
     },
-    "elevation_gain_m": 82200,
+    "elevation_gain_m": 82500,
     "elevation_gain_max_day": {
       "date": "2026-07-23",
       "m": 1800,
@@ -6505,9 +6625,9 @@
     }
   },
   "digital_trace": {
-    "gps_points": 985444,
-    "sampled_hours": 1634,
-    "typical_interval_seconds": 5.22,
+    "gps_points": 990101,
+    "sampled_hours": 1643,
+    "typical_interval_seconds": 5.23,
     "continuous_gap_limit_seconds": 3600
   }
 }
