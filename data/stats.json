@@ -3,22 +3,22 @@
     "title": "La volta al món a peu",
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
-    "data_as_of": "2026-08-10",
-    "updated_at": "2026-08-11T20:44:55+00:00",
-    "source_updated_at": "2026-08-10T14:16:19+00:00",
-    "source_fingerprint": "b557a24f4b23659f"
+    "data_as_of": "2026-08-11",
+    "updated_at": "2026-08-12T06:15:19+00:00",
+    "source_updated_at": "2026-08-11T16:01:21+00:00",
+    "source_fingerprint": "4ddcfa8594c15621"
   },
   "summary": {
-    "total_km": 6491.2,
-    "walking_days": 192,
-    "natural_days": 254,
+    "total_km": 6532.1,
+    "walking_days": 193,
+    "natural_days": 255,
     "walking_average_km": 33.8,
     "natural_average_km": 25.6,
-    "tracks": 201,
+    "tracks": 202,
     "territories": 11,
     "first_date": "2025-11-30",
-    "last_date": "2026-08-10",
-    "straight_km": 5462.1,
+    "last_date": "2026-08-11",
+    "straight_km": 5490.1,
     "route_ratio": 1.19
   },
   "route": [
@@ -2453,6 +2453,22 @@
     [
       68.19373,
       39.26022
+    ],
+    [
+      68.19475,
+      39.25965
+    ],
+    [
+      68.3108,
+      39.26377
+    ],
+    [
+      68.42214,
+      39.23801
+    ],
+    [
+      68.5285,
+      39.21983
     ]
   ],
   "route_segments": [
@@ -4929,6 +4945,24 @@
         68.19373,
         39.26022
       ]
+    ],
+    [
+      [
+        68.19475,
+        39.25965
+      ],
+      [
+        68.3108,
+        39.26377
+      ],
+      [
+        68.42214,
+        39.23801
+      ],
+      [
+        68.5285,
+        39.21983
+      ]
     ]
   ],
   "route_gaps": [
@@ -5170,6 +5204,18 @@
         39.40199
       ],
       "meters": 51.3,
+      "kind": "between_tracks"
+    },
+    {
+      "from": [
+        68.19373,
+        39.26022
+      ],
+      "to": [
+        68.19475,
+        39.25965
+      ],
+      "meters": 107.6,
       "kind": "between_tracks"
     }
   ],
@@ -6443,6 +6489,11 @@
       "date": "2026-08-10",
       "km": 29.54,
       "cumulative": 6491.23
+    },
+    {
+      "date": "2026-08-11",
+      "km": 40.84,
+      "cumulative": 6532.07
     }
   ],
   "countries": [
@@ -6538,12 +6589,12 @@
     },
     {
       "name": "Tadjikistan",
-      "km": 66.5,
-      "stages": 2,
-      "natural_days": 2,
-      "average_speed_kmh": 4.8,
-      "average_stage_km": 33.3,
-      "elevation_gain_m": 2300
+      "km": 107.4,
+      "stages": 3,
+      "natural_days": 3,
+      "average_speed_kmh": 4.7,
+      "average_stage_km": 35.8,
+      "elevation_gain_m": 3400
     }
   ],
   "months": [
@@ -6613,9 +6664,9 @@
     {
       "key": "2026-08",
       "label": "ag.",
-      "km": 144.0,
-      "days": 4,
-      "average": 36.0
+      "km": 184.9,
+      "days": 5,
+      "average": 37.0
     }
   ],
   "geographic_extremes": {
@@ -6630,24 +6681,24 @@
       "local_time": "2026-01-31T11:41:20+01:00"
     },
     "south": {
-      "date": "2026-08-10",
-      "time_utc": "2026-08-10T13:14:26+00:00",
-      "lat": 39.256148,
-      "lon": 68.182694,
+      "date": "2026-08-11",
+      "time_utc": "2026-08-11T14:59:17+00:00",
+      "lat": 39.215522,
+      "lon": 68.510282,
       "country": "Tadjikistan",
-      "file": "2026-08-10T031702Z.gpx",
-      "place": "Sughd Region · Tadjikistan",
-      "local_time": "2026-08-10T13:14:26+00:00"
+      "file": "2026-08-11T033158Z.gpx",
+      "place": "Pinyon · Sughd Region · Tadjikistan",
+      "local_time": "2026-08-11T14:59:17+00:00"
     },
     "east": {
-      "date": "2026-08-10",
-      "time_utc": "2026-08-10T14:09:44+00:00",
-      "lat": 39.259196,
-      "lon": 68.194961,
+      "date": "2026-08-11",
+      "time_utc": "2026-08-11T15:52:37+00:00",
+      "lat": 39.220012,
+      "lon": 68.528626,
       "country": "Tadjikistan",
-      "file": "2026-08-10T031702Z.gpx",
-      "place": "Sughd Region · Tadjikistan",
-      "local_time": "2026-08-10T14:09:44+00:00"
+      "file": "2026-08-11T033158Z.gpx",
+      "place": "Sarvoda · Sughd Region · Tadjikistan",
+      "local_time": "2026-08-11T15:52:37+00:00"
     },
     "west": {
       "date": "2025-11-30",
@@ -6720,17 +6771,17 @@
       "end": "2026-05-24"
     },
     "altitude_max": {
-      "value": 2885.8,
-      "date": "2026-08-10",
-      "time_utc": "2026-08-10T13:26:01+00:00",
-      "lat": 39.258667,
-      "lon": 68.190534,
+      "value": 3784.4,
+      "date": "2026-08-11",
+      "time_utc": "2026-08-11T07:06:05+00:00",
+      "lat": 39.249201,
+      "lon": 68.227687,
       "country": "Tadjikistan",
-      "file": "2026-08-10T031702Z.gpx",
+      "file": "2026-08-11T033158Z.gpx",
       "place": "Sughd Region · Tadjikistan",
-      "local_time": "2026-08-10T13:26:01+00:00"
+      "local_time": "2026-08-11T07:06:05+00:00"
     },
-    "elevation_gain_m": 85200,
+    "elevation_gain_m": 86300,
     "elevation_gain_max_day": {
       "date": "2026-07-23",
       "m": 1800,
@@ -6751,9 +6802,9 @@
     }
   },
   "digital_trace": {
-    "gps_points": 1007628,
-    "sampled_hours": 1676,
-    "typical_interval_seconds": 5.23,
+    "gps_points": 1016930,
+    "sampled_hours": 1687,
+    "typical_interval_seconds": 5.22,
     "continuous_gap_limit_seconds": 3600
   }
 }
