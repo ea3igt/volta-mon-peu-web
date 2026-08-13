@@ -1,5 +1,5 @@
 import * as d3 from "https://esm.sh/d3@7.9.0";
-import world from "https://esm.sh/@d3-maps/atlas@1.0.0/world/countries/countries-110m";
+import world from "https://esm.sh/@d3-maps/atlas@1.0.0/world/countries/countries-50m";
 import { feature } from "https://esm.sh/topojson-client@3.1.0";
 
 const number0 = new Intl.NumberFormat("ca-ES", { maximumFractionDigits: 0 });
@@ -182,12 +182,16 @@ function renderMap() {
   svg.selectAll(":scope > :not(title):not(desc)").remove();
 
   const routeSegments = stats.route_segments?.length ? stats.route_segments : [stats.route];
+  const detailSegments = stats.route_detail_segments?.length ? stats.route_detail_segments : routeSegments;
   const lineFeature = { type: "Feature", geometry: { type: "MultiLineString", coordinates: routeSegments } };
+  const detailFeature = { type: "Feature", geometry: { type: "MultiLineString", coordinates: detailSegments } };
   const projection = d3.geoMercator().fitExtent([[28, 28], [width - 28, height - 30]], lineFeature);
   const path = d3.geoPath(projection);
   const countries = feature(world, world.objects.features).features;
-  svg.selectAll("path.map-country").data(countries).join("path").attr("class", "map-country").attr("d", path);
-  svg.append("path").datum(lineFeature).attr("class", "map-route").attr("d", path);
+  const viewport = svg.append("g").attr("class", "map-viewport");
+  viewport.selectAll("path.map-country").data(countries).join("path").attr("class", "map-country").attr("d", path);
+  const overviewPath = viewport.append("path").datum(lineFeature).attr("class", "map-route map-route-overview").attr("d", path);
+  const detailPath = viewport.append("path").datum(detailFeature).attr("class", "map-route map-route-detail").attr("d", path);
   if (stats.route_gaps?.length) {
     const gapFeature = {
       type: "Feature",
@@ -196,7 +200,7 @@ function renderMap() {
         coordinates: stats.route_gaps.map(gap => [gap.from, gap.to]),
       },
     };
-    svg.append("path").datum(gapFeature).attr("class", "map-route-gap").attr("d", path);
+    viewport.append("path").datum(gapFeature).attr("class", "map-route-gap").attr("d", path);
   }
 
   const markers = Object.entries(cardinalLabels).map(([key, [short, label]]) => {
@@ -217,16 +221,14 @@ function renderMap() {
     });
   }
 
+  let currentTransform = d3.zoomIdentity;
+  const overlayLayer = svg.append("g").attr("class", "map-overlays");
   const diamond = d3.symbol().type(d3.symbolDiamond).size(68);
-  const groups = svg.selectAll("g.map-marker").data(markers).join("g")
+  const groups = overlayLayer.selectAll("g.map-marker").data(markers).join("g")
     .attr("class", "map-marker")
     .attr("aria-label", item => item.tooltip)
-    .attr("transform", item => {
-      const [x, y] = projection(item.coordinates);
-      return `translate(${x},${y})`;
-    })
     .on("mouseenter", function (event, item) {
-      const [x, y] = projection(item.coordinates);
+      const [x, y] = currentTransform.apply(projection(item.coordinates));
       const rect = element.getBoundingClientRect();
       showTooltip(tooltip, container, x * rect.width / width, y * rect.height / height, item.tooltip);
     })
@@ -246,13 +248,75 @@ function renderMap() {
     .attr("y", item => item.kind === "temperature" ? -10 : -9)
     .text(item => item.label);
 
-  const start = projection(routeSegments[0][0]);
-  const end = projection(routeSegments.at(-1).at(-1));
-  svg.append("circle").attr("class", "map-start").attr("cx", start[0]).attr("cy", start[1]).attr("r", 5);
-  svg.append("circle").attr("class", "map-end").attr("cx", end[0]).attr("cy", end[1]).attr("r", 6);
-  svg.append("text").attr("class", "map-label").attr("x", start[0] + 9).attr("y", start[1] - 10).text("Barcelona");
-  svg.append("text").attr("class", "map-label").attr("text-anchor", "end").attr("x", end[0] - 9).attr("y", end[1] - 10)
-    .text(`${stats.countries.at(-1).name} · ${number1.format(stats.summary.total_km)} km`);
+  const endpoints = [
+    { kind: "start", coordinates: routeSegments[0][0], label: "Barcelona" },
+    {
+      kind: "end",
+      coordinates: routeSegments.at(-1).at(-1),
+      label: `${stats.countries.at(-1).name} · ${number1.format(stats.summary.total_km)} km`,
+    },
+  ];
+  const endpointGroups = overlayLayer.selectAll("g.map-endpoint").data(endpoints).join("g").attr("class", "map-endpoint");
+  endpointGroups.append("circle")
+    .attr("class", item => item.kind === "start" ? "map-start" : "map-end")
+    .attr("r", item => item.kind === "start" ? 5 : 6);
+  endpointGroups.append("text")
+    .attr("class", "map-label")
+    .attr("text-anchor", item => item.kind === "start" ? "start" : "end")
+    .attr("x", item => item.kind === "start" ? 9 : -9)
+    .attr("y", -10)
+    .text(item => item.label);
+
+  const zoomLevel = document.getElementById("map-zoom-level");
+  function positionOverlays() {
+    groups.attr("transform", item => {
+      const [x, y] = currentTransform.apply(projection(item.coordinates));
+      return `translate(${x},${y})`;
+    });
+    endpointGroups.attr("transform", item => {
+      const [x, y] = currentTransform.apply(projection(item.coordinates));
+      return `translate(${x},${y})`;
+    });
+  }
+
+  function zoomed(event) {
+    currentTransform = event.transform;
+    viewport.attr("transform", currentTransform);
+    const detailed = currentTransform.k >= 2;
+    overviewPath.classed("is-hidden", detailed);
+    detailPath.classed("is-visible", detailed);
+    positionOverlays();
+    hideTooltip(tooltip);
+    zoomLevel.value = `${currentTransform.k.toLocaleString("ca-ES", { maximumFractionDigits: 1 })}×`;
+  }
+
+  const zoom = d3.zoom()
+    .scaleExtent([1, 32])
+    .extent([[0, 0], [width, height]])
+    .translateExtent([[0, 0], [width, height]])
+    .on("zoom", zoomed);
+  svg.call(zoom);
+  positionOverlays();
+
+  const animateZoom = (action, ...args) => svg.transition().duration(220).call(action, ...args);
+  document.getElementById("map-zoom-in").onclick = () => animateZoom(zoom.scaleBy.bind(zoom), 1.6);
+  document.getElementById("map-zoom-out").onclick = () => animateZoom(zoom.scaleBy.bind(zoom), 1 / 1.6);
+  document.getElementById("map-reset").onclick = () => animateZoom(zoom.transform.bind(zoom), d3.zoomIdentity);
+  element.onkeydown = event => {
+    const actions = {
+      "+": () => animateZoom(zoom.scaleBy.bind(zoom), 1.6),
+      "=": () => animateZoom(zoom.scaleBy.bind(zoom), 1.6),
+      "-": () => animateZoom(zoom.scaleBy.bind(zoom), 1 / 1.6),
+      Home: () => animateZoom(zoom.transform.bind(zoom), d3.zoomIdentity),
+      ArrowLeft: () => animateZoom(zoom.translateBy.bind(zoom), 40 / currentTransform.k, 0),
+      ArrowRight: () => animateZoom(zoom.translateBy.bind(zoom), -40 / currentTransform.k, 0),
+      ArrowUp: () => animateZoom(zoom.translateBy.bind(zoom), 0, 40 / currentTransform.k),
+      ArrowDown: () => animateZoom(zoom.translateBy.bind(zoom), 0, -40 / currentTransform.k),
+    };
+    if (!actions[event.key]) return;
+    event.preventDefault();
+    actions[event.key]();
+  };
 }
 
 function renderCumulative() {

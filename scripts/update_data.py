@@ -50,6 +50,7 @@ MONTHS_CA = [
 ELEVATION_RESAMPLE_METERS = 10.0
 ELEVATION_CLIMB_THRESHOLD_METERS = 3.0
 ROUTE_SAMPLE_METERS = 10_000.0
+ROUTE_DETAIL_SAMPLE_METERS = 200.0
 ROUTE_GAP_METERS = 50.0
 
 
@@ -311,9 +312,12 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
     countries: dict[str, dict] = {}
     months: dict[str, dict] = defaultdict(lambda: {"km": 0.0, "days": set()})
     route_segments: list[list[list[float]]] = []
+    route_detail_segments: list[list[list[float]]] = []
     route_gaps: list[dict] = []
     route_segment: list[list[float]] = []
+    route_detail_segment: list[list[float]] = []
     route_last_kept: tuple[float, float] | None = None
+    route_detail_last_kept: tuple[float, float] | None = None
     route_previous_point: dict | None = None
     first_point = last_point = None
     source_latest_time = None
@@ -422,8 +426,12 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                     ]
                     if not route_segment or route_segment[-1] != previous_coordinate:
                         route_segment.append(previous_coordinate)
+                    if not route_detail_segment or route_detail_segment[-1] != previous_coordinate:
+                        route_detail_segment.append(previous_coordinate)
                     if route_segment:
                         route_segments.append(route_segment)
+                    if route_detail_segment:
+                        route_detail_segments.append(route_detail_segment)
                     route_gaps.append({
                         "from": previous_coordinate,
                         "to": coordinate,
@@ -431,12 +439,18 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                         "kind": "between_tracks" if point_index == 0 else "between_segments",
                     })
                     route_segment = []
+                    route_detail_segment = []
                     route_last_kept = None
+                    route_detail_last_kept = None
 
             if route_last_kept is None or haversine(route_last_kept, position) >= ROUTE_SAMPLE_METERS:
                 if not route_segment or route_segment[-1] != coordinate:
                     route_segment.append(coordinate)
                 route_last_kept = position
+            if route_detail_last_kept is None or haversine(route_detail_last_kept, position) >= ROUTE_DETAIL_SAMPLE_METERS:
+                if not route_detail_segment or route_detail_segment[-1] != coordinate:
+                    route_detail_segment.append(coordinate)
+                route_detail_last_kept = position
             route_previous_point = point
 
             record = event_record(point, row)
@@ -483,9 +497,14 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
         if not route_segment or route_segment[-1] != final_lonlat:
             route_segment.append(final_lonlat)
             route_last_kept = (final["lat"], final["lon"])
+        if not route_detail_segment or route_detail_segment[-1] != final_lonlat:
+            route_detail_segment.append(final_lonlat)
+            route_detail_last_kept = (final["lat"], final["lon"])
 
     if route_segment:
         route_segments.append(route_segment)
+    if route_detail_segment:
+        route_detail_segments.append(route_detail_segment)
     route = [coordinate for segment in route_segments for coordinate in segment]
 
     for record in [*cardinal.values(), heart_min, heart_max, altitude_max, speed_max]:
@@ -574,6 +593,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
         },
         "route": route,
         "route_segments": route_segments,
+        "route_detail_segments": route_detail_segments,
         "route_gaps": route_gaps,
         "calendar": calendar,
         "countries": country_data,

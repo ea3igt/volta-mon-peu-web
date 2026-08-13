@@ -63,10 +63,16 @@
 
         <figure class="map-figure">
           <div class="map-wrap">
-            <svg id="route-map" viewBox="0 0 900 440" role="img" aria-labelledby="map-title map-description">
+            <svg id="route-map" viewBox="0 0 900 440" role="img" tabindex="0" aria-labelledby="map-title map-description">
               <title id="map-title">Mapa del trajecte de la volta al món a peu</title>
-              <desc id="map-description">Ruta acumulada amb les discontinuïtats superiors a 50 metres, els punts geogràfics extrems i els episodis de temperatura màxima.</desc>
+              <desc id="map-description">Mapa interactiu de la ruta acumulada. Es pot ampliar amb la roda del ratolí o amb un gest de pinça i desplaçar arrossegant. Inclou les discontinuïtats superiors a 50 metres, els punts geogràfics extrems i els episodis de temperatura màxima.</desc>
             </svg>
+            <div class="map-controls" role="group" aria-label="Controls de zoom del mapa">
+              <button id="map-zoom-in" type="button" aria-label="Amplia el mapa">+</button>
+              <button id="map-zoom-out" type="button" aria-label="Redueix el mapa">−</button>
+              <button id="map-reset" type="button">Ruta completa</button>
+              <output id="map-zoom-level" aria-live="polite">1×</output>
+            </div>
             <div class="tooltip" id="map-tooltip" role="status" aria-hidden="true"></div>
           </div>
           <figcaption class="map-caption">
@@ -74,6 +80,7 @@
             <span><i class="legend-gap" aria-hidden="true"></i> Tram sense track &gt; 50 m</span>
             <span><i class="legend-diamond" aria-hidden="true"></i> N · S · E · O</span>
             <span><i class="legend-circle" aria-hidden="true"></i> Temperatura màxima</span>
+            <span class="map-instructions">Roda o pinça per ampliar · arrossega per desplaçar</span>
           </figcaption>
         </figure>
       </div>
@@ -190,6 +197,6 @@
     </div>
   </footer>
 
-  <script type="module" src="assets/app.js?v=20260718-2"></script>
+  <script type="module" src="assets/app.js?v=20260813-1"></script>
 </body>
 </html>

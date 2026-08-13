@@ -237,6 +237,19 @@ h3 {
   overflow: visible;
 }
 
+#route-map {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+#route-map:active { cursor: grabbing; }
+
+#route-map:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--route) 62%, transparent);
+  outline-offset: -3px;
+}
+
 .map-country {
   fill: #ebece8;
   stroke: #ffffff;
@@ -251,7 +264,12 @@ h3 {
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
+  transition: opacity .16s ease;
 }
+
+.map-route-detail { opacity: 0; }
+.map-route-detail.is-visible { opacity: 1; }
+.map-route-overview.is-hidden { opacity: 0; }
 
 .map-route-gap {
   fill: none;
@@ -268,6 +286,53 @@ h3 {
 .map-temperature { fill: var(--temperature); stroke: var(--surface); stroke-width: 2; }
 
 .map-marker { cursor: help; }
+
+.map-controls {
+  position: absolute;
+  z-index: 2;
+  top: .8rem;
+  right: .8rem;
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .35rem;
+  border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+  border-radius: .75rem;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: 0 5px 20px rgba(18, 37, 31, .1);
+  backdrop-filter: blur(8px);
+}
+
+.map-controls button {
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 .6rem;
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  color: var(--foreground);
+  background: var(--surface);
+  font: inherit;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.map-controls button:first-child,
+.map-controls button:nth-child(2) {
+  padding: 0;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.map-controls button:hover { border-color: var(--route); color: var(--route); }
+.map-controls button:focus-visible { outline: 2px solid var(--route); outline-offset: 2px; }
+
+.map-controls output {
+  min-width: 2.6rem;
+  padding: 0 .25rem;
+  color: var(--muted);
+  font-size: .75rem;
+  text-align: center;
+}
 
 .map-label,
 .map-marker-label,
@@ -292,6 +357,11 @@ h3 {
 }
 
 .map-caption span { display: inline-flex; gap: .45rem; align-items: center; }
+
+.map-caption .map-instructions {
+  margin-left: auto;
+  font-style: italic;
+}
 
 .legend-line {
   width: 1.2rem;
@@ -536,9 +606,14 @@ h3 {
   .section { padding: 3.5rem 0; }
   .milestone-grid { grid-template-columns: 1fr; }
   .map-caption { gap: .5rem .85rem; }
+  .map-controls { top: .55rem; right: .55rem; }
+  .map-controls button { height: 1.9rem; }
+  .map-controls #map-reset { max-width: 5.5rem; line-height: 1.05; }
+  .map-caption .map-instructions { width: 100%; margin-left: 0; }
   .chart-block { padding: .75rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .map-route { transition: none; }
 }
