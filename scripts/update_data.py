@@ -52,6 +52,26 @@ ELEVATION_CLIMB_THRESHOLD_METERS = 3.0
 ROUTE_SAMPLE_METERS = 10_000.0
 ROUTE_DETAIL_SAMPLE_METERS = 200.0
 ROUTE_GAP_METERS = 50.0
+CITY_ROUTE_MAX_DISTANCE_METERS = 15_000.0
+CITY_GRID_DEGREES = 0.25
+CITY_NAME_ALIASES = {
+    "Alexandroupoli": "Alexandrúpoli",
+    "Durres": "Durrës",
+    "Genoa": "Gènova",
+    "Ioanina": "Ioànnina",
+    "Karabuk": "Karabük",
+    "Marseille": "Marsella",
+    "Mataro": "Mataró",
+    "Nice": "Niça",
+    "Monaco": "Mònaco",
+    "Samarkand": "Samarcanda",
+    "Samarqand": "Samarcanda",
+    "Shkoder": "Shkodër",
+    "Thessaloniki": "Tessalònica",
+    "Tbilisi": "Tbilissi",
+    "Trabzon": "Trebisonda",
+    "Venice": "Venècia",
+}
 
 
 def normalize_territory(value: str) -> str:
@@ -306,7 +326,62 @@ def longest_streak(days: list[date]) -> tuple[int, date, date]:
     return best, best_start, best_end
 
 
-def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
+def city_min_scale(min_zoom: float) -> float:
+    """Converteix la prioritat de Natural Earth a l'escala del mapa de la ruta."""
+    if min_zoom <= 3.5:
+        return 1.0
+    if min_zoom <= 4.5:
+        return 1.5
+    if min_zoom <= 5.2:
+        return 2.0
+    if min_zoom <= 6.1:
+        return 3.5
+    if min_zoom <= 6.8:
+        return 6.0
+    return 10.0
+
+
+def cities_near_route(cities: list[dict], route_segments: list[list[list[float]]]) -> list[dict]:
+    """Selecciona ciutats principals properes al traçat amb una graella espacial."""
+    route_grid: dict[tuple[int, int], list[tuple[float, float]]] = defaultdict(list)
+    for segment in route_segments:
+        for lon, lat in segment:
+            cell = (math.floor(lat / CITY_GRID_DEGREES), math.floor(lon / CITY_GRID_DEGREES))
+            route_grid[cell].append((lat, lon))
+
+    result = []
+    latitude_cells = math.ceil(CITY_ROUTE_MAX_DISTANCE_METERS / 111_320 / CITY_GRID_DEGREES)
+    for city in cities:
+        lat = city["lat"]
+        lon = city["lon"]
+        center_y = math.floor(lat / CITY_GRID_DEGREES)
+        center_x = math.floor(lon / CITY_GRID_DEGREES)
+        longitude_meters = max(1.0, 111_320 * abs(math.cos(math.radians(lat))))
+        longitude_cells = math.ceil(CITY_ROUTE_MAX_DISTANCE_METERS / longitude_meters / CITY_GRID_DEGREES)
+        nearby_points = [
+            point
+            for offset_y in range(-latitude_cells, latitude_cells + 1)
+            for offset_x in range(-longitude_cells, longitude_cells + 1)
+            for point in route_grid.get((center_y + offset_y, center_x + offset_x), [])
+        ]
+        if not nearby_points:
+            continue
+        distance = min(haversine((lat, lon), point) for point in nearby_points)
+        if distance > CITY_ROUTE_MAX_DISTANCE_METERS:
+            continue
+        result.append({
+            "name": CITY_NAME_ALIASES.get(city["name"], city["name"]),
+            "lon": lon,
+            "lat": lat,
+            "population": city["population"],
+            "capital": city["capital"],
+            "distance_to_route_km": round(distance / 1000, 1),
+            "min_scale": city_min_scale(city["min_zoom"]),
+        })
+    return sorted(result, key=lambda city: (city["min_scale"], -city["population"], city["name"]))
+
+
+def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: list[dict]) -> dict:
     rows = read_rows(source)
     by_date: dict[date, float] = defaultdict(float)
     countries: dict[str, dict] = {}
@@ -349,6 +424,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
                 "last": row["date"],
                 "elevation_gain": 0.0,
                 "moving_seconds": 0.0,
+                "map_points": [],
             }
         country = countries[row["country"]]
         country["km"] += row["km"]
@@ -450,6 +526,8 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
             if route_detail_last_kept is None or haversine(route_detail_last_kept, position) >= ROUTE_DETAIL_SAMPLE_METERS:
                 if not route_detail_segment or route_detail_segment[-1] != coordinate:
                     route_detail_segment.append(coordinate)
+                if not country["map_points"] or country["map_points"][-1] != coordinate:
+                    country["map_points"].append(coordinate)
                 route_detail_last_kept = position
             route_previous_point = point
 
@@ -500,12 +578,15 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
         if not route_detail_segment or route_detail_segment[-1] != final_lonlat:
             route_detail_segment.append(final_lonlat)
             route_detail_last_kept = (final["lat"], final["lon"])
+        if not country["map_points"] or country["map_points"][-1] != final_lonlat:
+            country["map_points"].append(final_lonlat)
 
     if route_segment:
         route_segments.append(route_segment)
     if route_detail_segment:
         route_detail_segments.append(route_detail_segment)
     route = [coordinate for segment in route_segments for coordinate in segment]
+    map_cities = cities_near_route(city_reference, route_detail_segments)
 
     for record in [*cardinal.values(), heart_min, heart_max, altitude_max, speed_max]:
         if record:
@@ -545,6 +626,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
 
     country_data = []
     for name, values in sorted(countries.items(), key=lambda item: item[1]["first"]):
+        map_point = values["map_points"][len(values["map_points"]) // 2]
         country_data.append({
             "name": name,
             "km": round(values["km"], 1),
@@ -554,6 +636,8 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
             if values["moving_seconds"] else None,
             "average_stage_km": round(values["km"] / len(values["track_days"]), 1),
             "elevation_gain_m": round(values["elevation_gain"] / 100) * 100,
+            "map_lon": map_point[0],
+            "map_lat": map_point[1],
         })
     month_data = [
         {
@@ -595,6 +679,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool) -> dict:
         "route_segments": route_segments,
         "route_detail_segments": route_detail_segments,
         "route_gaps": route_gaps,
+        "map_cities": map_cities,
         "calendar": calendar,
         "countries": country_data,
         "months": month_data,
@@ -646,15 +731,17 @@ def main() -> None:
 
     project = Path(__file__).resolve().parents[1]
     cache_path = project / "data" / "geocode-cache.json"
+    cities_path = project / "data" / "major-cities.json"
     output_path = project / "data" / "stats.json"
     cache = json.loads(cache_path.read_text(encoding="utf-8")) if cache_path.exists() else {}
+    city_reference = json.loads(cities_path.read_text(encoding="utf-8"))["cities"]
     temporary = None
     try:
         if args.source:
             source = args.source.resolve()
         else:
             source, temporary = download_source()
-        stats = build_stats(source, cache, not args.no_geocode)
+        stats = build_stats(source, cache, not args.no_geocode, city_reference)
         output_path.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(f"Dades actualitzades fins al {stats['meta']['data_as_of']}: {stats['summary']['total_km']:.1f} km")

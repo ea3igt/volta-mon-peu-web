@@ -287,6 +287,31 @@ h3 {
 
 .map-marker { cursor: help; }
 
+.map-place-label {
+  pointer-events: none;
+}
+
+.map-place-label text {
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+
+.map-territory-label text {
+  fill: #586862;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.map-city-label text {
+  fill: var(--foreground);
+  font-size: 10px;
+  font-weight: 500;
+}
+
 .map-controls {
   position: absolute;
   z-index: 2;

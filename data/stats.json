@@ -4,7 +4,7 @@
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
     "data_as_of": "2026-08-13",
-    "updated_at": "2026-08-14T10:58:20+00:00",
+    "updated_at": "2026-08-14T15:20:40+00:00",
     "source_updated_at": "2026-08-13T14:01:57+00:00",
     "source_fingerprint": "eba4bcb4063a70f7"
   },
@@ -121141,6 +121141,368 @@
       "kind": "between_tracks"
     }
   ],
+  "map_cities": [
+    {
+      "name": "Istanbul",
+      "lon": 28.97428,
+      "lat": 41.0176,
+      "population": 10061000,
+      "capital": false,
+      "distance_to_route_km": 0.1,
+      "min_scale": 1.0
+    },
+    {
+      "name": "Barcelona",
+      "lon": 2.18142,
+      "lat": 41.38524,
+      "population": 4920000,
+      "capital": false,
+      "distance_to_route_km": 0.1,
+      "min_scale": 1.5
+    },
+    {
+      "name": "Marsella",
+      "lon": 5.37306,
+      "lat": 43.29192,
+      "population": 1400000,
+      "capital": false,
+      "distance_to_route_km": 0.5,
+      "min_scale": 2.0
+    },
+    {
+      "name": "Tbilissi",
+      "lon": 44.78885,
+      "lat": 41.72696,
+      "population": 1100000,
+      "capital": true,
+      "distance_to_route_km": 3.4,
+      "min_scale": 2.0
+    },
+    {
+      "name": "Niça",
+      "lon": 7.26308,
+      "lat": 43.71696,
+      "population": 927000,
+      "capital": false,
+      "distance_to_route_km": 2.2,
+      "min_scale": 2.0
+    },
+    {
+      "name": "Tessalònica",
+      "lon": 22.88305,
+      "lat": 40.69805,
+      "population": 828000,
+      "capital": false,
+      "distance_to_route_km": 4.2,
+      "min_scale": 2.0
+    },
+    {
+      "name": "Samarcanda",
+      "lon": 66.945,
+      "lat": 39.67002,
+      "population": 708000,
+      "capital": false,
+      "distance_to_route_km": 5.2,
+      "min_scale": 2.0
+    },
+    {
+      "name": "Gènova",
+      "lon": 8.93004,
+      "lat": 44.40999,
+      "population": 647497,
+      "capital": false,
+      "distance_to_route_km": 14.9,
+      "min_scale": 2.0
+    },
+    {
+      "name": "Venècia",
+      "lon": 12.335,
+      "lat": 45.43866,
+      "population": 270816,
+      "capital": false,
+      "distance_to_route_km": 9.4,
+      "min_scale": 2.0
+    },
+    {
+      "name": "Mònaco",
+      "lon": 7.40691,
+      "lat": 43.73965,
+      "population": 36371,
+      "capital": true,
+      "distance_to_route_km": 0.2,
+      "min_scale": 2.0
+    },
+    {
+      "name": "Trebisonda",
+      "lon": 39.71999,
+      "lat": 40.97999,
+      "population": 764714,
+      "capital": false,
+      "distance_to_route_km": 2.8,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Samsun",
+      "lon": 36.34366,
+      "lat": 41.28,
+      "population": 609339,
+      "capital": false,
+      "distance_to_route_km": 0.1,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Toulon",
+      "lon": 5.91882,
+      "lat": 43.13419,
+      "population": 357693,
+      "capital": false,
+      "distance_to_route_km": 0.7,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Verona",
+      "lon": 10.99002,
+      "lat": 45.44039,
+      "population": 347459,
+      "capital": false,
+      "distance_to_route_km": 0.2,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Montpellier",
+      "lon": 3.86999,
+      "lat": 43.6104,
+      "population": 327254,
+      "capital": false,
+      "distance_to_route_km": 4.3,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Split",
+      "lon": 16.46999,
+      "lat": 43.5204,
+      "population": 214741,
+      "capital": false,
+      "distance_to_route_km": 0.6,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Rijeka",
+      "lon": 14.45001,
+      "lat": 45.32998,
+      "population": 170992,
+      "capital": false,
+      "distance_to_route_km": 0.6,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Batumi",
+      "lon": 41.63001,
+      "lat": 41.60001,
+      "population": 155542,
+      "capital": false,
+      "distance_to_route_km": 1.3,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Perpignan",
+      "lon": 2.89997,
+      "lat": 42.69999,
+      "population": 146620,
+      "capital": false,
+      "distance_to_route_km": 8.4,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Karabük",
+      "lon": 32.60001,
+      "lat": 41.2,
+      "population": 128564,
+      "capital": false,
+      "distance_to_route_km": 3.5,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Ioànnina",
+      "lon": 20.85086,
+      "lat": 39.6679,
+      "population": 86304,
+      "capital": false,
+      "distance_to_route_km": 0.1,
+      "min_scale": 3.5
+    },
+    {
+      "name": "Trieste",
+      "lon": 13.80003,
+      "lat": 45.65038,
+      "population": 216035,
+      "capital": false,
+      "distance_to_route_km": 1.6,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Shkodër",
+      "lon": 19.51885,
+      "lat": 42.06845,
+      "population": 155767,
+      "capital": false,
+      "distance_to_route_km": 1.7,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Ordu",
+      "lon": 37.86993,
+      "lat": 41.00043,
+      "population": 155117,
+      "capital": false,
+      "distance_to_route_km": 0.2,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Durrës",
+      "lon": 19.44821,
+      "lat": 41.3178,
+      "population": 142432,
+      "capital": false,
+      "distance_to_route_km": 0.1,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Larissa",
+      "lon": 22.42002,
+      "lat": 39.63041,
+      "population": 128758,
+      "capital": false,
+      "distance_to_route_km": 0.7,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Tekirdag",
+      "lon": 27.50999,
+      "lat": 40.99087,
+      "population": 122287,
+      "capital": false,
+      "distance_to_route_km": 1.5,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Bafra",
+      "lon": 35.90689,
+      "lat": 41.56817,
+      "population": 97452,
+      "capital": false,
+      "distance_to_route_km": 1.2,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Beziers",
+      "lon": 3.20997,
+      "lat": 43.35049,
+      "population": 81438,
+      "capital": false,
+      "distance_to_route_km": 9.4,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Zadar",
+      "lon": 15.26226,
+      "lat": 44.12013,
+      "population": 71258,
+      "capital": false,
+      "distance_to_route_km": 0.4,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Katerini",
+      "lon": 22.50249,
+      "lat": 40.27233,
+      "population": 53293,
+      "capital": false,
+      "distance_to_route_km": 1.1,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Xanthi",
+      "lon": 24.88359,
+      "lat": 41.14179,
+      "population": 50570,
+      "capital": false,
+      "distance_to_route_km": 0.1,
+      "min_scale": 6.0
+    },
+    {
+      "name": "Rize",
+      "lon": 40.52186,
+      "lat": 41.02084,
+      "population": 279450,
+      "capital": false,
+      "distance_to_route_km": 0.6,
+      "min_scale": 10.0
+    },
+    {
+      "name": "Kutaisi",
+      "lon": 42.72999,
+      "lat": 42.24999,
+      "population": 183945,
+      "capital": false,
+      "distance_to_route_km": 1.1,
+      "min_scale": 10.0
+    },
+    {
+      "name": "Mataró",
+      "lon": 2.45002,
+      "lat": 41.53996,
+      "population": 183293,
+      "capital": false,
+      "distance_to_route_km": 0.1,
+      "min_scale": 10.0
+    },
+    {
+      "name": "Treviso",
+      "lon": 12.24002,
+      "lat": 45.67001,
+      "population": 177309,
+      "capital": false,
+      "distance_to_route_km": 14.4,
+      "min_scale": 10.0
+    },
+    {
+      "name": "Giresun",
+      "lon": 38.39001,
+      "lat": 40.913,
+      "population": 98864,
+      "capital": false,
+      "distance_to_route_km": 0.3,
+      "min_scale": 10.0
+    },
+    {
+      "name": "Kastamonu",
+      "lon": 33.783,
+      "lat": 41.389,
+      "population": 70402,
+      "capital": false,
+      "distance_to_route_km": 0.7,
+      "min_scale": 10.0
+    },
+    {
+      "name": "Kavala",
+      "lon": 24.40176,
+      "lat": 40.94121,
+      "population": 59240,
+      "capital": false,
+      "distance_to_route_km": 0.6,
+      "min_scale": 10.0
+    },
+    {
+      "name": "Alexandrúpoli",
+      "lon": 25.87441,
+      "lat": 40.84862,
+      "population": 52979,
+      "capital": false,
+      "distance_to_route_km": 0.4,
+      "min_scale": 10.0
+    }
+  ],
   "calendar": [
     {
       "date": "2025-11-30",
@@ -122436,7 +122798,9 @@
       "natural_days": 9,
       "average_speed_kmh": 5.8,
       "average_stage_km": 28.8,
-      "elevation_gain_m": 4300
+      "elevation_gain_m": 4300,
+      "map_lon": 3.06064,
+      "map_lat": 41.80805
     },
     {
       "name": "França",
@@ -122445,7 +122809,9 @@
       "natural_days": 26,
       "average_speed_kmh": 5.3,
       "average_stage_km": 32.8,
-      "elevation_gain_m": 7600
+      "elevation_gain_m": 7600,
+      "map_lon": 4.89978,
+      "map_lat": 43.46282
     },
     {
       "name": "Itàlia",
@@ -122454,7 +122820,9 @@
       "natural_days": 30,
       "average_speed_kmh": 5.3,
       "average_stage_km": 34.0,
-      "elevation_gain_m": 7200
+      "elevation_gain_m": 7200,
+      "map_lon": 10.41122,
+      "map_lat": 45.15656
     },
     {
       "name": "Croàcia",
@@ -122463,7 +122831,9 @@
       "natural_days": 27,
       "average_speed_kmh": 5.2,
       "average_stage_km": 29.9,
-      "elevation_gain_m": 11900
+      "elevation_gain_m": 11900,
+      "map_lon": 15.79557,
+      "map_lat": 43.76446
     },
     {
       "name": "Montenegro",
@@ -122472,7 +122842,9 @@
       "natural_days": 5,
       "average_speed_kmh": 4.9,
       "average_stage_km": 33.3,
-      "elevation_gain_m": 3200
+      "elevation_gain_m": 3200,
+      "map_lon": 18.94888,
+      "map_lat": 42.2307
     },
     {
       "name": "Albània",
@@ -122481,7 +122853,9 @@
       "natural_days": 13,
       "average_speed_kmh": 5.2,
       "average_stage_km": 34.5,
-      "elevation_gain_m": 5000
+      "elevation_gain_m": 5000,
+      "map_lon": 19.823,
+      "map_lat": 40.86335
     },
     {
       "name": "Grècia",
@@ -122490,7 +122864,9 @@
       "natural_days": 40,
       "average_speed_kmh": 5.2,
       "average_stage_km": 32.6,
-      "elevation_gain_m": 8700
+      "elevation_gain_m": 8700,
+      "map_lon": 22.80192,
+      "map_lat": 40.67318
     },
     {
       "name": "Turquia",
@@ -122499,7 +122875,9 @@
       "natural_days": 70,
       "average_speed_kmh": 5.1,
       "average_stage_km": 36.3,
-      "elevation_gain_m": 22400
+      "elevation_gain_m": 22400,
+      "map_lon": 33.96348,
+      "map_lat": 41.43212
     },
     {
       "name": "Geòrgia",
@@ -122508,7 +122886,9 @@
       "natural_days": 20,
       "average_speed_kmh": 4.9,
       "average_stage_km": 35.2,
-      "elevation_gain_m": 11900
+      "elevation_gain_m": 11900,
+      "map_lon": 42.96632,
+      "map_lat": 42.13194
     },
     {
       "name": "Oʻzbekiston",
@@ -122517,7 +122897,9 @@
       "natural_days": 2,
       "average_speed_kmh": 5.1,
       "average_stage_km": 38.8,
-      "elevation_gain_m": 700
+      "elevation_gain_m": 700,
+      "map_lon": 67.37792,
+      "map_lat": 39.52303
     },
     {
       "name": "Tadjikistan",
@@ -122526,7 +122908,9 @@
       "natural_days": 5,
       "average_speed_kmh": 5.8,
       "average_stage_km": 38.5,
-      "elevation_gain_m": 4900
+      "elevation_gain_m": 4900,
+      "map_lon": 68.43027,
+      "map_lat": 39.2343
     }
   ],
   "months": [

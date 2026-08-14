@@ -267,7 +267,80 @@ function renderMap() {
     .attr("y", -10)
     .text(item => item.label);
 
+  const placeLabels = [
+    ...stats.countries
+      .filter(item => Number.isFinite(item.map_lon) && Number.isFinite(item.map_lat))
+      .map(item => ({
+        kind: "territory",
+        label: item.name,
+        coordinates: [item.map_lon, item.map_lat],
+        minScale: 1,
+        priority: 0,
+      })),
+    ...(stats.map_cities || [])
+      .filter(item => item.name !== "Barcelona")
+      .map(item => ({
+        kind: "city",
+        label: item.name,
+        coordinates: [item.lon, item.lat],
+        minScale: item.min_scale,
+        priority: 1,
+        population: item.population,
+      })),
+  ].sort((left, right) => left.priority - right.priority
+    || left.minScale - right.minScale
+    || (right.population || 0) - (left.population || 0));
+  const placeLabelGroups = overlayLayer.selectAll("g.map-place-label").data(placeLabels).join("g")
+    .attr("class", item => `map-place-label map-${item.kind}-label`)
+    .attr("aria-hidden", "true");
+  placeLabelGroups.append("text").attr("text-anchor", "middle").text(item => item.label);
+
   const zoomLevel = document.getElementById("map-zoom-level");
+  function positionPlaceLabels() {
+    const occupied = [];
+    for (const item of markers) {
+      const [x, y] = currentTransform.apply(projection(item.coordinates));
+      const markerWidth = Math.max(18, item.label.length * 7 + 8);
+      occupied.push({ left: x - markerWidth / 2, right: x + markerWidth / 2, top: y - 25, bottom: y + 8 });
+    }
+    for (const item of endpoints) {
+      const [x, y] = currentTransform.apply(projection(item.coordinates));
+      const endpointWidth = item.label.length * 6.7 + 14;
+      occupied.push(item.kind === "start"
+        ? { left: x - 7, right: x + endpointWidth, top: y - 24, bottom: y + 8 }
+        : { left: x - endpointWidth, right: x + 7, top: y - 24, bottom: y + 8 });
+    }
+    placeLabelGroups.each(function (item) {
+      const group = d3.select(this);
+      if (currentTransform.k < item.minScale) {
+        group.style("display", "none");
+        return;
+      }
+      const [x, projectedY] = currentTransform.apply(projection(item.coordinates));
+      const y = projectedY + (item.kind === "territory" ? -12 : 12);
+      const fontSize = item.kind === "territory" ? 11 : 10;
+      const labelWidth = item.label.length * fontSize * .58 + 8;
+      const labelHeight = fontSize + 6;
+      const box = {
+        left: x - labelWidth / 2,
+        right: x + labelWidth / 2,
+        top: y - labelHeight / 2,
+        bottom: y + labelHeight / 2,
+      };
+      const inside = box.left >= 4 && box.right <= width - 4 && box.top >= 4 && box.bottom <= height - 4;
+      const overlaps = occupied.some(other => !(
+        box.right + 5 < other.left || box.left - 5 > other.right
+        || box.bottom + 4 < other.top || box.top - 4 > other.bottom
+      ));
+      if (!inside || overlaps) {
+        group.style("display", "none");
+        return;
+      }
+      group.style("display", null).attr("transform", `translate(${x},${y})`);
+      occupied.push(box);
+    });
+  }
+
   function positionOverlays() {
     groups.attr("transform", item => {
       const [x, y] = currentTransform.apply(projection(item.coordinates));
@@ -277,6 +350,7 @@ function renderMap() {
       const [x, y] = currentTransform.apply(projection(item.coordinates));
       return `translate(${x},${y})`;
     });
+    positionPlaceLabels();
   }
 
   function zoomed(event) {
