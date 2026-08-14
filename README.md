@@ -53,6 +53,7 @@ Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings
 - Dades de ruta: [Ercoman2/GPX-LVM](https://github.com/Ercoman2/GPX-LVM).
 - El mapa separa el traçat enregistrat en segments i uneix amb una línia vermella puntejada els salts superiors a 50 metres entre tracks consecutius o entre segments GPX diferenciats. La distància normal entre punts d’un mateix segment no es considera un buit de track.
 - El mapa és interactiu: permet zoom amb la roda, gest de pinça, controls o teclat, i desplaçament per arrossegament. A partir de 2× substitueix la ruta general per una geometria detallada mostrejada aproximadament cada 200 metres.
+- Els països recorreguts es destaquen amb un gris més fosc. La detecció es fa automàticament comprovant en quin polígon geogràfic cau el punt representatiu de cada territori, de manera que també s'aplica als països nous que s'incorporin a la ruta.
 - Els noms dels territoris recorreguts i de les ciutats principals es distribueixen dinàmicament segons l’espai disponible. Les ciutats provenen de Natural Earth (població mínima de 50.000 habitants o capitals) i només s’incorporen si el track passa a menys de 15 km; en ampliar el mapa n’apareixen progressivament més.
 - Topònims: geocodificació inversa d’OpenStreetMap Nominatim, amb memòria cau local.
 - Ciutats del mapa: [Natural Earth · Populated Places](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-populated-places/), referència local actualitzable amb `python scripts/update_city_reference.py`.

@@ -257,6 +257,10 @@ h3 {
   vector-effect: non-scaling-stroke;
 }
 
+.map-country-visited {
+  fill: #d3d7d1;
+}
+
 .map-route {
   fill: none;
   stroke: var(--route);
@@ -386,6 +390,13 @@ h3 {
 .map-caption .map-instructions {
   margin-left: auto;
   font-style: italic;
+}
+
+.legend-country {
+  width: .8rem;
+  height: .8rem;
+  border: 1px solid #ffffff;
+  background: #d3d7d1;
 }
 
 .legend-line {

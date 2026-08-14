@@ -188,8 +188,16 @@ function renderMap() {
   const projection = d3.geoMercator().fitExtent([[28, 28], [width - 28, height - 30]], lineFeature);
   const path = d3.geoPath(projection);
   const countries = feature(world, world.objects.features).features;
+  const territoryCoordinates = stats.countries
+    .filter(item => Number.isFinite(item.map_lon) && Number.isFinite(item.map_lat))
+    .map(item => [item.map_lon, item.map_lat]);
+  const visitedCountries = new Set(countries.filter(country =>
+    territoryCoordinates.some(coordinate => d3.geoContains(country, coordinate))
+  ));
   const viewport = svg.append("g").attr("class", "map-viewport");
-  viewport.selectAll("path.map-country").data(countries).join("path").attr("class", "map-country").attr("d", path);
+  viewport.selectAll("path.map-country").data(countries).join("path")
+    .attr("class", country => visitedCountries.has(country) ? "map-country map-country-visited" : "map-country")
+    .attr("d", path);
   const overviewPath = viewport.append("path").datum(lineFeature).attr("class", "map-route map-route-overview").attr("d", path);
   const detailPath = viewport.append("path").datum(detailFeature).attr("class", "map-route map-route-detail").attr("d", path);
   if (stats.route_gaps?.length) {
