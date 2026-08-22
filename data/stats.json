@@ -3,22 +3,22 @@
     "title": "La volta al món a peu",
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
-    "data_as_of": "2026-08-20",
-    "updated_at": "2026-08-21T20:26:51+00:00",
-    "source_updated_at": "2026-08-20T13:29:43+00:00",
-    "source_fingerprint": "a3cfdf9ee2cb8fc0"
+    "data_as_of": "2026-08-21",
+    "updated_at": "2026-08-22T05:28:43+00:00",
+    "source_updated_at": "2026-08-21T14:23:18+00:00",
+    "source_fingerprint": "97f74ac3bf6115db"
   },
   "summary": {
-    "total_km": 6781.8,
-    "walking_days": 201,
-    "natural_days": 264,
-    "walking_average_km": 33.7,
-    "natural_average_km": 25.7,
-    "tracks": 211,
+    "total_km": 6787.6,
+    "walking_days": 202,
+    "natural_days": 265,
+    "walking_average_km": 33.6,
+    "natural_average_km": 25.6,
+    "tracks": 212,
     "territories": 11,
     "first_date": "2025-11-30",
-    "last_date": "2026-08-20",
-    "straight_km": 5611.4,
+    "last_date": "2026-08-21",
+    "straight_km": 5614.6,
     "route_ratio": 1.21
   },
   "route": [
@@ -2573,6 +2573,10 @@
     [
       69.86786,
       38.86659
+    ],
+    [
+      69.89862,
+      38.84906
     ]
   ],
   "route_segments": [
@@ -5174,6 +5178,10 @@
       [
         69.86786,
         38.86659
+      ],
+      [
+        69.89862,
+        38.84906
       ]
     ]
   ],
@@ -124032,6 +124040,106 @@
       [
         69.86786,
         38.86659
+      ],
+      [
+        69.87019,
+        38.86608
+      ],
+      [
+        69.87252,
+        38.86583
+      ],
+      [
+        69.87483,
+        38.86634
+      ],
+      [
+        69.87665,
+        38.86747
+      ],
+      [
+        69.87911,
+        38.8676
+      ],
+      [
+        69.88066,
+        38.86623
+      ],
+      [
+        69.8828,
+        38.86554
+      ],
+      [
+        69.88508,
+        38.86523
+      ],
+      [
+        69.88439,
+        38.86344
+      ],
+      [
+        69.88424,
+        38.86161
+      ],
+      [
+        69.88494,
+        38.85988
+      ],
+      [
+        69.88633,
+        38.85843
+      ],
+      [
+        69.88721,
+        38.85667
+      ],
+      [
+        69.88956,
+        38.85698
+      ],
+      [
+        69.89191,
+        38.8569
+      ],
+      [
+        69.89421,
+        38.85718
+      ],
+      [
+        69.89653,
+        38.85708
+      ],
+      [
+        69.89891,
+        38.85723
+      ],
+      [
+        69.89882,
+        38.85542
+      ],
+      [
+        69.89688,
+        38.85427
+      ],
+      [
+        69.89573,
+        38.8527
+      ],
+      [
+        69.89792,
+        38.85211
+      ],
+      [
+        69.90024,
+        38.85203
+      ],
+      [
+        69.89907,
+        38.85047
+      ],
+      [
+        69.89862,
+        38.84906
       ]
     ]
   ],
@@ -126004,6 +126112,11 @@
       "date": "2026-08-20",
       "km": 36.33,
       "cumulative": 6781.79
+    },
+    {
+      "date": "2026-08-21",
+      "km": 5.85,
+      "cumulative": 6787.65
     }
   ],
   "countries": [
@@ -126119,14 +126232,14 @@
     },
     {
       "name": "Tadjikistan",
-      "km": 357.1,
-      "stages": 11,
-      "natural_days": 12,
+      "km": 362.9,
+      "stages": 12,
+      "natural_days": 13,
       "average_speed_kmh": 5.5,
-      "average_stage_km": 32.5,
-      "elevation_gain_m": 7400,
-      "map_lon": 68.83678,
-      "map_lat": 38.86138
+      "average_stage_km": 30.2,
+      "elevation_gain_m": 7800,
+      "map_lon": 68.84963,
+      "map_lat": 38.84774
     }
   ],
   "months": [
@@ -126196,9 +126309,9 @@
     {
       "key": "2026-08",
       "label": "ag.",
-      "km": 434.6,
-      "days": 13,
-      "average": 33.4
+      "km": 440.5,
+      "days": 14,
+      "average": 31.5
     }
   ],
   "geographic_extremes": {
@@ -126223,14 +126336,14 @@
       "local_time": "2026-08-18T05:47:56+00:00"
     },
     "east": {
-      "date": "2026-08-20",
-      "time_utc": "2026-08-20T13:23:29+00:00",
-      "lat": 38.866601,
-      "lon": 69.868246,
+      "date": "2026-08-21",
+      "time_utc": "2026-08-21T14:09:37+00:00",
+      "lat": 38.852008,
+      "lon": 69.900246,
       "country": "Tadjikistan",
-      "file": "2026-08-20T035406Z.gpx",
-      "place": "Chepak · Districts of Republican Subordination · Tadjikistan",
-      "local_time": "2026-08-20T13:23:29+00:00"
+      "file": "2026-08-21T023612Z.gpx",
+      "place": "Zoron · Districts of Republican Subordination · Tadjikistan",
+      "local_time": "2026-08-21T14:09:37+00:00"
     },
     "west": {
       "date": "2025-11-30",
@@ -126313,7 +126426,7 @@
       "place": "Sughd Region · Tadjikistan",
       "local_time": "2026-08-11T07:06:05+00:00"
     },
-    "elevation_gain_m": 90300,
+    "elevation_gain_m": 90700,
     "elevation_gain_max_day": {
       "date": "2026-07-23",
       "m": 1800,
@@ -126334,8 +126447,8 @@
     }
   },
   "digital_trace": {
-    "gps_points": 1076312,
-    "sampled_hours": 1751,
+    "gps_points": 1077481,
+    "sampled_hours": 1753,
     "typical_interval_seconds": 5.12,
     "continuous_gap_limit_seconds": 3600
   }
