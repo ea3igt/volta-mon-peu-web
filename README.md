@@ -37,14 +37,16 @@ python -m http.server 8080
 
 Després, obre `http://localhost:8080`.
 
-## Publicació i actualització diària
+## Publicació i actualització cada hora
 
 El fitxer `.github/workflows/actualitza-i-publica.yml` està preparat per:
 
-1. executar-se cada dia a les 05:17 UTC;
+1. executar-se al minut 17 de cada hora (`17 * * * *`), segons l'horari UTC de GitHub Actions;
 2. descarregar els GPX i recalcular les dades;
 3. desar els canvis al repositori quan hi hagi una etapa nova;
 4. publicar la versió actualitzada amb GitHub Pages.
+
+S'utilitza el minut 17, en lloc del minut 0, per reduir la probabilitat de retards provocats per la càrrega habitual de GitHub Actions a l'inici de cada hora. GitHub també pot endarrerir puntualment una execució programada. Els `push` a `main` i l'execució manual amb `workflow_dispatch` continuen activant el mateix procés immediatament.
 
 Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings → Pages → Build and deployment**, selecciona **GitHub Actions**.
 
