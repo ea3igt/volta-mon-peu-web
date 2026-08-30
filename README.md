@@ -55,6 +55,20 @@ Els `push` a `main` i l'execució manual des de GitHub Actions continuen activan
 
 Quan caduqui el token de GitHub, cal crear-ne un de nou amb els mateixos límits i permisos, substituir el valor de `GITHUB_TOKEN` a **Cloudflare → Workers & Pages → volta-mon-peu-scheduler → Settings → Variables and Secrets** i desplegar la versió nova perquè quedi activa.
 
+### Comprovació obligatòria després de canvis a Cloudflare
+
+Cloudflare separa les **versions desades** del **desplegament actiu**. Modificar el codi, afegir un secret o canviar un binding pot crear una versió nova sense assignar-li automàticament el trànsit del Worker. Que una versió aparegui com a `Latest` o a `Version History` no garanteix que sigui la que atén les peticions o els Cron Triggers.
+
+Després de qualsevol canvi de codi, secret o binding:
+
+1. obrir **Deployments**;
+2. comprovar que la versió que conté el canvi aparegui a **Active deployment**;
+3. comprovar que tingui el **100% del trànsit**;
+4. si només figura a **Version History**, obrir el menú `···`, seleccionar **Deploy version** o **Promote** i assignar-li el 100%;
+5. verificar a **Observability** una execució sense errors i, en aquest projecte, confirmar a GitHub Actions que s'ha creat una execució `workflow_dispatch`.
+
+Un canvi exclusiu del Cron Trigger no crea necessàriament una versió de codi i no requereix `Deploy version`; cal desar-lo a **Settings → Trigger events**, recarregar la pàgina per confirmar l'horari i deixar fins a 15 minuts perquè es propagui. En canvi, qualsevol canvi de codi, secrets o bindings exigeix comprovar explícitament la versió activa.
+
 Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings → Pages → Build and deployment**, selecciona **GitHub Actions**.
 
 ## Fonts i criteris
