@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
   schedule:
-    # Candidats UTC per executar el reforç a les 00:27 i 12:27
+    # Candidats UTC per executar el reforç a les 00:37 i 12:37
     # d'Europa/Madrid tant a l'horari d'estiu com al d'hivern.
-    - cron: "27 10 * * *"
-    - cron: "27 11 * * *"
-    - cron: "27 22 * * *"
-    - cron: "27 23 * * *"
+    - cron: "37 10 * * *"
+    - cron: "37 11 * * *"
+    - cron: "37 22 * * *"
+    - cron: "37 23 * * *"
   workflow_dispatch:
 
 permissions:
@@ -42,8 +42,8 @@ jobs:
           echo "Programació UTC: $programacio; desplaçament Europe/Madrid: $desplacament"
 
           case "$programacio:$desplacament" in
-            "27 10 * * *:+0200"|"27 22 * * *:+0200"|\
-            "27 11 * * *:+0100"|"27 23 * * *:+0100")
+            "37 10 * * *:+0200"|"37 22 * * *:+0200"|\
+            "37 11 * * *:+0100"|"37 23 * * *:+0100")
               echo "executa=true" >> "$GITHUB_OUTPUT"
               ;;
             *)

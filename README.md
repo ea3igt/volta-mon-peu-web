@@ -43,7 +43,7 @@ La planificació principal s'executa amb el Cloudflare Worker `volta-mon-peu-sch
 
 El Worker utilitza el secret xifrat `GITHUB_TOKEN`, que conté un token de GitHub d'accés detallat, restringit al repositori `ea3igt/volta-mon-peu-web` i amb permís d'escriptura per a GitHub Actions. El secret ha de formar part de la versió activa del Worker, amb el 100% del trànsit. El token no es desa mai al repositori.
 
-Com a reforç, GitHub Actions conserva dues actualitzacions programades a les **00:27 i 12:27, hora de Catalunya**. GitHub interpreta els cron en UTC i no permet indicar-hi directament `Europe/Madrid`; per respectar automàticament l'horari d'estiu i el d'hivern, el workflow declara quatre hores UTC candidates i el job `valida_horari` només autoritza les dues que corresponen al desplaçament vigent (`+0200` o `+0100`). Les altres dues execucions candidates queden omeses abans de descarregar o publicar res.
+Com a reforç, GitHub Actions conserva dues actualitzacions programades a les **00:37 i 12:37, hora de Catalunya**, vint minuts després de la planificació principal de Cloudflare. GitHub interpreta els cron en UTC i no permet indicar-hi directament `Europe/Madrid`; per respectar automàticament l'horari d'estiu i el d'hivern, el workflow declara quatre hores UTC candidates i el job `valida_horari` només autoritza les dues que corresponen al desplaçament vigent (`+0200` o `+0100`). Les altres dues execucions candidates queden omeses abans de descarregar o publicar res.
 
 Tant les crides de Cloudflare com les dues execucions de reforç fan el mateix procés:
 
