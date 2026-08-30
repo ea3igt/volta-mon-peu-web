@@ -4,7 +4,12 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "17 * * * *"
+    # Candidats UTC per executar el reforç a les 00:27 i 12:27
+    # d'Europa/Madrid tant a l'horari d'estiu com al d'hivern.
+    - cron: "27 10 * * *"
+    - cron: "27 11 * * *"
+    - cron: "27 22 * * *"
+    - cron: "27 23 * * *"
   workflow_dispatch:
 
 permissions:
@@ -17,7 +22,38 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  valida_horari:
+    name: Valida l'horari de reforç
+    runs-on: ubuntu-latest
+    outputs:
+      executa: ${{ steps.hora.outputs.executa }}
+    steps:
+      - name: Comprova el fus horari de Catalunya
+        id: hora
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" != "schedule" ]]; then
+            echo "executa=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          programacio="${{ github.event.schedule }}"
+          desplacament="$(TZ=Europe/Madrid date +'%z')"
+          echo "Programació UTC: $programacio; desplaçament Europe/Madrid: $desplacament"
+
+          case "$programacio:$desplacament" in
+            "27 10 * * *:+0200"|"27 22 * * *:+0200"|\
+            "27 11 * * *:+0100"|"27 23 * * *:+0100")
+              echo "executa=true" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "executa=false" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
   prepara:
+    needs: valida_horari
+    if: needs.valida_horari.outputs.executa == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Recupera el projecte

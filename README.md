@@ -39,14 +39,21 @@ Després, obre `http://localhost:8080`.
 
 ## Publicació i actualització cada hora
 
-El fitxer `.github/workflows/actualitza-i-publica.yml` està preparat per:
+La planificació principal s'executa amb el Cloudflare Worker `volta-mon-peu-scheduler`. El seu Cron Trigger és `17 * * * *`: al minut 17 de cada hora, el Worker demana a l'API de GitHub que iniciï `.github/workflows/actualitza-i-publica.yml` sobre la branca `main` mitjançant `workflow_dispatch`.
 
-1. executar-se al minut 17 de cada hora (`17 * * * *`), segons l'horari UTC de GitHub Actions;
-2. descarregar els GPX i recalcular les dades;
-3. desar els canvis al repositori quan hi hagi una etapa nova;
-4. publicar la versió actualitzada amb GitHub Pages.
+El Worker utilitza el secret xifrat `GITHUB_TOKEN`, que conté un token de GitHub d'accés detallat, restringit al repositori `ea3igt/volta-mon-peu-web` i amb permís d'escriptura per a GitHub Actions. El secret ha de formar part de la versió activa del Worker, amb el 100% del trànsit. El token no es desa mai al repositori.
 
-S'utilitza el minut 17, en lloc del minut 0, per reduir la probabilitat de retards provocats per la càrrega habitual de GitHub Actions a l'inici de cada hora. GitHub també pot endarrerir puntualment una execució programada. Els `push` a `main` i l'execució manual amb `workflow_dispatch` continuen activant el mateix procés immediatament.
+Com a reforç, GitHub Actions conserva dues actualitzacions programades a les **00:27 i 12:27, hora de Catalunya**. GitHub interpreta els cron en UTC i no permet indicar-hi directament `Europe/Madrid`; per respectar automàticament l'horari d'estiu i el d'hivern, el workflow declara quatre hores UTC candidates i el job `valida_horari` només autoritza les dues que corresponen al desplaçament vigent (`+0200` o `+0100`). Les altres dues execucions candidates queden omeses abans de descarregar o publicar res.
+
+Tant les crides de Cloudflare com les dues execucions de reforç fan el mateix procés:
+
+1. descarregar els GPX i recalcular les dades;
+2. desar els canvis al repositori quan hi hagi una etapa nova;
+3. publicar la versió actualitzada amb GitHub Pages.
+
+Els `push` a `main` i l'execució manual des de GitHub Actions continuen activant el procés immediatament. A Cloudflare, una execució correcta apareix a **Observability** com un esdeveniment `cron` amb el missatge `Workflow de GitHub iniciat correctament.`; a GitHub apareix com una execució `workflow_dispatch` o **Manually run**.
+
+Quan caduqui el token de GitHub, cal crear-ne un de nou amb els mateixos límits i permisos, substituir el valor de `GITHUB_TOKEN` a **Cloudflare → Workers & Pages → volta-mon-peu-scheduler → Settings → Variables and Secrets** i desplegar la versió nova perquè quedi activa.
 
 Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings → Pages → Build and deployment**, selecciona **GitHub Actions**.
 
