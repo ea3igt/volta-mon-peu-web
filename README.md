@@ -37,9 +37,9 @@ python -m http.server 8080
 
 Després, obre `http://localhost:8080`.
 
-## Publicació i actualització cada hora
+## Comprovació periòdica i publicació
 
-La planificació principal s'executa amb el Cloudflare Worker `volta-mon-peu-scheduler`. El seu Cron Trigger és `17 * * * *`: al minut 17 de cada hora, el Worker comprova si el manifest `routes.csv` de la font ha canviat. Per fer-ho, calcula el seu SHA-256 i el compara amb `meta.source_fingerprint` del `data/stats.json` publicat. Només quan són diferents demana a l'API de GitHub que iniciï `.github/workflows/actualitza-i-publica.yml` sobre la branca `main` mitjançant `workflow_dispatch`, indicant `origen=cloudflare`.
+La planificació principal s'executa amb el Cloudflare Worker `volta-mon-peu-scheduler`. El seu Cron Trigger és `5-59/10 * * * *`: comprova si el manifest `routes.csv` de la font ha canviat als minuts **05, 15, 25, 35, 45 i 55** de cada hora. Per fer-ho, calcula el seu SHA-256 i el compara amb `meta.source_fingerprint` del `data/stats.json` publicat. Només quan són diferents demana a l'API de GitHub que iniciï `.github/workflows/actualitza-i-publica.yml` sobre la branca `main` mitjançant `workflow_dispatch`, indicant `origen=cloudflare`.
 
 El codi canònic del Worker es conserva a `cloudflare/worker.js`. El Worker no necessita emmagatzematge propi: el fingerprint anterior queda persistent al repositori i a GitHub Pages dins de `data/stats.json`. Les consultes es fan sense memòria cau. Si no es pot descarregar o interpretar algun dels dos fitxers, el Worker aplica un criteri segur i inicia igualment GitHub Actions perquè una incidència temporal no impedeixi incorporar dades noves.
 
