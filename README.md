@@ -51,11 +51,14 @@ Quan Cloudflare detecta un canvi, i també en les dues execucions de reforç, Gi
 
 1. descarregar els GPX i recalcular les dades;
 2. desar els canvis al repositori quan hi hagi una etapa nova;
-3. publicar la versió actualitzada amb GitHub Pages només si les dades han canviat realment.
+3. comparar el fingerprint de `data/stats.json` del repositori amb el que serveix realment GitHub Pages;
+4. publicar el web si les dades han canviat o si la versió pública ha quedat endarrerida.
 
-`scripts/update_data.py` conserva `meta.updated_at` quan totes les dades calculades són idèntiques; per tant, una comprovació sense novetats no modifica artificialment `data/stats.json`. Els reforços de les 00:37 i les 12:37 sempre recalculen la font completa, de manera que també poden detectar correccions d'un GPX encara que `routes.csv` no hagi canviat, però ometen el commit i el desplegament quan el resultat és el mateix.
+`scripts/update_data.py` conserva `meta.updated_at` quan totes les dades calculades són idèntiques; per tant, una comprovació sense novetats no modifica artificialment `data/stats.json`. Els reforços de les 00:37 i les 12:37 sempre recalculen la font completa, de manera que també poden detectar correccions d'un GPX encara que `routes.csv` no hagi canviat. Si el repositori i el web públic ja coincideixen, ometen el commit i el desplegament.
 
-Els `push` a `main` i l'execució manual des de GitHub Actions continuen activant el procés i la publicació immediatament. A Cloudflare, una comprovació sense novetats apareix a **Observability** amb el missatge `No hi ha dades noves; no s'inicia GitHub.`; quan detecta un canvi, apareix `Workflow de GitHub iniciat correctament.` i a GitHub es crea una execució `workflow_dispatch`.
+La segona comprovació evita un punt feble: si GitHub aconsegueix desar les dades noves al repositori però falla durant el desplegament de Pages, la següent execució detecta que el fingerprint públic encara és antic i torna a publicar encara que el recàlcul ja no generi cap canvi. Si no es pot descarregar o interpretar el `stats.json` públic, el workflow aplica un criteri segur i també intenta publicar.
+
+Els `push` a `main` continuen activant el procés, però només forcen una publicació si modifiquen fitxers visibles (`index.html`, `assets/` o `data/`), si el recàlcul canvia les dades o si el web públic està endarrerit. Per tant, canvis exclusivament documentals o tècnics —com `README.md`, `cloudflare/`, `scripts/` o `.github/`— no generen un desplegament innecessari quan les dades ja estan sincronitzades. L'execució manual des de GitHub Actions sí que continua forçant la publicació. A Cloudflare, una comprovació sense novetats apareix a **Observability** amb el missatge `No hi ha dades noves; no s'inicia GitHub.`; quan detecta un canvi, apareix `Workflow de GitHub iniciat correctament.` i a GitHub es crea una execució `workflow_dispatch`.
 
 Quan caduqui el token de GitHub, cal crear-ne un de nou amb els mateixos límits i permisos, substituir el valor de `GITHUB_TOKEN` a **Cloudflare → Workers & Pages → volta-mon-peu-scheduler → Settings → Variables and Secrets** i desplegar la versió nova perquè quedi activa.
 

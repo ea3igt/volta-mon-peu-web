@@ -65,6 +65,8 @@ jobs:
     steps:
       - name: Recupera el projecte
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Prepara Python
         uses: actions/setup-python@v6
@@ -89,6 +91,70 @@ jobs:
             echo "canvis=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Comprova si el web publicat està al dia
+        id: web_publicat
+        shell: bash
+        run: |
+          fingerprint_repositori="$(python -c 'import json; print(json.load(open("data/stats.json", encoding="utf-8"))["meta"]["source_fingerprint"])')"
+          if [[ ! "$fingerprint_repositori" =~ ^[0-9a-f]{16}$ ]]; then
+            echo "Fingerprint invàlid al repositori: $fingerprint_repositori" >&2
+            exit 1
+          fi
+
+          url="https://ea3igt.github.io/volta-mon-peu-web/data/stats.json?comprovacio=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          endarrerit=true
+          fingerprint_public=""
+
+          if curl --fail --silent --show-error \
+            --header "Cache-Control: no-cache" \
+            --header "Pragma: no-cache" \
+            "$url" --output stats-publicat.json; then
+            fingerprint_public="$(python -c 'import json; print(json.load(open("stats-publicat.json", encoding="utf-8"))["meta"]["source_fingerprint"])' 2>/dev/null || true)"
+            if [[ "$fingerprint_public" =~ ^[0-9a-f]{16}$ ]] && \
+               [[ "$fingerprint_public" == "$fingerprint_repositori" ]]; then
+              endarrerit=false
+            fi
+          fi
+
+          echo "Fingerprint del repositori: $fingerprint_repositori"
+          echo "Fingerprint publicat: ${fingerprint_public:-no disponible}"
+          echo "endarrerit=$endarrerit" >> "$GITHUB_OUTPUT"
+
+          if [[ "$endarrerit" == "true" ]]; then
+            echo "El web publicat no coincideix amb el repositori; cal publicar-lo de nou."
+          else
+            echo "El web publicat ja conté les dades del repositori."
+          fi
+
+      - name: Comprova si el push modifica fitxers visibles
+        id: fitxers_web
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: |
+          modifica_web=false
+
+          if [[ "$EVENT_NAME" == "push" ]]; then
+            if [[ -n "$BEFORE_SHA" ]] && \
+               [[ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]] && \
+               git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
+              fitxers="$(git diff --name-only "$BEFORE_SHA" "$AFTER_SHA")"
+            else
+              fitxers="$(git show --pretty='' --name-only "$AFTER_SHA")"
+            fi
+
+            echo "Fitxers del push:"
+            printf '%s\n' "$fitxers"
+
+            if printf '%s\n' "$fitxers" | grep -Eq '^(index\.html|assets/|data/)'; then
+              modifica_web=true
+            fi
+          fi
+
+          echo "modifica_web=$modifica_web" >> "$GITHUB_OUTPUT"
+
       - name: Decideix si cal publicar el web
         id: decisio
         shell: bash
@@ -96,15 +162,39 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           DISPATCH_ORIGIN: ${{ inputs.origen }}
           DATA_CHANGES: ${{ steps.dades.outputs.canvis }}
+          SITE_OUTDATED: ${{ steps.web_publicat.outputs.endarrerit }}
+          PUSH_WEB_CHANGES: ${{ steps.fitxers_web.outputs.modifica_web }}
         run: |
-          if [[ "$EVENT_NAME" == "push" ]] || \
+          if [[ "$DATA_CHANGES" == "true" ]] || \
+             [[ "$SITE_OUTDATED" == "true" ]] || \
              [[ "$EVENT_NAME" == "workflow_dispatch" && "$DISPATCH_ORIGIN" != "cloudflare" ]] || \
-             [[ "$DATA_CHANGES" == "true" ]]; then
+             [[ "$EVENT_NAME" == "push" && "$PUSH_WEB_CHANGES" == "true" ]]; then
             echo "publica=true" >> "$GITHUB_OUTPUT"
           else
-            echo "No hi ha canvis reals; s'omet la publicació de GitHub Pages."
+            echo "No hi ha dades noves, el web publicat està al dia i el push no modifica fitxers visibles."
+            echo "S'omet la publicació de GitHub Pages."
             echo "publica=false" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Resumeix la decisió
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DISPATCH_ORIGIN: ${{ inputs.origen }}
+          DATA_CHANGES: ${{ steps.dades.outputs.canvis }}
+          SITE_OUTDATED: ${{ steps.web_publicat.outputs.endarrerit }}
+          PUSH_WEB_CHANGES: ${{ steps.fitxers_web.outputs.modifica_web }}
+          PUBLISH: ${{ steps.decisio.outputs.publica }}
+        run: |
+          {
+            echo "### Decisió de publicació"
+            echo "- Esdeveniment: \`$EVENT_NAME\`"
+            echo "- Origen del dispatch: \`${DISPATCH_ORIGIN:-no aplicable}\`"
+            echo "- Dades recalculades amb canvis: \`$DATA_CHANGES\`"
+            echo "- Web publicat endarrerit: \`$SITE_OUTDATED\`"
+            echo "- Push amb fitxers visibles: \`$PUSH_WEB_CHANGES\`"
+            echo "- Publicació necessària: \`$PUBLISH\`"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Configura GitHub Pages
         if: steps.decisio.outputs.publica == 'true'
