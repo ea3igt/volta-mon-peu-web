@@ -39,19 +39,23 @@ Després, obre `http://localhost:8080`.
 
 ## Publicació i actualització cada hora
 
-La planificació principal s'executa amb el Cloudflare Worker `volta-mon-peu-scheduler`. El seu Cron Trigger és `17 * * * *`: al minut 17 de cada hora, el Worker demana a l'API de GitHub que iniciï `.github/workflows/actualitza-i-publica.yml` sobre la branca `main` mitjançant `workflow_dispatch`.
+La planificació principal s'executa amb el Cloudflare Worker `volta-mon-peu-scheduler`. El seu Cron Trigger és `17 * * * *`: al minut 17 de cada hora, el Worker comprova si el manifest `routes.csv` de la font ha canviat. Per fer-ho, calcula el seu SHA-256 i el compara amb `meta.source_fingerprint` del `data/stats.json` publicat. Només quan són diferents demana a l'API de GitHub que iniciï `.github/workflows/actualitza-i-publica.yml` sobre la branca `main` mitjançant `workflow_dispatch`, indicant `origen=cloudflare`.
+
+El codi canònic del Worker es conserva a `cloudflare/worker.js`. El Worker no necessita emmagatzematge propi: el fingerprint anterior queda persistent al repositori i a GitHub Pages dins de `data/stats.json`. Les consultes es fan sense memòria cau. Si no es pot descarregar o interpretar algun dels dos fitxers, el Worker aplica un criteri segur i inicia igualment GitHub Actions perquè una incidència temporal no impedeixi incorporar dades noves.
 
 El Worker utilitza el secret xifrat `GITHUB_TOKEN`, que conté un token de GitHub d'accés detallat, restringit al repositori `ea3igt/volta-mon-peu-web` i amb permís d'escriptura per a GitHub Actions. El secret ha de formar part de la versió activa del Worker, amb el 100% del trànsit. El token no es desa mai al repositori.
 
 Com a reforç, GitHub Actions conserva dues actualitzacions programades a les **00:37 i 12:37, hora de Catalunya**, vint minuts després de la planificació principal de Cloudflare. GitHub interpreta els cron en UTC i no permet indicar-hi directament `Europe/Madrid`; per respectar automàticament l'horari d'estiu i el d'hivern, el workflow declara quatre hores UTC candidates i el job `valida_horari` només autoritza les dues que corresponen al desplaçament vigent (`+0200` o `+0100`). Les altres dues execucions candidates queden omeses abans de descarregar o publicar res.
 
-Tant les crides de Cloudflare com les dues execucions de reforç fan el mateix procés:
+Quan Cloudflare detecta un canvi, i també en les dues execucions de reforç, GitHub Actions fa aquest procés:
 
 1. descarregar els GPX i recalcular les dades;
 2. desar els canvis al repositori quan hi hagi una etapa nova;
-3. publicar la versió actualitzada amb GitHub Pages.
+3. publicar la versió actualitzada amb GitHub Pages només si les dades han canviat realment.
 
-Els `push` a `main` i l'execució manual des de GitHub Actions continuen activant el procés immediatament. A Cloudflare, una execució correcta apareix a **Observability** com un esdeveniment `cron` amb el missatge `Workflow de GitHub iniciat correctament.`; a GitHub apareix com una execució `workflow_dispatch` o **Manually run**.
+`scripts/update_data.py` conserva `meta.updated_at` quan totes les dades calculades són idèntiques; per tant, una comprovació sense novetats no modifica artificialment `data/stats.json`. Els reforços de les 00:37 i les 12:37 sempre recalculen la font completa, de manera que també poden detectar correccions d'un GPX encara que `routes.csv` no hagi canviat, però ometen el commit i el desplegament quan el resultat és el mateix.
+
+Els `push` a `main` i l'execució manual des de GitHub Actions continuen activant el procés i la publicació immediatament. A Cloudflare, una comprovació sense novetats apareix a **Observability** amb el missatge `No hi ha dades noves; no s'inicia GitHub.`; quan detecta un canvi, apareix `Workflow de GitHub iniciat correctament.` i a GitHub es crea una execució `workflow_dispatch`.
 
 Quan caduqui el token de GitHub, cal crear-ne un de nou amb els mateixos límits i permisos, substituir el valor de `GITHUB_TOKEN` a **Cloudflare → Workers & Pages → volta-mon-peu-scheduler → Settings → Variables and Secrets** i desplegar la versió nova perquè quedi activa.
 

@@ -742,6 +742,20 @@ def main() -> None:
         else:
             source, temporary = download_source()
         stats = build_stats(source, cache, not args.no_geocode, city_reference)
+
+        # `updated_at` descriu l'última actualització real de les dades, no cada
+        # intent de comprovació. Si tot el contingut calculat és idèntic al que
+        # ja hi havia, conservem la marca temporal anterior perquè el fitxer no
+        # generi un commit ni una publicació buits.
+        if output_path.exists():
+            previous_stats = json.loads(output_path.read_text(encoding="utf-8"))
+            comparable_previous = json.loads(json.dumps(previous_stats))
+            comparable_current = json.loads(json.dumps(stats))
+            comparable_previous.get("meta", {}).pop("updated_at", None)
+            comparable_current.get("meta", {}).pop("updated_at", None)
+            if comparable_current == comparable_previous:
+                stats["meta"]["updated_at"] = previous_stats.get("meta", {}).get("updated_at")
+
         output_path.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(f"Dades actualitzades fins al {stats['meta']['data_as_of']}: {stats['summary']['total_km']:.1f} km")

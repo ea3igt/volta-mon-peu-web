@@ -11,6 +11,11 @@ on:
     - cron: "37 22 * * *"
     - cron: "37 23 * * *"
   workflow_dispatch:
+    inputs:
+      origen:
+        description: "Origen de l'execució"
+        required: false
+        default: "manual"
 
 permissions:
   contents: write
@@ -55,6 +60,8 @@ jobs:
     needs: valida_horari
     if: needs.valida_horari.outputs.executa == 'true'
     runs-on: ubuntu-latest
+    outputs:
+      publica: ${{ steps.decisio.outputs.publica }}
     steps:
       - name: Recupera el projecte
         uses: actions/checkout@v7
@@ -68,21 +75,43 @@ jobs:
         run: python scripts/update_data.py
 
       - name: Desa les dades noves al repositori
+        id: dades
         run: |
           if git diff --quiet -- data/stats.json data/geocode-cache.json; then
             echo "No hi ha dades noves."
+            echo "canvis=false" >> "$GITHUB_OUTPUT"
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add data/stats.json data/geocode-cache.json
             git commit -m "Actualitza les dades del viatge"
             git push
+            echo "canvis=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Decideix si cal publicar el web
+        id: decisio
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DISPATCH_ORIGIN: ${{ inputs.origen }}
+          DATA_CHANGES: ${{ steps.dades.outputs.canvis }}
+        run: |
+          if [[ "$EVENT_NAME" == "push" ]] || \
+             [[ "$EVENT_NAME" == "workflow_dispatch" && "$DISPATCH_ORIGIN" != "cloudflare" ]] || \
+             [[ "$DATA_CHANGES" == "true" ]]; then
+            echo "publica=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No hi ha canvis reals; s'omet la publicació de GitHub Pages."
+            echo "publica=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Configura GitHub Pages
+        if: steps.decisio.outputs.publica == 'true'
         uses: actions/configure-pages@v6
 
       - name: Prepara els fitxers del web
+        if: steps.decisio.outputs.publica == 'true'
         uses: actions/upload-pages-artifact@v5
         with:
           path: .
@@ -93,6 +122,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: prepara
+    if: needs.prepara.outputs.publica == 'true'
     steps:
       - name: Publica a GitHub Pages
         id: deployment
