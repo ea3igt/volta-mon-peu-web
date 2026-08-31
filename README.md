@@ -62,6 +62,12 @@ Els `push` a `main` continuen activant el procés, però només forcen una publi
 
 Quan caduqui el token de GitHub, cal crear-ne un de nou amb els mateixos límits i permisos, substituir el valor de `GITHUB_TOKEN` a **Cloudflare → Workers & Pages → volta-mon-peu-scheduler → Settings → Variables and Secrets** i desplegar la versió nova perquè quedi activa.
 
+### Manteniment coordinat del recordatori
+
+El calendari principal conté l'esdeveniment **«Renovar i validar el token de GitHub de La volta al món a peu»**, programat inicialment per al **23 d'agost de 2027 a les 09:00**, una setmana abans de la caducitat prevista del token. Les seves instruccions formen part de la documentació operativa del projecte.
+
+Abans de donar per tancat qualsevol canvi que afecti el Worker, el Cron Trigger, `GITHUB_TOKEN`, el workflow de GitHub Actions, la detecció de noves dades o la publicació de Pages, cal revisar també aquest esdeveniment i actualitzar-lo si el procediment de renovació o verificació ha canviat. Quan es renovi el token, s'hi ha d'anotar la caducitat nova i traslladar el recordatori a una setmana abans. Això evita que el calendari conservi instruccions obsoletes encara que el codi i aquest README estiguin actualitzats.
+
 ### Comprovació obligatòria després de canvis a Cloudflare
 
 Cloudflare separa les **versions desades** del **desplegament actiu**. Modificar el codi, afegir un secret o canviar un binding pot crear una versió nova sense assignar-li automàticament el trànsit del Worker. Que una versió aparegui com a `Latest` o a `Version History` no garanteix que sigui la que atén les peticions o els Cron Triggers.
