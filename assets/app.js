@@ -22,6 +22,20 @@ const cardinalLabels = {
   east: ["E", "Més a l’est"],
   west: ["O", "Més a l’oest"],
 };
+const territoryLocationPhrases = {
+  "Catalunya": "a Catalunya",
+  "Espanya": "a Espanya",
+  "França": "a França",
+  "Itàlia": "a Itàlia",
+  "Croàcia": "a Croàcia",
+  "Montenegro": "a Montenegro",
+  "Albània": "a Albània",
+  "Grècia": "a Grècia",
+  "Turquia": "a Turquia",
+  "Geòrgia": "a Geòrgia",
+  "Oʻzbekiston": "a l’Oʻzbekiston",
+  "Tadjikistan": "al Tadjikistan",
+};
 
 let stats;
 
@@ -34,6 +48,12 @@ function formatDate(value, short = false) {
 function formatUpdateDateTime(value) {
   if (!value) return "—";
   return `${updateDateTimeFormatter.format(new Date(value))} h`;
+}
+
+function formatJourneyTitle(territory) {
+  if (!territory) return "Recorregut en curs";
+  const location = territoryLocationPhrases[territory];
+  return location ? `Ara, ${location}` : `Ubicació actual: ${territory}`;
 }
 
 function formatLocal(value, seconds = false) {
@@ -73,6 +93,7 @@ function detailItem(label, value, context = "", meta = "") {
 
 function renderTextContent() {
   const { summary, meta } = stats;
+  setText("trajecte-title", formatJourneyTitle(meta.current_territory));
   setText("update-status", `Dades disponibles fins al ${formatDate(meta.data_as_of)}\nÚltima actualització ${formatUpdateDateTime(meta.updated_at)}`);
   setText("journey-period", `${formatDate(summary.first_date)} — ${formatDate(summary.last_date)}`);
   setText("total-km", `${number1.format(summary.total_km)} km`);

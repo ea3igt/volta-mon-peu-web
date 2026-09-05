@@ -383,6 +383,10 @@ def cities_near_route(cities: list[dict], route_segments: list[list[list[float]]
 
 def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: list[dict]) -> dict:
     rows = read_rows(source)
+    current_territory = max(
+        enumerate(rows),
+        key=lambda item: (item[1]["date"], item[1]["day"], item[0]),
+    )[1]["country"]
     by_date: dict[date, float] = defaultdict(float)
     countries: dict[str, dict] = {}
     months: dict[str, dict] = defaultdict(lambda: {"km": 0.0, "days": set()})
@@ -661,6 +665,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: 
             "updated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
             "source_updated_at": source_latest_time.astimezone(timezone.utc).isoformat() if source_latest_time else None,
             "source_fingerprint": routes_digest,
+            "current_territory": current_territory,
         },
         "summary": {
             "total_km": round(total_km, 1),

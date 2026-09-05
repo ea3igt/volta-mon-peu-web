@@ -5,6 +5,7 @@ Pàgina responsive que transforma els tracks GPX públics d’Enric Luzan en un 
 ## Què conserva
 
 - distància acumulada, dies efectius, mitjanes, tracks i territoris;
+- territori del track més recent, que actualitza automàticament el títol de l'estat del viatge;
 - mapa complet, inici i final, extrems N/S/E/O i temperatura màxima;
 - evolució acumulada, volum mensual i distància, velocitat mitjana i desnivell per territori;
 - etapa més llarga, ratxes, pausa, desnivell total i diari, altitud i relació ruta/línia recta;
@@ -95,6 +96,7 @@ Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings
 - Ciutats del mapa: [Natural Earth · Populated Places](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-populated-places/), referència local actualitzable amb `python scripts/update_city_reference.py`.
 - La temperatura màxima és la lectura del dispositiu; no s’interpreta com a temperatura ambiental.
 - Catalunya es manté sempre com un territori estadístic independent d’Espanya; els trams de Catalunya i de la resta d’Espanya no s’agrupen.
+- El títol de l'estat del viatge es genera a partir del territori del track més recent. Per als territoris coneguts mostra una forma catalana natural, com «Ara, al Tadjikistan»; si apareix un territori nou sense forma configurada, utilitza «Ubicació actual: …» perquè el contingut continuï actualitzant-se sense intervenció manual.
 - Les etapes per territori són els dies diferents amb almenys un track; els dies naturals són el període inclusiu entre el primer i l’últim dia amb track al territori.
 - La distància mitjana per etapa de cada territori divideix els quilòmetres totals pel nombre de dies diferents amb almenys un track.
 - La velocitat mitjana de cada territori divideix la distància total pel temps dels trams en moviment, amb cadència registrada i sense salts GPS.
