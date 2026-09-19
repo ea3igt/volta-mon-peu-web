@@ -35,6 +35,7 @@ const territoryLocationPhrases = {
   "Geòrgia": "a Geòrgia",
   "Oʻzbekiston": "a l’Oʻzbekiston",
   "Tadjikistan": "al Tadjikistan",
+  "Xina": "a la Xina",
 };
 
 let stats;
@@ -470,10 +471,77 @@ function renderMonthly() {
     .call(d3.axisLeft(y).ticks(4));
 }
 
+function renderAerobic() {
+  const aerobic = stats.aerobic_evolution;
+  const section = document.getElementById("eficiencia");
+  const navLink = document.querySelector('a[href="#eficiencia"]');
+  if (!aerobic?.series?.length) {
+    section.hidden = true;
+    navLink.hidden = true;
+    return;
+  }
+
+  section.hidden = false;
+  navLink.hidden = false;
+  const current = aerobic.current;
+  const difference = current.index - 100;
+  const differenceLabel = `${difference >= 0 ? "+" : ""}${number1.format(difference)}% respecte del període inicial`;
+  setText("aerobic-index", number1.format(current.index));
+  setText("aerobic-index-context", differenceLabel);
+  setText("aerobic-heart-rate", `${number1.format(current.adjusted_heart_rate_bpm)} bpm`);
+  setText(
+    "aerobic-heart-rate-context",
+    `${number1.format(aerobic.baseline.adjusted_heart_rate_bpm)} bpm al període inicial`,
+  );
+  setText("aerobic-hours", `${number1.format(aerobic.coverage.valid_hours)} h`);
+  setText(
+    "aerobic-hours-context",
+    `${number0.format(aerobic.coverage.valid_windows)} finestres vàlides de ${aerobic.method.window_minutes} min`,
+  );
+
+  const element = document.getElementById("aerobic-chart");
+  const width = Math.max(320, Math.round(element.clientWidth));
+  const height = width < 520 ? 300 : 320;
+  const margin = width < 520 ? { top: 30, right: 18, bottom: 44, left: 44 } : { top: 30, right: 62, bottom: 44, left: 58 };
+  const svg = d3.select(element).attr("viewBox", `0 0 ${width} ${height}`);
+  svg.selectAll("*").remove();
+  const data = aerobic.series.map(item => ({ ...item, dateValue: new Date(`${item.date}T00:00:00Z`) }));
+  const x = d3.scaleUtc().domain(d3.extent(data, item => item.dateValue)).range([margin.left, width - margin.right]);
+  const extent = d3.extent(data, item => item.index);
+  const padding = Math.max(1.5, (extent[1] - extent[0]) * .18);
+  const y = d3.scaleLinear()
+    .domain([Math.min(100, extent[0]) - padding, Math.max(100, extent[1]) + padding])
+    .nice()
+    .range([height - margin.bottom, margin.top]);
+
+  svg.append("g").attr("class", "grid").attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y).ticks(5).tickSize(-(width - margin.left - margin.right)).tickFormat(""));
+  svg.append("line").attr("class", "aerobic-baseline")
+    .attr("x1", margin.left).attr("x2", width - margin.right).attr("y1", y(100)).attr("y2", y(100));
+  svg.append("path").datum(data).attr("class", "aerobic-area")
+    .attr("d", d3.area().x(item => x(item.dateValue)).y0(y(100)).y1(item => y(item.index)).curve(d3.curveMonotoneX));
+  svg.append("path").datum(data).attr("class", "aerobic-line")
+    .attr("d", d3.line().x(item => x(item.dateValue)).y(item => y(item.index)).curve(d3.curveMonotoneX));
+  svg.selectAll("circle.aerobic-point").data(data).join("circle").attr("class", "aerobic-point")
+    .attr("cx", item => x(item.dateValue)).attr("cy", item => y(item.index)).attr("r", 3)
+    .append("title")
+    .text(item => `${formatDate(item.date)} · índex ${number1.format(item.index)} · ${number1.format(item.adjusted_heart_rate_bpm)} bpm ajustades`);
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x).ticks(width < 520 ? 4 : 7).tickFormat(value => formatDate(value.toISOString(), true)));
+  svg.append("g").attr("class", "axis").attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y).ticks(5));
+  svg.append("text").attr("class", "chart-note").attr("x", margin.left + 7).attr("y", y(100) - 7).text("Període inicial · 100");
+  const last = data.at(-1);
+  svg.append("circle").attr("class", "aerobic-current").attr("cx", x(last.dateValue)).attr("cy", y(last.index)).attr("r", 5);
+  svg.append("text").attr("class", "chart-label").attr("text-anchor", "end")
+    .attr("x", width - margin.right).attr("y", y(last.index) - 11).text(number1.format(last.index));
+}
+
 function renderVisuals() {
   renderMap();
   renderCumulative();
   renderMonthly();
+  renderAerobic();
 }
 
 function renderAll() {

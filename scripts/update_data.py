@@ -9,6 +9,7 @@ import hashlib
 import json
 import math
 import shutil
+import statistics
 import tempfile
 import time
 import urllib.parse
@@ -54,6 +55,15 @@ ROUTE_DETAIL_SAMPLE_METERS = 200.0
 ROUTE_GAP_METERS = 50.0
 CITY_ROUTE_MAX_DISTANCE_METERS = 15_000.0
 CITY_GRID_DEGREES = 0.25
+AEROBIC_WINDOW_SECONDS = 300
+AEROBIC_MAX_WINDOW_SECONDS = 360
+AEROBIC_MIN_SPEED_KMH = 2.5
+AEROBIC_MAX_SPEED_KMH = 7.0
+AEROBIC_MIN_HEART_RATE = 60
+AEROBIC_MAX_HEART_RATE = 220
+AEROBIC_ROLLING_DAYS = 28
+AEROBIC_STEP_DAYS = 7
+AEROBIC_MIN_WINDOWS = 24
 CITY_NAME_ALIASES = {
     "Alexandroupoli": "Alexandrúpoli",
     "Durres": "Durrës",
@@ -141,6 +151,247 @@ def elevation_gain_from_points(points: list[dict]) -> float:
         gain += peak - valley
 
     return gain
+
+
+def walking_energy_cost(grade: float) -> float:
+    """Cost metabòlic de caminar en J/(kg·m) segons Minetti et al. (2002)."""
+    grade = max(-0.45, min(0.45, grade))
+    return (
+        280.5 * grade ** 5
+        - 58.7 * grade ** 4
+        - 76.8 * grade ** 3
+        + 51.9 * grade ** 2
+        + 19.6 * grade
+        + 2.5
+    )
+
+
+def aerobic_windows_from_points(points: list[dict], row: dict) -> list[dict]:
+    """Resumeix esforços continus de cinc minuts amb càrrega i resposta cardíaca."""
+    sequences: list[list[dict]] = []
+    current: list[dict] = []
+    track_start_time = next((point.get("time") for point in points if point.get("time")), None)
+
+    for point in points:
+        heart = point.get("hr")
+        valid_point = (
+            point.get("time") is not None
+            and point.get("ele") is not None
+            and heart is not None
+            and AEROBIC_MIN_HEART_RATE <= heart <= AEROBIC_MAX_HEART_RATE
+            and point.get("cad", 0) > 0
+        )
+        if not valid_point:
+            if len(current) > 1:
+                sequences.append(current)
+            current = []
+            continue
+
+        if current:
+            previous = current[-1]
+            seconds = (point["time"] - previous["time"]).total_seconds()
+            distance = haversine((previous["lat"], previous["lon"]), (point["lat"], point["lon"]))
+            instant_speed = distance / seconds * 3.6 if seconds > 0 else math.inf
+            if not (0 < seconds <= 60 and instant_speed <= 12):
+                if len(current) > 1:
+                    sequences.append(current)
+                current = []
+        current.append(point)
+
+    if len(current) > 1:
+        sequences.append(current)
+
+    windows = []
+    for sequence in sequences:
+        left = 0
+        while left < len(sequence) - 1:
+            right = left + 1
+            while right < len(sequence) and (
+                sequence[right]["time"] - sequence[left]["time"]
+            ).total_seconds() < AEROBIC_WINDOW_SECONDS:
+                right += 1
+            if right >= len(sequence):
+                break
+
+            window = sequence[left:right + 1]
+            seconds = (window[-1]["time"] - window[0]["time"]).total_seconds()
+            if seconds > AEROBIC_MAX_WINDOW_SECONDS:
+                left += 1
+                continue
+
+            distances = [
+                haversine((previous["lat"], previous["lon"]), (point["lat"], point["lon"]))
+                for previous, point in zip(window, window[1:])
+            ]
+            distance = sum(distances)
+            speed_kmh = distance / seconds * 3.6 if seconds else 0
+            if not AEROBIC_MIN_SPEED_KMH <= speed_kmh <= AEROBIC_MAX_SPEED_KMH:
+                left = right
+                continue
+
+            edge_count = max(3, len(window) // 10)
+            start_elevation = statistics.median(point["ele"] for point in window[:edge_count])
+            end_elevation = statistics.median(point["ele"] for point in window[-edge_count:])
+            grade = (end_elevation - start_elevation) / distance if distance else 0
+            heart_rate = statistics.fmean(point["hr"] for point in window)
+            altitude = statistics.fmean(point["ele"] for point in window)
+            speed_ms = distance / seconds
+            elapsed_minutes = (
+                (window[0]["time"] - track_start_time).total_seconds() / 60
+                if track_start_time else 0
+            )
+            windows.append({
+                "date": row["date"],
+                "heart_rate": heart_rate,
+                "metabolic_power": walking_energy_cost(grade) * speed_ms,
+                "altitude_km": altitude / 1000,
+                "elapsed_hours": elapsed_minutes / 60,
+                "speed_kmh": speed_kmh,
+                "grade": grade,
+            })
+            left = right
+
+    return windows
+
+
+def solve_linear_system(matrix: list[list[float]], vector: list[float]) -> list[float] | None:
+    """Resol un sistema petit per eliminació gaussiana amb pivotatge."""
+    size = len(vector)
+    augmented = [row[:] + [value] for row, value in zip(matrix, vector)]
+    for column in range(size):
+        pivot = max(range(column, size), key=lambda row: abs(augmented[row][column]))
+        if abs(augmented[pivot][column]) < 1e-9:
+            return None
+        augmented[column], augmented[pivot] = augmented[pivot], augmented[column]
+        divisor = augmented[column][column]
+        augmented[column] = [value / divisor for value in augmented[column]]
+        for row in range(size):
+            if row == column:
+                continue
+            factor = augmented[row][column]
+            augmented[row] = [
+                value - factor * pivot_value
+                for value, pivot_value in zip(augmented[row], augmented[column])
+            ]
+    return [augmented[row][-1] for row in range(size)]
+
+
+def fit_aerobic_model(windows: list[dict], references: tuple[float, float, float]) -> list[float] | None:
+    rows = [
+        [
+            1.0,
+            item["metabolic_power"] - references[0],
+            item["altitude_km"] - references[1],
+            item["elapsed_hours"] - references[2],
+        ]
+        for item in windows
+    ]
+    matrix = [[sum(row[left] * row[right] for row in rows) for right in range(4)] for left in range(4)]
+    vector = [sum(row[column] * item["heart_rate"] for row, item in zip(rows, windows)) for column in range(4)]
+    return solve_linear_system(matrix, vector)
+
+
+def build_aerobic_evolution(windows: list[dict], first_day: date, last_day: date) -> dict | None:
+    """Crea un índex longitudinal, no clínic, de resposta cardíaca a esforç comparable."""
+    if len(windows) < AEROBIC_MIN_WINDOWS:
+        return None
+
+    references = (
+        statistics.median(item["metabolic_power"] for item in windows),
+        statistics.median(item["altitude_km"] for item in windows),
+        statistics.median(item["elapsed_hours"] for item in windows),
+    )
+    coefficients = fit_aerobic_model(windows, references)
+    if coefficients is None:
+        return None
+
+    residuals = []
+    for item in windows:
+        predicted = (
+            coefficients[0]
+            + coefficients[1] * (item["metabolic_power"] - references[0])
+            + coefficients[2] * (item["altitude_km"] - references[1])
+            + coefficients[3] * (item["elapsed_hours"] - references[2])
+        )
+        residuals.append(item["heart_rate"] - predicted)
+    residual_median = statistics.median(residuals)
+    mad = statistics.median(abs(value - residual_median) for value in residuals)
+    if mad:
+        filtered = [
+            item for item, residual in zip(windows, residuals)
+            if abs(residual - residual_median) <= 3 * 1.4826 * mad
+        ]
+        if len(filtered) >= AEROBIC_MIN_WINDOWS:
+            windows = filtered
+            coefficients = fit_aerobic_model(windows, references) or coefficients
+
+    for item in windows:
+        item["adjusted_heart_rate"] = (
+            item["heart_rate"]
+            - coefficients[1] * (item["metabolic_power"] - references[0])
+            - coefficients[2] * (item["altitude_km"] - references[1])
+            - coefficients[3] * (item["elapsed_hours"] - references[2])
+        )
+
+    period_ends = []
+    period_end = first_day + timedelta(days=AEROBIC_ROLLING_DAYS - 1)
+    while period_end <= last_day:
+        period_ends.append(period_end)
+        period_end += timedelta(days=AEROBIC_STEP_DAYS)
+    if not period_ends or period_ends[-1] != last_day:
+        period_ends.append(last_day)
+
+    raw_series = []
+    for period_end in period_ends:
+        period_start = period_end - timedelta(days=AEROBIC_ROLLING_DAYS - 1)
+        period_windows = [item for item in windows if period_start <= item["date"] <= period_end]
+        if len(period_windows) < AEROBIC_MIN_WINDOWS:
+            continue
+        adjusted_values = [item["adjusted_heart_rate"] for item in period_windows]
+        raw_series.append({
+            "date": period_end.isoformat(),
+            "period_start": period_start.isoformat(),
+            "adjusted_heart_rate": statistics.median(adjusted_values),
+            "windows": len(period_windows),
+            "hours": len(period_windows) * AEROBIC_WINDOW_SECONDS / 3600,
+        })
+
+    if not raw_series:
+        return None
+    baseline_heart_rate = raw_series[0]["adjusted_heart_rate"]
+    series = [{
+        "date": item["date"],
+        "period_start": item["period_start"],
+        "index": round(baseline_heart_rate / item["adjusted_heart_rate"] * 100, 1),
+        "adjusted_heart_rate_bpm": round(item["adjusted_heart_rate"], 1),
+        "windows": item["windows"],
+        "hours": round(item["hours"], 1),
+    } for item in raw_series]
+
+    return {
+        "baseline": {
+            "start": series[0]["period_start"],
+            "end": series[0]["date"],
+            "adjusted_heart_rate_bpm": series[0]["adjusted_heart_rate_bpm"],
+        },
+        "current": series[-1],
+        "series": series,
+        "coverage": {
+            "valid_windows": len(windows),
+            "valid_hours": round(len(windows) * AEROBIC_WINDOW_SECONDS / 3600, 1),
+        },
+        "reference": {
+            "metabolic_power_w_kg": round(references[0], 2),
+            "altitude_m": round(references[1] * 1000),
+            "elapsed_minutes": round(references[2] * 60),
+        },
+        "method": {
+            "window_minutes": AEROBIC_WINDOW_SECONDS // 60,
+            "rolling_days": AEROBIC_ROLLING_DAYS,
+            "minimum_speed_kmh": AEROBIC_MIN_SPEED_KMH,
+            "maximum_speed_kmh": AEROBIC_MAX_SPEED_KMH,
+        },
+    }
 
 
 def parse_time(value: str | None) -> datetime | None:
@@ -414,6 +665,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: 
     temp_max_records: list[dict] = []
     cardinal = {"north": None, "south": None, "east": None, "west": None}
     speed_max = None
+    aerobic_windows: list[dict] = []
 
     for row in rows:
         by_date[row["date"]] += row["km"]
@@ -439,6 +691,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: 
         points = read_track(source / row["file"])
         if not points:
             continue
+        aerobic_windows.extend(aerobic_windows_from_points(points, row))
         gps_points += len(points)
         timed = [point for point in points if point.get("time")]
         if len(timed) > 1:
@@ -656,6 +909,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: 
 
     straight_km = haversine(first_point, last_point) / 1000 if first_point and last_point else 0
     routes_digest = hashlib.sha256((source / "routes.csv").read_bytes()).hexdigest()[:16]
+    aerobic_evolution = build_aerobic_evolution(aerobic_windows, first_day, last_day)
     return {
         "meta": {
             "title": "La volta al món a peu",
@@ -698,6 +952,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: 
             "min": heart_min,
             "max": heart_max,
         },
+        "aerobic_evolution": aerobic_evolution,
         "milestones": {
             "longest_stage": {
                 "km": round(longest_stage["km"], 1),

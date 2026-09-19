@@ -6,7 +6,7 @@
   <meta name="description" content="Magnituds, mapa i rastre digital de la volta al món a peu d’Enric Luzan, actualitzats a partir dels tracks GPX públics.">
   <title>La volta al món a peu · Enric Luzan</title>
   <link rel="icon" href="assets/favicon.svg?v=20260715-1" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=20260718-3">
+  <link rel="stylesheet" href="assets/styles.css?v=20260919-1">
 </head>
 <body>
   <a class="skip-link" href="#contingut">Ves al contingut</a>
@@ -27,6 +27,7 @@
       <a href="#trajecte">Trajecte</a>
       <a href="#territoris">Territoris</a>
       <a href="#evolucio">Evolució</a>
+      <a href="#eficiencia">Eficiència</a>
       <a href="#fites">Fites</a>
       <a href="#extrems">Extrems</a>
     </div>
@@ -148,6 +149,41 @@
       </div>
     </section>
 
+    <section class="section" id="eficiencia" aria-labelledby="eficiencia-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Cos i esforç</p>
+            <h2 id="eficiencia-title">Evolució de l’eficiència aeròbica</h2>
+          </div>
+          <p class="section-period">índex relatiu · període inicial = 100</p>
+        </div>
+        <p class="aerobic-intro">Compara la freqüència cardíaca necessària per caminar davant una demanda física equivalent, ajustada segons la velocitat, el pendent, l’altitud i el moment de l’etapa.</p>
+        <dl class="summary-grid aerobic-summary" aria-label="Indicadors d’eficiència aeròbica">
+          <div class="stat-card">
+            <dt>Índex actual</dt>
+            <dd id="aerobic-index">—</dd>
+            <span id="aerobic-index-context"></span>
+          </div>
+          <div class="stat-card">
+            <dt>Resposta cardíaca ajustada</dt>
+            <dd id="aerobic-heart-rate">—</dd>
+            <span id="aerobic-heart-rate-context"></span>
+          </div>
+          <div class="stat-card">
+            <dt>Dades comparables</dt>
+            <dd id="aerobic-hours">—</dd>
+            <span id="aerobic-hours-context"></span>
+          </div>
+        </dl>
+        <figure class="chart-block aerobic-chart-block">
+          <figcaption>Mediana mòbil de 28 dies</figcaption>
+          <svg id="aerobic-chart" viewBox="0 0 900 320" role="img" aria-label="Evolució de l’índex relatiu d’eficiència aeròbica"></svg>
+        </figure>
+        <p class="method-note">És un indicador comparatiu calculat a partir dels GPX, no una mesura clínica de VO₂max ni de calories. Un valor superior a 100 indica una freqüència cardíaca ajustada menor que durant el període inicial per a un esforç estimat equivalent.</p>
+      </div>
+    </section>
+
     <section class="section" id="fites" aria-labelledby="fites-title">
       <div class="shell">
         <div class="section-heading">
@@ -198,6 +234,6 @@
     </div>
   </footer>
 
-  <script type="module" src="assets/app.js?v=20260814-2"></script>
+  <script type="module" src="assets/app.js?v=20260919-1"></script>
 </body>
 </html>

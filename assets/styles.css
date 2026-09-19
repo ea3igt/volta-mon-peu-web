@@ -9,6 +9,8 @@
   --route: #1677d2;
   --route-soft: #d9ebfb;
   --route-gap: #cf3434;
+  --aerobic: #24865b;
+  --aerobic-soft: #dcefe5;
   --extreme: #24865b;
   --temperature: #d4588f;
   --accent: #e36f38;
@@ -230,7 +232,8 @@ h3 {
 
 #route-map,
 #cumulative-chart,
-#monthly-chart {
+#monthly-chart,
+#aerobic-chart {
   display: block;
   width: 100%;
   height: auto;
@@ -464,6 +467,24 @@ h3 {
 .distance-area { fill: var(--route-soft); }
 .distance-line { fill: none; stroke: var(--route); stroke-width: 2.5; }
 .month-bar { fill: var(--route); }
+.aerobic-intro {
+  max-width: 75ch;
+  margin: -1rem 0 1.5rem;
+  color: var(--muted);
+}
+.aerobic-summary { margin-bottom: 1rem; }
+.aerobic-chart-block { box-shadow: var(--shadow); }
+.aerobic-area { fill: var(--aerobic-soft); }
+.aerobic-line { fill: none; stroke: var(--aerobic); stroke-width: 2.5; }
+.aerobic-baseline { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 5 5; }
+.aerobic-point { fill: var(--aerobic); opacity: .65; }
+.aerobic-current { fill: var(--aerobic); stroke: var(--surface); stroke-width: 2; }
+.method-note {
+  max-width: 86ch;
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: .8rem;
+}
 
 .milestone-grid {
   display: grid;

@@ -8,6 +8,7 @@ Pàgina responsive que transforma els tracks GPX públics d’Enric Luzan en un 
 - territori del track més recent, que actualitza automàticament el títol de l'estat del viatge;
 - mapa complet, inici i final, extrems N/S/E/O i temperatura màxima;
 - evolució acumulada, volum mensual i distància, velocitat mitjana i desnivell per territori;
+- evolució de l'eficiència aeròbica relativa, comparant la resposta cardíaca davant esforços estimats equivalents;
 - etapa més llarga, ratxes, pausa, desnivell total i diari, altitud i relació ruta/línia recta;
 - velocitat màxima calculada en una finestra sostinguda de cinc minuts;
 - extrems de freqüència cardíaca, temperatura màxima i densitat del rastre digital.
@@ -37,6 +38,14 @@ python -m http.server 8080
 ```
 
 Després, obre `http://localhost:8080`.
+
+## Eficiència aeròbica relativa
+
+La secció **«Evolució de l’eficiència aeròbica»** utilitza finestres contínues de cinc minuts amb temps, altitud, cadència i freqüència cardíaca vàlids. Només admet velocitats mitjanes de 2,5 a 7,0 km/h i descarta aturades, salts GPS, lectures cardíaques fora de rang i finestres incompletes.
+
+La demanda física s'estima en W/kg a partir de la velocitat i del pendent, aplicant la funció de cost metabòlic de la marxa de [Minetti et al. (2002)](https://doi.org/10.1152/japplphysiol.01177.2001). Un model calculat sobre tot el registre ajusta la freqüència cardíaca segons aquesta demanda, l'altitud i el moment de l'etapa. El resultat es resumeix amb una mediana mòbil de 28 dies i es normalitza a **100** durant el primer període disponible. Un valor superior a 100 indica que la freqüència cardíaca ajustada és inferior a la del període inicial davant una demanda estimada comparable.
+
+És un indicador exploratori i longitudinal, no una mesura clínica ni una estimació directa de VO₂max, calories, diagnòstic mèdic o estat de salut. La calor, la hidratació, la fatiga, el terreny, el pes transportat, l'aclimatació i possibles canvis de sensor poden influir en el resultat. La temperatura del dispositiu no s'utilitza com a temperatura ambiental.
 
 ## Comprovació periòdica i publicació
 
@@ -101,4 +110,5 @@ Per activar-ho, crea un repositori de GitHub amb aquests fitxers i, a **Settings
 - La distància mitjana per etapa de cada territori divideix els quilòmetres totals pel nombre de dies diferents amb almenys un track.
 - La velocitat mitjana de cada territori divideix la distància total pel temps dels trams en moviment, amb cadència registrada i sense salts GPS.
 - La velocitat màxima rebutja salts GPS i exigeix una finestra contínua d’almenys cinc minuts amb cadència registrada.
+- L'índex d'eficiència aeròbica és relatiu al mateix viatger: combina finestres de cinc minuts, demanda metabòlica estimada per velocitat i pendent, ajust per altitud i moment de l'etapa, i una mediana mòbil de 28 dies. No s'ha d'interpretar com una prova de laboratori.
 - El desnivell positiu es calcula sobre un perfil reomplert cada 10 metres. Només se sumen pujades confirmades d’almenys 3 metres, que es tanquen quan el perfil baixa 3 metres des del cim local; així s’eviten les petites oscil·lacions del GPS sense perdre els ascensos reals.
