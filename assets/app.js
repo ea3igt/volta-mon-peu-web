@@ -534,7 +534,7 @@ function renderAerobic() {
     .call(d3.axisBottom(x).ticks(width < 520 ? 4 : 7).tickFormat(value => formatDate(value.toISOString(), true)));
   svg.append("g").attr("class", "axis").attr("transform", `translate(${margin.left},0)`)
     .call(d3.axisLeft(y).ticks(5));
-  svg.append("text").attr("class", "chart-note").attr("x", margin.left + 7).attr("y", y(100) - 7).text("Referència · 100");
+  svg.append("text").attr("class", "chart-note").attr("x", margin.left + 7).attr("y", y(100) + 16).text("Referència · 100");
   const last = data.at(-1);
   svg.append("circle").attr("class", "aerobic-current").attr("cx", x(last.dateValue)).attr("cy", y(last.index)).attr("r", 5);
   svg.append("text").attr("class", "chart-label").attr("text-anchor", "end")
