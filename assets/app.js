@@ -500,7 +500,7 @@ function renderAerobic() {
   );
   setText(
     "aerobic-chart-caption",
-    `Mediana mòbil de ${aerobic.method.rolling_days} dies · referència ${formatDate(aerobic.baseline.start, true)} — ${formatDate(aerobic.baseline.end)}`,
+    "Mediana mòbil",
   );
 
   const element = document.getElementById("aerobic-chart");
