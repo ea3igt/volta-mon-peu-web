@@ -4,7 +4,7 @@
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
     "data_as_of": "2026-09-16",
-    "updated_at": "2026-09-19T13:10:57+00:00",
+    "updated_at": "2026-09-19T13:21:58+00:00",
     "source_updated_at": "2026-09-16T08:40:58+00:00",
     "source_fingerprint": "25ffdeaec653b852",
     "current_territory": "Xina"
@@ -143851,327 +143851,327 @@
   },
   "aerobic_evolution": {
     "baseline": {
-      "start": "2025-11-30",
-      "end": "2025-12-27",
-      "adjusted_heart_rate_bpm": 104.9
+      "start": "2025-12-01",
+      "end": "2025-12-28",
+      "adjusted_heart_rate_bpm": 105.1
     },
     "current": {
       "date": "2026-09-16",
       "period_start": "2026-08-20",
-      "index": 106.6,
+      "index": 106.7,
       "adjusted_heart_rate_bpm": 98.5,
       "windows": 1410,
       "hours": 117.5
     },
     "series": [
       {
-        "date": "2025-12-27",
-        "period_start": "2025-11-30",
+        "date": "2025-12-28",
+        "period_start": "2025-12-01",
         "index": 100.0,
-        "adjusted_heart_rate_bpm": 104.9,
-        "windows": 625,
-        "hours": 52.1
+        "adjusted_heart_rate_bpm": 105.1,
+        "windows": 652,
+        "hours": 54.3
       },
       {
-        "date": "2026-01-03",
-        "period_start": "2025-12-07",
-        "index": 100.4,
-        "adjusted_heart_rate_bpm": 104.5,
-        "windows": 730,
-        "hours": 60.8
-      },
-      {
-        "date": "2026-01-10",
-        "period_start": "2025-12-14",
-        "index": 100.7,
-        "adjusted_heart_rate_bpm": 104.2,
-        "windows": 746,
+        "date": "2026-01-04",
+        "period_start": "2025-12-08",
+        "index": 100.8,
+        "adjusted_heart_rate_bpm": 104.3,
+        "windows": 747,
         "hours": 62.2
       },
       {
-        "date": "2026-01-17",
-        "period_start": "2025-12-21",
-        "index": 101.7,
-        "adjusted_heart_rate_bpm": 103.2,
-        "windows": 595,
-        "hours": 49.6
+        "date": "2026-01-11",
+        "period_start": "2025-12-15",
+        "index": 101.0,
+        "adjusted_heart_rate_bpm": 104.0,
+        "windows": 743,
+        "hours": 61.9
       },
       {
-        "date": "2026-01-24",
-        "period_start": "2025-12-28",
-        "index": 103.7,
-        "adjusted_heart_rate_bpm": 101.2,
-        "windows": 796,
-        "hours": 66.3
+        "date": "2026-01-18",
+        "period_start": "2025-12-22",
+        "index": 101.6,
+        "adjusted_heart_rate_bpm": 103.4,
+        "windows": 606,
+        "hours": 50.5
       },
       {
-        "date": "2026-01-31",
-        "period_start": "2026-01-04",
-        "index": 105.2,
-        "adjusted_heart_rate_bpm": 99.7,
-        "windows": 818,
-        "hours": 68.2
-      },
-      {
-        "date": "2026-02-07",
-        "period_start": "2026-01-11",
-        "index": 104.8,
-        "adjusted_heart_rate_bpm": 100.1,
+        "date": "2026-01-25",
+        "period_start": "2025-12-29",
+        "index": 104.4,
+        "adjusted_heart_rate_bpm": 100.7,
         "windows": 736,
         "hours": 61.3
       },
       {
-        "date": "2026-02-14",
-        "period_start": "2026-01-18",
-        "index": 104.0,
-        "adjusted_heart_rate_bpm": 100.9,
-        "windows": 967,
-        "hours": 80.6
+        "date": "2026-02-01",
+        "period_start": "2026-01-05",
+        "index": 105.4,
+        "adjusted_heart_rate_bpm": 99.7,
+        "windows": 817,
+        "hours": 68.1
       },
       {
-        "date": "2026-02-21",
-        "period_start": "2026-01-25",
-        "index": 103.9,
-        "adjusted_heart_rate_bpm": 101.0,
-        "windows": 945,
-        "hours": 78.8
-      },
-      {
-        "date": "2026-02-28",
-        "period_start": "2026-02-01",
+        "date": "2026-02-08",
+        "period_start": "2026-01-12",
         "index": 104.2,
-        "adjusted_heart_rate_bpm": 100.8,
-        "windows": 854,
-        "hours": 71.2
+        "adjusted_heart_rate_bpm": 100.9,
+        "windows": 743,
+        "hours": 61.9
       },
       {
-        "date": "2026-03-07",
-        "period_start": "2026-02-08",
-        "index": 104.3,
-        "adjusted_heart_rate_bpm": 100.6,
-        "windows": 893,
-        "hours": 74.4
+        "date": "2026-02-15",
+        "period_start": "2026-01-19",
+        "index": 104.4,
+        "adjusted_heart_rate_bpm": 100.7,
+        "windows": 971,
+        "hours": 80.9
       },
       {
-        "date": "2026-03-14",
-        "period_start": "2026-02-15",
-        "index": 105.2,
-        "adjusted_heart_rate_bpm": 99.8,
-        "windows": 838,
+        "date": "2026-02-22",
+        "period_start": "2026-01-26",
+        "index": 104.2,
+        "adjusted_heart_rate_bpm": 100.9,
+        "windows": 969,
+        "hours": 80.8
+      },
+      {
+        "date": "2026-03-01",
+        "period_start": "2026-02-02",
+        "index": 104.4,
+        "adjusted_heart_rate_bpm": 100.7,
+        "windows": 837,
         "hours": 69.8
       },
       {
-        "date": "2026-03-21",
-        "period_start": "2026-02-22",
-        "index": 104.5,
-        "adjusted_heart_rate_bpm": 100.5,
-        "windows": 805,
-        "hours": 67.1
-      },
-      {
-        "date": "2026-03-28",
-        "period_start": "2026-03-01",
-        "index": 103.4,
-        "adjusted_heart_rate_bpm": 101.5,
-        "windows": 855,
-        "hours": 71.2
-      },
-      {
-        "date": "2026-04-04",
-        "period_start": "2026-03-08",
-        "index": 103.7,
-        "adjusted_heart_rate_bpm": 101.2,
+        "date": "2026-03-08",
+        "period_start": "2026-02-09",
+        "index": 104.7,
+        "adjusted_heart_rate_bpm": 100.3,
         "windows": 880,
         "hours": 73.3
       },
       {
-        "date": "2026-04-11",
-        "period_start": "2026-03-15",
-        "index": 102.5,
-        "adjusted_heart_rate_bpm": 102.3,
-        "windows": 806,
-        "hours": 67.2
+        "date": "2026-03-15",
+        "period_start": "2026-02-16",
+        "index": 105.3,
+        "adjusted_heart_rate_bpm": 99.8,
+        "windows": 828,
+        "hours": 69.0
       },
       {
-        "date": "2026-04-18",
-        "period_start": "2026-03-22",
-        "index": 103.0,
+        "date": "2026-03-22",
+        "period_start": "2026-02-23",
+        "index": 104.4,
+        "adjusted_heart_rate_bpm": 100.7,
+        "windows": 811,
+        "hours": 67.6
+      },
+      {
+        "date": "2026-03-29",
+        "period_start": "2026-03-02",
+        "index": 103.4,
+        "adjusted_heart_rate_bpm": 101.6,
+        "windows": 876,
+        "hours": 73.0
+      },
+      {
+        "date": "2026-04-05",
+        "period_start": "2026-03-09",
+        "index": 103.7,
+        "adjusted_heart_rate_bpm": 101.3,
+        "windows": 853,
+        "hours": 71.1
+      },
+      {
+        "date": "2026-04-12",
+        "period_start": "2026-03-16",
+        "index": 102.6,
+        "adjusted_heart_rate_bpm": 102.5,
+        "windows": 777,
+        "hours": 64.8
+      },
+      {
+        "date": "2026-04-19",
+        "period_start": "2026-03-23",
+        "index": 103.3,
         "adjusted_heart_rate_bpm": 101.8,
-        "windows": 712,
-        "hours": 59.3
+        "windows": 682,
+        "hours": 56.8
       },
       {
-        "date": "2026-04-25",
-        "period_start": "2026-03-29",
-        "index": 103.9,
+        "date": "2026-04-26",
+        "period_start": "2026-03-30",
+        "index": 104.0,
         "adjusted_heart_rate_bpm": 101.0,
-        "windows": 701,
-        "hours": 58.4
+        "windows": 652,
+        "hours": 54.3
       },
       {
-        "date": "2026-05-02",
-        "period_start": "2026-04-05",
-        "index": 103.2,
+        "date": "2026-05-03",
+        "period_start": "2026-04-06",
+        "index": 103.3,
         "adjusted_heart_rate_bpm": 101.7,
-        "windows": 662,
-        "hours": 55.2
+        "windows": 700,
+        "hours": 58.3
       },
       {
-        "date": "2026-05-09",
-        "period_start": "2026-04-12",
-        "index": 103.9,
+        "date": "2026-05-10",
+        "period_start": "2026-04-13",
+        "index": 104.1,
         "adjusted_heart_rate_bpm": 101.0,
         "windows": 700,
         "hours": 58.3
       },
       {
-        "date": "2026-05-16",
-        "period_start": "2026-04-19",
-        "index": 104.3,
+        "date": "2026-05-17",
+        "period_start": "2026-04-20",
+        "index": 104.4,
         "adjusted_heart_rate_bpm": 100.7,
         "windows": 557,
         "hours": 46.4
       },
       {
-        "date": "2026-05-23",
-        "period_start": "2026-04-26",
-        "index": 103.7,
+        "date": "2026-05-24",
+        "period_start": "2026-04-27",
+        "index": 103.8,
         "adjusted_heart_rate_bpm": 101.2,
         "windows": 358,
         "hours": 29.8
       },
       {
-        "date": "2026-05-30",
-        "period_start": "2026-05-03",
-        "index": 102.7,
-        "adjusted_heart_rate_bpm": 102.1,
-        "windows": 400,
-        "hours": 33.3
+        "date": "2026-05-31",
+        "period_start": "2026-05-04",
+        "index": 103.4,
+        "adjusted_heart_rate_bpm": 101.6,
+        "windows": 428,
+        "hours": 35.7
       },
       {
-        "date": "2026-06-06",
-        "period_start": "2026-05-10",
-        "index": 102.1,
+        "date": "2026-06-07",
+        "period_start": "2026-05-11",
+        "index": 102.2,
         "adjusted_heart_rate_bpm": 102.8,
-        "windows": 585,
-        "hours": 48.8
+        "windows": 597,
+        "hours": 49.8
       },
       {
-        "date": "2026-06-13",
-        "period_start": "2026-05-17",
-        "index": 103.1,
-        "adjusted_heart_rate_bpm": 101.8,
-        "windows": 829,
-        "hours": 69.1
+        "date": "2026-06-14",
+        "period_start": "2026-05-18",
+        "index": 103.5,
+        "adjusted_heart_rate_bpm": 101.5,
+        "windows": 891,
+        "hours": 74.2
       },
       {
-        "date": "2026-06-20",
-        "period_start": "2026-05-24",
-        "index": 104.5,
+        "date": "2026-06-21",
+        "period_start": "2026-05-25",
+        "index": 104.7,
         "adjusted_heart_rate_bpm": 100.4,
         "windows": 1254,
         "hours": 104.5
       },
       {
-        "date": "2026-06-27",
-        "period_start": "2026-05-31",
-        "index": 106.4,
-        "adjusted_heart_rate_bpm": 98.6,
-        "windows": 1331,
-        "hours": 110.9
+        "date": "2026-06-28",
+        "period_start": "2026-06-01",
+        "index": 106.8,
+        "adjusted_heart_rate_bpm": 98.4,
+        "windows": 1310,
+        "hours": 109.2
       },
       {
-        "date": "2026-07-04",
-        "period_start": "2026-06-07",
-        "index": 108.4,
-        "adjusted_heart_rate_bpm": 96.8,
-        "windows": 1209,
-        "hours": 100.8
-      },
-      {
-        "date": "2026-07-11",
-        "period_start": "2026-06-14",
-        "index": 108.9,
-        "adjusted_heart_rate_bpm": 96.4,
+        "date": "2026-07-05",
+        "period_start": "2026-06-08",
+        "index": 108.7,
+        "adjusted_heart_rate_bpm": 96.7,
         "windows": 1241,
         "hours": 103.4
       },
       {
-        "date": "2026-07-18",
-        "period_start": "2026-06-21",
-        "index": 108.9,
+        "date": "2026-07-12",
+        "period_start": "2026-06-15",
+        "index": 108.8,
+        "adjusted_heart_rate_bpm": 96.6,
+        "windows": 1230,
+        "hours": 102.5
+      },
+      {
+        "date": "2026-07-19",
+        "period_start": "2026-06-22",
+        "index": 109.1,
         "adjusted_heart_rate_bpm": 96.4,
         "windows": 995,
         "hours": 82.9
       },
       {
-        "date": "2026-07-25",
-        "period_start": "2026-06-28",
+        "date": "2026-07-26",
+        "period_start": "2026-06-29",
         "index": 107.4,
-        "adjusted_heart_rate_bpm": 97.7,
-        "windows": 898,
-        "hours": 74.8
+        "adjusted_heart_rate_bpm": 97.8,
+        "windows": 915,
+        "hours": 76.2
       },
       {
-        "date": "2026-08-01",
-        "period_start": "2026-07-05",
-        "index": 106.9,
-        "adjusted_heart_rate_bpm": 98.2,
-        "windows": 779,
-        "hours": 64.9
+        "date": "2026-08-02",
+        "period_start": "2026-07-06",
+        "index": 106.6,
+        "adjusted_heart_rate_bpm": 98.5,
+        "windows": 735,
+        "hours": 61.2
       },
       {
-        "date": "2026-08-08",
-        "period_start": "2026-07-12",
-        "index": 105.0,
-        "adjusted_heart_rate_bpm": 99.9,
-        "windows": 609,
-        "hours": 50.8
-      },
-      {
-        "date": "2026-08-15",
-        "period_start": "2026-07-19",
-        "index": 102.7,
-        "adjusted_heart_rate_bpm": 102.2,
-        "windows": 633,
-        "hours": 52.8
-      },
-      {
-        "date": "2026-08-22",
-        "period_start": "2026-07-26",
-        "index": 104.0,
-        "adjusted_heart_rate_bpm": 100.9,
-        "windows": 708,
-        "hours": 59.0
-      },
-      {
-        "date": "2026-08-29",
-        "period_start": "2026-08-02",
-        "index": 104.7,
+        "date": "2026-08-09",
+        "period_start": "2026-07-13",
+        "index": 104.8,
         "adjusted_heart_rate_bpm": 100.3,
-        "windows": 925,
-        "hours": 77.1
+        "windows": 601,
+        "hours": 50.1
       },
       {
-        "date": "2026-09-05",
-        "period_start": "2026-08-09",
+        "date": "2026-08-16",
+        "period_start": "2026-07-20",
+        "index": 102.9,
+        "adjusted_heart_rate_bpm": 102.2,
+        "windows": 638,
+        "hours": 53.2
+      },
+      {
+        "date": "2026-08-23",
+        "period_start": "2026-07-27",
+        "index": 104.3,
+        "adjusted_heart_rate_bpm": 100.8,
+        "windows": 703,
+        "hours": 58.6
+      },
+      {
+        "date": "2026-08-30",
+        "period_start": "2026-08-03",
+        "index": 104.7,
+        "adjusted_heart_rate_bpm": 100.4,
+        "windows": 985,
+        "hours": 82.1
+      },
+      {
+        "date": "2026-09-06",
+        "period_start": "2026-08-10",
         "index": 105.8,
-        "adjusted_heart_rate_bpm": 99.2,
-        "windows": 1206,
-        "hours": 100.5
+        "adjusted_heart_rate_bpm": 99.3,
+        "windows": 1214,
+        "hours": 101.2
       },
       {
-        "date": "2026-09-12",
-        "period_start": "2026-08-16",
-        "index": 106.2,
-        "adjusted_heart_rate_bpm": 98.8,
-        "windows": 1313,
-        "hours": 109.4
+        "date": "2026-09-13",
+        "period_start": "2026-08-17",
+        "index": 106.0,
+        "adjusted_heart_rate_bpm": 99.1,
+        "windows": 1384,
+        "hours": 115.3
       },
       {
         "date": "2026-09-16",
         "period_start": "2026-08-20",
-        "index": 106.6,
+        "index": 106.7,
         "adjusted_heart_rate_bpm": 98.5,
         "windows": 1410,
         "hours": 117.5

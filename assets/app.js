@@ -485,18 +485,22 @@ function renderAerobic() {
   navLink.hidden = false;
   const current = aerobic.current;
   const difference = current.index - 100;
-  const differenceLabel = `${difference >= 0 ? "+" : ""}${number1.format(difference)}% respecte del període inicial`;
+  const differenceLabel = `${difference >= 0 ? "+" : ""}${number1.format(difference)}% respecte del període de referència`;
   setText("aerobic-index", number1.format(current.index));
   setText("aerobic-index-context", differenceLabel);
   setText("aerobic-heart-rate", `${number1.format(current.adjusted_heart_rate_bpm)} bpm`);
   setText(
     "aerobic-heart-rate-context",
-    `${number1.format(aerobic.baseline.adjusted_heart_rate_bpm)} bpm al període inicial`,
+    `${number1.format(aerobic.baseline.adjusted_heart_rate_bpm)} bpm al període de referència`,
   );
   setText("aerobic-hours", `${number1.format(aerobic.coverage.valid_hours)} h`);
   setText(
     "aerobic-hours-context",
     `${number0.format(aerobic.coverage.valid_windows)} finestres vàlides de ${aerobic.method.window_minutes} min`,
+  );
+  setText(
+    "aerobic-chart-caption",
+    `Mediana mòbil de ${aerobic.method.rolling_days} dies · referència ${formatDate(aerobic.baseline.start, true)} — ${formatDate(aerobic.baseline.end)}`,
   );
 
   const element = document.getElementById("aerobic-chart");
@@ -530,7 +534,7 @@ function renderAerobic() {
     .call(d3.axisBottom(x).ticks(width < 520 ? 4 : 7).tickFormat(value => formatDate(value.toISOString(), true)));
   svg.append("g").attr("class", "axis").attr("transform", `translate(${margin.left},0)`)
     .call(d3.axisLeft(y).ticks(5));
-  svg.append("text").attr("class", "chart-note").attr("x", margin.left + 7).attr("y", y(100) - 7).text("Període inicial · 100");
+  svg.append("text").attr("class", "chart-note").attr("x", margin.left + 7).attr("y", y(100) - 7).text("Referència · 100");
   const last = data.at(-1);
   svg.append("circle").attr("class", "aerobic-current").attr("cx", x(last.dateValue)).attr("cy", y(last.index)).attr("r", 5);
   svg.append("text").attr("class", "chart-label").attr("text-anchor", "end")

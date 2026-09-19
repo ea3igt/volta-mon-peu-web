@@ -64,6 +64,7 @@ AEROBIC_MAX_HEART_RATE = 220
 AEROBIC_ROLLING_DAYS = 28
 AEROBIC_STEP_DAYS = 7
 AEROBIC_MIN_WINDOWS = 24
+AEROBIC_BASELINE_START = date(2025, 12, 1)
 CITY_NAME_ALIASES = {
     "Alexandroupoli": "Alexandrúpoli",
     "Durres": "Durrës",
@@ -334,7 +335,8 @@ def build_aerobic_evolution(windows: list[dict], first_day: date, last_day: date
         )
 
     period_ends = []
-    period_end = first_day + timedelta(days=AEROBIC_ROLLING_DAYS - 1)
+    baseline_start = max(first_day, AEROBIC_BASELINE_START)
+    period_end = baseline_start + timedelta(days=AEROBIC_ROLLING_DAYS - 1)
     while period_end <= last_day:
         period_ends.append(period_end)
         period_end += timedelta(days=AEROBIC_STEP_DAYS)
