@@ -506,8 +506,8 @@ function renderAerobic() {
   const element = document.getElementById("aerobic-chart");
   const width = Math.max(320, Math.round(element.clientWidth));
   const compact = width < 520;
-  const height = compact ? 380 : 340;
-  const margin = compact ? { top: 30, right: 18, bottom: 112, left: 44 } : { top: 30, right: 62, bottom: 72, left: 58 };
+  const height = compact ? 330 : 340;
+  const margin = compact ? { top: 64, right: 18, bottom: 44, left: 44 } : { top: 60, right: 62, bottom: 44, left: 58 };
   const plotBottom = height - margin.bottom;
   const svg = d3.select(element).attr("viewBox", `0 0 ${width} ${height}`);
   svg.selectAll("*").remove();
@@ -551,15 +551,14 @@ function renderAerobic() {
     .append("title")
     .text(item => `${formatDate(item.date)} · índex ${number1.format(item.index)} · ${number1.format(item.adjusted_heart_rate_bpm)} bpm ajustades`);
   svg.append("g").attr("class", "axis").attr("transform", `translate(0,${height - margin.bottom})`)
-    .call(d3.axisBottom(x).ticks(compact ? 4 : 7).tickPadding(compact ? 86 : 50).tickFormat(value => formatDate(value.toISOString(), true)));
+    .call(d3.axisBottom(x).ticks(compact ? 4 : 7).tickPadding(10).tickFormat(value => formatDate(value.toISOString(), true)));
   svg.append("g").attr("class", "axis").attr("transform", `translate(${margin.left},0)`)
     .call(d3.axisLeft(y).ticks(5));
-  const territoryRows = compact ? 2 : 1;
   const territoryFontSize = compact ? 9 : 10;
   const rightEdge = width - margin.right;
   const nearRightEdge = item => x(item.dateValue) > rightEdge - (compact ? 30 : 44);
-  const territoryIntervals = Array.from({ length: territoryRows }, () => []);
-  const territoryLabelAngle = item => nearRightEdge(item) ? (compact ? 35 : 25) : (compact ? -35 : -25);
+  const territoryIntervals = [];
+  const territoryLabelAngle = item => nearRightEdge(item) ? 35 : -35;
   const territoryLabelCandidates = visibleTerritories.length > 1
     ? [visibleTerritories[0], visibleTerritories.at(-1), ...visibleTerritories.slice(1, -1)]
     : visibleTerritories;
@@ -568,20 +567,20 @@ function renderAerobic() {
     const labelX = x(item.dateValue) + (anchorEnd ? -4 : 4);
     const estimatedWidth = Array.from(item.name).length * territoryFontSize * .58;
     const angle = territoryLabelAngle(item);
-    const projectedWidth = estimatedWidth * Math.cos(Math.abs(angle) * Math.PI / 180) + territoryFontSize * Math.sin(Math.abs(angle) * Math.PI / 180);
+    const projectedWidth = estimatedWidth * Math.cos(Math.abs(angle) * Math.PI / 180)
+      + territoryFontSize * Math.sin(Math.abs(angle) * Math.PI / 180);
     const interval = anchorEnd ? [labelX - projectedWidth, labelX] : [labelX, labelX + projectedWidth];
-    let labelRow = territoryIntervals.findIndex(row => row.every(([left, right]) => interval[1] + 4 < left || interval[0] - 4 > right));
-    if (labelRow < 0) return null;
-    territoryIntervals[labelRow].push(interval);
-    return { ...item, anchorEnd, labelX, labelRow, angle };
+    if (!territoryIntervals.every(([left, right]) => interval[1] + 6 < left || interval[0] - 6 > right)) return null;
+    territoryIntervals.push(interval);
+    return { ...item, anchorEnd, labelX, angle };
   }).filter(Boolean);
-  const territoryLabelY = item => plotBottom + 18 + item.labelRow * 45;
+  const territoryLabelY = margin.top - 8;
   svg.selectAll("text.territory-label").data(territoryLabels).join("text")
     .attr("class", "territory-label")
     .attr("text-anchor", item => item.anchorEnd ? "end" : "start")
     .attr("x", item => item.labelX)
     .attr("y", territoryLabelY)
-    .attr("transform", item => `rotate(${item.angle} ${item.labelX} ${territoryLabelY(item)})`)
+    .attr("transform", item => `rotate(${item.angle} ${item.labelX} ${territoryLabelY})`)
     .style("font-size", `${territoryFontSize}px`)
     .text(item => item.name)
     .append("title")
