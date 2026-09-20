@@ -557,24 +557,36 @@ function renderAerobic() {
   const territoryFontSize = compact ? 9 : 10;
   const rightEdge = width - margin.right;
   const nearRightEdge = item => x(item.dateValue) > rightEdge - (compact ? 30 : 44);
+  const closeTerritorySides = new Map();
+  const closeTerritoryThreshold = compact ? 24 : 32;
+  for (let index = 0; index < visibleTerritories.length - 1; index += 1) {
+    const current = visibleTerritories[index];
+    const next = visibleTerritories[index + 1];
+    if (x(next.dateValue) - x(current.dateValue) >= closeTerritoryThreshold) continue;
+    closeTerritorySides.set(current, -1);
+    closeTerritorySides.set(next, 1);
+    index += 1;
+  }
   const territoryIntervals = [];
-  const territoryLabelAngle = item => nearRightEdge(item) ? 35 : -35;
-  const territoryLabelCandidates = visibleTerritories.length > 1
-    ? [visibleTerritories[0], visibleTerritories.at(-1), ...visibleTerritories.slice(1, -1)]
-    : visibleTerritories;
-  const territoryLabels = territoryLabelCandidates.map(item => {
-    const anchorEnd = nearRightEdge(item);
-    const labelX = x(item.dateValue) + (anchorEnd ? -4 : 4);
+  const territoryLabels = visibleTerritories.map(item => {
+    const closeSide = closeTerritorySides.get(item) || 0;
+    const anchorEnd = closeSide < 0 || (closeSide === 0 && nearRightEdge(item));
+    const labelOffset = closeSide === 0 ? (anchorEnd ? -4 : 4) : closeSide * 8;
+    const labelX = x(item.dateValue) + labelOffset;
     const estimatedWidth = Array.from(item.name).length * territoryFontSize * .58;
-    const angle = territoryLabelAngle(item);
+    const angle = anchorEnd ? 35 : -35;
     const projectedWidth = estimatedWidth * Math.cos(Math.abs(angle) * Math.PI / 180)
       + territoryFontSize * Math.sin(Math.abs(angle) * Math.PI / 180);
     const interval = anchorEnd ? [labelX - projectedWidth, labelX] : [labelX, labelX + projectedWidth];
-    if (!territoryIntervals.every(([left, right]) => interval[1] + 6 < left || interval[0] - 6 > right)) return null;
+    if (compact && !territoryIntervals.every(([left, right]) => interval[1] + 2 < left || interval[0] - 2 > right)) return null;
     territoryIntervals.push(interval);
-    return { ...item, anchorEnd, labelX, angle };
+    return { ...item, anchorEnd, labelX, angle, connector: closeSide !== 0 };
   }).filter(Boolean);
   const territoryLabelY = margin.top - 8;
+  svg.selectAll("line.territory-leader").data(territoryLabels.filter(item => item.connector)).join("line")
+    .attr("class", "territory-leader")
+    .attr("x1", item => x(item.dateValue)).attr("y1", margin.top)
+    .attr("x2", item => item.labelX).attr("y2", territoryLabelY);
   svg.selectAll("text.territory-label").data(territoryLabels).join("text")
     .attr("class", "territory-label")
     .attr("text-anchor", item => item.anchorEnd ? "end" : "start")
