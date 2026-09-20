@@ -45,6 +45,8 @@ La secció **«Evolució de l’eficiència aeròbica»** utilitza finestres con
 
 La demanda física s'estima en W/kg a partir de la velocitat i del pendent, aplicant la funció de cost metabòlic de la marxa de [Minetti et al. (2002)](https://doi.org/10.1152/japplphysiol.01177.2001). Un model calculat sobre tot el registre ajusta la freqüència cardíaca segons aquesta demanda, l'altitud i el moment de l'etapa. El resultat es resumeix amb una mediana mòbil de 28 dies i es normalitza a **100** durant el període de referència de l'1 al 28 de desembre de 2025. Un valor superior a 100 indica que la freqüència cardíaca ajustada és inferior a la del període inicial davant una demanda estimada comparable.
 
+El gràfic marca automàticament cada canvi de territori amb una línia vertical i situa el nom corresponent entre l'àrea de dades i l'eix temporal. Quan no hi ha prou espai, conserva la línia i omet l'etiqueta per evitar solapaments.
+
 És un indicador exploratori i longitudinal, no una mesura clínica ni una estimació directa de VO₂max, calories, diagnòstic mèdic o estat de salut. La calor, la hidratació, la fatiga, el terreny, el pes transportat, l'aclimatació i possibles canvis de sensor poden influir en el resultat. La temperatura del dispositiu no s'utilitza com a temperatura ambiental.
 
 ## Comprovació periòdica i publicació

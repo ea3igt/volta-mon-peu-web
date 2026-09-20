@@ -636,6 +636,19 @@ def cities_near_route(cities: list[dict], route_segments: list[list[list[float]]
 
 def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: list[dict]) -> dict:
     rows = read_rows(source)
+    ordered_rows = [
+        row for _, row in sorted(
+            enumerate(rows),
+            key=lambda item: (item[1]["date"], item[1]["day"], item[0]),
+        )
+    ]
+    territory_timeline = []
+    for row in ordered_rows:
+        if not territory_timeline or territory_timeline[-1]["name"] != row["country"]:
+            territory_timeline.append({
+                "date": row["date"].isoformat(),
+                "name": row["country"],
+            })
     current_territory = max(
         enumerate(rows),
         key=lambda item: (item[1]["date"], item[1]["day"], item[0]),
@@ -943,6 +956,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: 
         "map_cities": map_cities,
         "calendar": calendar,
         "countries": country_data,
+        "territory_timeline": territory_timeline,
         "months": month_data,
         "geographic_extremes": cardinal,
         "temperature": {

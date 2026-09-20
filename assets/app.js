@@ -505,8 +505,10 @@ function renderAerobic() {
 
   const element = document.getElementById("aerobic-chart");
   const width = Math.max(320, Math.round(element.clientWidth));
-  const height = width < 520 ? 300 : 320;
-  const margin = width < 520 ? { top: 30, right: 18, bottom: 44, left: 44 } : { top: 30, right: 62, bottom: 44, left: 58 };
+  const compact = width < 520;
+  const height = compact ? 380 : 340;
+  const margin = compact ? { top: 30, right: 18, bottom: 112, left: 44 } : { top: 30, right: 62, bottom: 72, left: 58 };
+  const plotBottom = height - margin.bottom;
   const svg = d3.select(element).attr("viewBox", `0 0 ${width} ${height}`);
   svg.selectAll("*").remove();
   const data = aerobic.series.map(item => ({ ...item, dateValue: new Date(`${item.date}T00:00:00Z`) }));
@@ -516,7 +518,19 @@ function renderAerobic() {
   const y = d3.scaleLinear()
     .domain([Math.min(100, extent[0]) - padding, Math.max(100, extent[1]) + padding])
     .nice()
-    .range([height - margin.bottom, margin.top]);
+    .range([plotBottom, margin.top]);
+
+  const timeline = (stats.territory_timeline || [])
+    .map(item => ({ ...item, dateValue: new Date(`${item.date}T00:00:00Z`) }))
+    .sort((left, right) => left.dateValue - right.dateValue);
+  const [domainStart, domainEnd] = x.domain();
+  const activeAtStart = timeline.filter(item => item.dateValue <= domainStart).at(-1);
+  const visibleTerritories = [
+    ...(activeAtStart ? [{ ...activeAtStart, dateValue: domainStart, boundary: false }] : []),
+    ...timeline
+      .filter(item => item.dateValue > domainStart && item.dateValue <= domainEnd)
+      .map(item => ({ ...item, boundary: true })),
+  ];
 
   svg.append("g").attr("class", "grid").attr("transform", `translate(${margin.left},0)`)
     .call(d3.axisLeft(y).ticks(5).tickSize(-(width - margin.left - margin.right)).tickFormat(""));
@@ -524,6 +538,12 @@ function renderAerobic() {
     .attr("x1", margin.left).attr("x2", width - margin.right).attr("y1", y(100)).attr("y2", y(100));
   svg.append("path").datum(data).attr("class", "aerobic-area")
     .attr("d", d3.area().x(item => x(item.dateValue)).y0(y(100)).y1(item => y(item.index)).curve(d3.curveMonotoneX));
+  svg.selectAll("line.territory-change").data(visibleTerritories.filter(item => item.boundary)).join("line")
+    .attr("class", "territory-change")
+    .attr("x1", item => x(item.dateValue)).attr("x2", item => x(item.dateValue))
+    .attr("y1", margin.top).attr("y2", plotBottom)
+    .append("title")
+    .text(item => `Entrada a ${item.name} · ${formatDate(item.date)}`);
   svg.append("path").datum(data).attr("class", "aerobic-line")
     .attr("d", d3.line().x(item => x(item.dateValue)).y(item => y(item.index)).curve(d3.curveMonotoneX));
   svg.selectAll("circle.aerobic-point").data(data).join("circle").attr("class", "aerobic-point")
@@ -531,9 +551,41 @@ function renderAerobic() {
     .append("title")
     .text(item => `${formatDate(item.date)} · índex ${number1.format(item.index)} · ${number1.format(item.adjusted_heart_rate_bpm)} bpm ajustades`);
   svg.append("g").attr("class", "axis").attr("transform", `translate(0,${height - margin.bottom})`)
-    .call(d3.axisBottom(x).ticks(width < 520 ? 4 : 7).tickFormat(value => formatDate(value.toISOString(), true)));
+    .call(d3.axisBottom(x).ticks(compact ? 4 : 7).tickPadding(compact ? 86 : 50).tickFormat(value => formatDate(value.toISOString(), true)));
   svg.append("g").attr("class", "axis").attr("transform", `translate(${margin.left},0)`)
     .call(d3.axisLeft(y).ticks(5));
+  const territoryRows = compact ? 2 : 1;
+  const territoryFontSize = compact ? 9 : 10;
+  const rightEdge = width - margin.right;
+  const nearRightEdge = item => x(item.dateValue) > rightEdge - (compact ? 30 : 44);
+  const territoryIntervals = Array.from({ length: territoryRows }, () => []);
+  const territoryLabelAngle = item => nearRightEdge(item) ? (compact ? 35 : 25) : (compact ? -35 : -25);
+  const territoryLabelCandidates = visibleTerritories.length > 1
+    ? [visibleTerritories[0], visibleTerritories.at(-1), ...visibleTerritories.slice(1, -1)]
+    : visibleTerritories;
+  const territoryLabels = territoryLabelCandidates.map(item => {
+    const anchorEnd = nearRightEdge(item);
+    const labelX = x(item.dateValue) + (anchorEnd ? -4 : 4);
+    const estimatedWidth = Array.from(item.name).length * territoryFontSize * .58;
+    const angle = territoryLabelAngle(item);
+    const projectedWidth = estimatedWidth * Math.cos(Math.abs(angle) * Math.PI / 180) + territoryFontSize * Math.sin(Math.abs(angle) * Math.PI / 180);
+    const interval = anchorEnd ? [labelX - projectedWidth, labelX] : [labelX, labelX + projectedWidth];
+    let labelRow = territoryIntervals.findIndex(row => row.every(([left, right]) => interval[1] + 4 < left || interval[0] - 4 > right));
+    if (labelRow < 0) return null;
+    territoryIntervals[labelRow].push(interval);
+    return { ...item, anchorEnd, labelX, labelRow, angle };
+  }).filter(Boolean);
+  const territoryLabelY = item => plotBottom + 18 + item.labelRow * 45;
+  svg.selectAll("text.territory-label").data(territoryLabels).join("text")
+    .attr("class", "territory-label")
+    .attr("text-anchor", item => item.anchorEnd ? "end" : "start")
+    .attr("x", item => item.labelX)
+    .attr("y", territoryLabelY)
+    .attr("transform", item => `rotate(${item.angle} ${item.labelX} ${territoryLabelY(item)})`)
+    .style("font-size", `${territoryFontSize}px`)
+    .text(item => item.name)
+    .append("title")
+    .text(item => `${item.name} · ${formatDate(item.date)}`);
   svg.append("text").attr("class", "chart-note").attr("x", margin.left + 7).attr("y", y(100) + 16).text("Referència · 100");
   const last = data.at(-1);
   svg.append("circle").attr("class", "aerobic-current").attr("cx", x(last.dateValue)).attr("cy", y(last.index)).attr("r", 5);

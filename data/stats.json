@@ -4,7 +4,7 @@
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
     "data_as_of": "2026-09-16",
-    "updated_at": "2026-09-19T13:21:58+00:00",
+    "updated_at": "2026-09-20T11:29:25+00:00",
     "source_updated_at": "2026-09-16T08:40:58+00:00",
     "source_fingerprint": "25ffdeaec653b852",
     "current_territory": "Xina"
@@ -143670,6 +143670,56 @@
       "elevation_gain_m": 300,
       "map_lon": 75.12047,
       "map_lat": 37.98525
+    }
+  ],
+  "territory_timeline": [
+    {
+      "date": "2025-11-30",
+      "name": "Catalunya"
+    },
+    {
+      "date": "2025-12-09",
+      "name": "França"
+    },
+    {
+      "date": "2026-01-04",
+      "name": "Itàlia"
+    },
+    {
+      "date": "2026-02-05",
+      "name": "Croàcia"
+    },
+    {
+      "date": "2026-03-04",
+      "name": "Montenegro"
+    },
+    {
+      "date": "2026-03-09",
+      "name": "Albània"
+    },
+    {
+      "date": "2026-03-22",
+      "name": "Grècia"
+    },
+    {
+      "date": "2026-04-30",
+      "name": "Turquia"
+    },
+    {
+      "date": "2026-07-09",
+      "name": "Geòrgia"
+    },
+    {
+      "date": "2026-08-07",
+      "name": "Oʻzbekiston"
+    },
+    {
+      "date": "2026-08-09",
+      "name": "Tadjikistan"
+    },
+    {
+      "date": "2026-09-14",
+      "name": "Xina"
     }
   ],
   "months": [
