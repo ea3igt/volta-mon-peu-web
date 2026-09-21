@@ -520,13 +520,28 @@ function renderAerobic() {
     .sort((left, right) => left.dateValue - right.dateValue);
   const [domainStart, domainEnd] = x.domain();
   const dayMilliseconds = 24 * 60 * 60 * 1000;
+  const calendar = stats.calendar || [];
+  const highlightedRestDates = new Set();
+  let restRun = [];
+  const closeRestRun = () => {
+    if (restRun.length > 3) restRun.forEach(date => highlightedRestDates.add(date));
+    restRun = [];
+  };
+  for (const item of calendar) {
+    if (Number(item.km) === 0) {
+      restRun.push(item.date);
+    } else {
+      closeRestRun();
+    }
+  }
+  closeRestRun();
   const activitySegments = [];
-  for (const item of stats.calendar || []) {
+  for (const item of calendar) {
     const dayCenter = new Date(`${item.date}T00:00:00Z`).getTime();
     const start = Math.max(domainStart.getTime(), dayCenter - dayMilliseconds / 2);
     const end = Math.min(domainEnd.getTime(), dayCenter + dayMilliseconds / 2);
     if (end <= start) continue;
-    const walking = Number(item.km) > 0;
+    const walking = !highlightedRestDates.has(item.date);
     const previous = activitySegments.at(-1);
     if (previous?.walking === walking && previous.end === start) {
       previous.end = end;
@@ -534,7 +549,7 @@ function renderAerobic() {
       activitySegments.push({ start, end, walking });
     }
   }
-  const activityByDate = new Map((stats.calendar || []).map(item => [item.date, Number(item.km) > 0]));
+  const activityByDate = new Map(calendar.map(item => [item.date, !highlightedRestDates.has(item.date)]));
   const gradientRange = domainEnd.getTime() - domainStart.getTime();
   const defs = svg.append("defs");
   const addActivityGradient = (id, walkingClass, restingClass) => {
@@ -582,7 +597,7 @@ function renderAerobic() {
     .attr("class", item => `aerobic-point${activityByDate.get(item.date) === false ? " is-resting" : ""}`)
     .attr("cx", item => x(item.dateValue)).attr("cy", item => y(item.index)).attr("r", 3)
     .append("title")
-    .text(item => `${formatDate(item.date)} · índex ${number1.format(item.index)} · ${number1.format(item.adjusted_heart_rate_bpm)} bpm ajustades · ${activityByDate.get(item.date) === false ? "dia de descans" : "dia amb track"}`);
+    .text(item => `${formatDate(item.date)} · índex ${number1.format(item.index)} · ${number1.format(item.adjusted_heart_rate_bpm)} bpm ajustades${activityByDate.get(item.date) === false ? " · descans de més de 3 dies" : ""}`);
   svg.append("g").attr("class", "axis").attr("transform", `translate(0,${height - margin.bottom})`)
     .call(d3.axisBottom(x).ticks(compact ? 4 : 7).tickPadding(10).tickFormat(value => formatDate(value.toISOString(), true)));
   svg.append("g").attr("class", "axis").attr("transform", `translate(${margin.left},0)`)
