@@ -498,11 +498,6 @@ function renderAerobic() {
     "aerobic-hours-context",
     `${number0.format(aerobic.coverage.valid_windows)} finestres vàlides de ${aerobic.method.window_minutes} min`,
   );
-  setText(
-    "aerobic-chart-caption",
-    "Mediana mòbil",
-  );
-
   const element = document.getElementById("aerobic-chart");
   const width = Math.max(320, Math.round(element.clientWidth));
   const compact = width < 520;
@@ -524,6 +519,43 @@ function renderAerobic() {
     .map(item => ({ ...item, dateValue: new Date(`${item.date}T00:00:00Z`) }))
     .sort((left, right) => left.dateValue - right.dateValue);
   const [domainStart, domainEnd] = x.domain();
+  const dayMilliseconds = 24 * 60 * 60 * 1000;
+  const activitySegments = [];
+  for (const item of stats.calendar || []) {
+    const dayCenter = new Date(`${item.date}T00:00:00Z`).getTime();
+    const start = Math.max(domainStart.getTime(), dayCenter - dayMilliseconds / 2);
+    const end = Math.min(domainEnd.getTime(), dayCenter + dayMilliseconds / 2);
+    if (end <= start) continue;
+    const walking = Number(item.km) > 0;
+    const previous = activitySegments.at(-1);
+    if (previous?.walking === walking && previous.end === start) {
+      previous.end = end;
+    } else {
+      activitySegments.push({ start, end, walking });
+    }
+  }
+  const activityByDate = new Map((stats.calendar || []).map(item => [item.date, Number(item.km) > 0]));
+  const gradientRange = domainEnd.getTime() - domainStart.getTime();
+  const defs = svg.append("defs");
+  const addActivityGradient = (id, walkingClass, restingClass) => {
+    const gradient = defs.append("linearGradient")
+      .attr("id", id)
+      .attr("x1", "0%")
+      .attr("x2", "100%")
+      .attr("y1", "0%")
+      .attr("y2", "0%");
+    for (const segment of activitySegments) {
+      const className = segment.walking ? walkingClass : restingClass;
+      gradient.append("stop")
+        .attr("class", className)
+        .attr("offset", `${(segment.start - domainStart.getTime()) / gradientRange * 100}%`);
+      gradient.append("stop")
+        .attr("class", className)
+        .attr("offset", `${(segment.end - domainStart.getTime()) / gradientRange * 100}%`);
+    }
+  };
+  addActivityGradient("aerobic-area-gradient", "aerobic-area-walk-stop", "aerobic-area-rest-stop");
+  addActivityGradient("aerobic-line-gradient", "aerobic-line-walk-stop", "aerobic-line-rest-stop");
   const activeAtStart = timeline.filter(item => item.dateValue <= domainStart).at(-1);
   const visibleTerritories = [
     ...(activeAtStart ? [{ ...activeAtStart, dateValue: domainStart, boundary: false }] : []),
@@ -546,10 +578,11 @@ function renderAerobic() {
     .text(item => `Entrada a ${item.name} · ${formatDate(item.date)}`);
   svg.append("path").datum(data).attr("class", "aerobic-line")
     .attr("d", d3.line().x(item => x(item.dateValue)).y(item => y(item.index)).curve(d3.curveMonotoneX));
-  svg.selectAll("circle.aerobic-point").data(data).join("circle").attr("class", "aerobic-point")
+  svg.selectAll("circle.aerobic-point").data(data).join("circle")
+    .attr("class", item => `aerobic-point${activityByDate.get(item.date) === false ? " is-resting" : ""}`)
     .attr("cx", item => x(item.dateValue)).attr("cy", item => y(item.index)).attr("r", 3)
     .append("title")
-    .text(item => `${formatDate(item.date)} · índex ${number1.format(item.index)} · ${number1.format(item.adjusted_heart_rate_bpm)} bpm ajustades`);
+    .text(item => `${formatDate(item.date)} · índex ${number1.format(item.index)} · ${number1.format(item.adjusted_heart_rate_bpm)} bpm ajustades · ${activityByDate.get(item.date) === false ? "dia de descans" : "dia amb track"}`);
   svg.append("g").attr("class", "axis").attr("transform", `translate(0,${height - margin.bottom})`)
     .call(d3.axisBottom(x).ticks(compact ? 4 : 7).tickPadding(10).tickFormat(value => formatDate(value.toISOString(), true)));
   svg.append("g").attr("class", "axis").attr("transform", `translate(${margin.left},0)`)

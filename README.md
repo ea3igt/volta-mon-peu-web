@@ -47,6 +47,8 @@ La demanda física s'estima en W/kg a partir de la velocitat i del pendent, apli
 
 El gràfic marca automàticament cada canvi de territori amb una línia vertical i situa el nom corresponent en diagonal a la part superior. Quan dos canvis són molt pròxims, obre les etiquetes cap a costats oposats amb connectors diagonals puntejats que prolonguen les línies verticals; si encara no hi ha prou espai, conserva la línia i omet l'etiqueta per evitar solapaments.
 
+El color del gràfic segueix el calendari del viatge: verd durant els dies amb tracks i carbassa pàl·lid durant els períodes de descans sense tracks. La llegenda diferencia explícitament tots dos estats.
+
 És un indicador exploratori i longitudinal, no una mesura clínica ni una estimació directa de VO₂max, calories, diagnòstic mèdic o estat de salut. La calor, la hidratació, la fatiga, el terreny, el pes transportat, l'aclimatació i possibles canvis de sensor poden influir en el resultat. La temperatura del dispositiu no s'utilitza com a temperatura ambiental.
 
 ## Comprovació periòdica i publicació
