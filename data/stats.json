@@ -3,24 +3,24 @@
     "title": "La volta al món a peu",
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
-    "data_as_of": "2026-10-05",
-    "updated_at": "2026-10-06T07:37:17+00:00",
-    "source_updated_at": "2026-10-05T12:16:05+00:00",
-    "source_fingerprint": "3c04b23c7fe98c47",
+    "data_as_of": "2026-10-08",
+    "updated_at": "2026-10-09T03:16:47+00:00",
+    "source_updated_at": "2026-10-08T12:11:46+00:00",
+    "source_fingerprint": "42685917d630fa98",
     "current_territory": "Pakistan"
   },
   "summary": {
-    "total_km": 7821.9,
-    "walking_days": 230,
-    "natural_days": 310,
-    "walking_average_km": 34.0,
-    "natural_average_km": 25.2,
-    "tracks": 241,
+    "total_km": 7836.8,
+    "walking_days": 231,
+    "natural_days": 313,
+    "walking_average_km": 33.9,
+    "natural_average_km": 25.0,
+    "tracks": 242,
     "territories": 13,
     "first_date": "2025-11-30",
-    "last_date": "2026-10-05",
-    "straight_km": 6108.6,
-    "route_ratio": 1.28
+    "last_date": "2026-10-08",
+    "straight_km": 6098.5,
+    "route_ratio": 1.29
   },
   "route": [
     [
@@ -2958,6 +2958,14 @@
     [
       74.50678,
       36.2453
+    ],
+    [
+      74.3954,
+      36.24041
+    ],
+    [
+      74.37405,
+      36.23905
     ]
   ],
   "route_segments": [
@@ -5949,6 +5957,14 @@
       [
         74.50678,
         36.2453
+      ],
+      [
+        74.3954,
+        36.24041
+      ],
+      [
+        74.37405,
+        36.23905
       ]
     ]
   ],
@@ -143781,6 +143797,270 @@
       [
         74.50678,
         36.2453
+      ],
+      [
+        74.50656,
+        36.24283
+      ],
+      [
+        74.50442,
+        36.24218
+      ],
+      [
+        74.5026,
+        36.24113
+      ],
+      [
+        74.50064,
+        36.24025
+      ],
+      [
+        74.49867,
+        36.23937
+      ],
+      [
+        74.4964,
+        36.23897
+      ],
+      [
+        74.49424,
+        36.23947
+      ],
+      [
+        74.49199,
+        36.23913
+      ],
+      [
+        74.48974,
+        36.23929
+      ],
+      [
+        74.48757,
+        36.23978
+      ],
+      [
+        74.48538,
+        36.24018
+      ],
+      [
+        74.48305,
+        36.24005
+      ],
+      [
+        74.4807,
+        36.23987
+      ],
+      [
+        74.47845,
+        36.23979
+      ],
+      [
+        74.47619,
+        36.23984
+      ],
+      [
+        74.47396,
+        36.24001
+      ],
+      [
+        74.47163,
+        36.24013
+      ],
+      [
+        74.46941,
+        36.24032
+      ],
+      [
+        74.46722,
+        36.24074
+      ],
+      [
+        74.46512,
+        36.24008
+      ],
+      [
+        74.46294,
+        36.23936
+      ],
+      [
+        74.46063,
+        36.23924
+      ],
+      [
+        74.45846,
+        36.23971
+      ],
+      [
+        74.45628,
+        36.24029
+      ],
+      [
+        74.45431,
+        36.24117
+      ],
+      [
+        74.45207,
+        36.24102
+      ],
+      [
+        74.45005,
+        36.24026
+      ],
+      [
+        74.44783,
+        36.23988
+      ],
+      [
+        74.44559,
+        36.23998
+      ],
+      [
+        74.44339,
+        36.24044
+      ],
+      [
+        74.44336,
+        36.23863
+      ],
+      [
+        74.44204,
+        36.24017
+      ],
+      [
+        74.43997,
+        36.2393
+      ],
+      [
+        74.43801,
+        36.23829
+      ],
+      [
+        74.43599,
+        36.2375
+      ],
+      [
+        74.43409,
+        36.23654
+      ],
+      [
+        74.4321,
+        36.23562
+      ],
+      [
+        74.43002,
+        36.23472
+      ],
+      [
+        74.42778,
+        36.2348
+      ],
+      [
+        74.4256,
+        36.23424
+      ],
+      [
+        74.42363,
+        36.23326
+      ],
+      [
+        74.4216,
+        36.23235
+      ],
+      [
+        74.41945,
+        36.23182
+      ],
+      [
+        74.41719,
+        36.23163
+      ],
+      [
+        74.41494,
+        36.23144
+      ],
+      [
+        74.41282,
+        36.23067
+      ],
+      [
+        74.41069,
+        36.2312
+      ],
+      [
+        74.40907,
+        36.23261
+      ],
+      [
+        74.40686,
+        36.23316
+      ],
+      [
+        74.40454,
+        36.23339
+      ],
+      [
+        74.40243,
+        36.234
+      ],
+      [
+        74.40047,
+        36.235
+      ],
+      [
+        74.39889,
+        36.23642
+      ],
+      [
+        74.39765,
+        36.23794
+      ],
+      [
+        74.39608,
+        36.23923
+      ],
+      [
+        74.39487,
+        36.24075
+      ],
+      [
+        74.39262,
+        36.24117
+      ],
+      [
+        74.39059,
+        36.24038
+      ],
+      [
+        74.38847,
+        36.24121
+      ],
+      [
+        74.38627,
+        36.24157
+      ],
+      [
+        74.38402,
+        36.2415
+      ],
+      [
+        74.38207,
+        36.24057
+      ],
+      [
+        74.37993,
+        36.23991
+      ],
+      [
+        74.37765,
+        36.23935
+      ],
+      [
+        74.37535,
+        36.23929
+      ],
+      [
+        74.37405,
+        36.23905
       ]
     ]
   ],
@@ -146019,6 +146299,21 @@
       "date": "2026-10-05",
       "km": 22.14,
       "cumulative": 7821.92
+    },
+    {
+      "date": "2026-10-06",
+      "km": 0.0,
+      "cumulative": 7821.92
+    },
+    {
+      "date": "2026-10-07",
+      "km": 0.0,
+      "cumulative": 7821.92
+    },
+    {
+      "date": "2026-10-08",
+      "km": 14.87,
+      "cumulative": 7836.79
     }
   ],
   "countries": [
@@ -146156,14 +146451,14 @@
     },
     {
       "name": "Pakistan",
-      "km": 128.5,
-      "stages": 5,
-      "natural_days": 5,
+      "km": 143.3,
+      "stages": 6,
+      "natural_days": 8,
       "average_speed_kmh": 5.1,
-      "average_stage_km": 25.7,
-      "elevation_gain_m": 1900,
-      "map_lon": 74.87334,
-      "map_lat": 36.34677
+      "average_stage_km": 23.9,
+      "elevation_gain_m": 2100,
+      "map_lon": 74.84345,
+      "map_lat": 36.30254
     }
   ],
   "territory_timeline": [
@@ -146301,9 +146596,9 @@
     {
       "key": "2026-10",
       "label": "oct.",
-      "km": 128.5,
-      "days": 5,
-      "average": 25.7
+      "km": 143.3,
+      "days": 6,
+      "average": 23.9
     }
   ],
   "geographic_extremes": {
@@ -146318,14 +146613,14 @@
       "local_time": "2026-01-31T11:41:20+01:00"
     },
     "south": {
-      "date": "2026-10-05",
-      "time_utc": "2026-10-05T12:16:05+00:00",
-      "lat": 36.245304,
-      "lon": 74.506781,
+      "date": "2026-10-08",
+      "time_utc": "2026-10-08T11:10:40+00:00",
+      "lat": 36.230437,
+      "lon": 74.411995,
       "country": "Pakistan",
-      "file": "2026-10-05T070757Z.gpx",
-      "place": "Pisan · Gilgit-Baltistan · Pakistan",
-      "local_time": "2026-10-05T12:16:05+00:00"
+      "file": "2026-10-08T082153Z.gpx",
+      "place": "Nilt · Gilgit-Baltistan · Pakistan",
+      "local_time": "2026-10-08T11:10:40+00:00"
     },
     "east": {
       "date": "2026-09-16",
@@ -146411,12 +146706,12 @@
       "adjusted_heart_rate_bpm": 105.1
     },
     "current": {
-      "date": "2026-10-05",
-      "period_start": "2026-09-08",
-      "index": 104.5,
-      "adjusted_heart_rate_bpm": 100.6,
-      "windows": 574,
-      "hours": 47.8
+      "date": "2026-10-08",
+      "period_start": "2026-09-11",
+      "index": 104.2,
+      "adjusted_heart_rate_bpm": 100.9,
+      "windows": 418,
+      "hours": 34.8
     },
     "series": [
       {
@@ -146527,7 +146822,7 @@
         "date": "2026-03-29",
         "period_start": "2026-03-02",
         "index": 103.5,
-        "adjusted_heart_rate_bpm": 101.6,
+        "adjusted_heart_rate_bpm": 101.5,
         "windows": 876,
         "hours": 73.0
       },
@@ -146654,7 +146949,7 @@
       {
         "date": "2026-07-19",
         "period_start": "2026-06-22",
-        "index": 109.1,
+        "index": 109.0,
         "adjusted_heart_rate_bpm": 96.4,
         "windows": 995,
         "hours": 82.9
@@ -146686,7 +146981,7 @@
       {
         "date": "2026-08-16",
         "period_start": "2026-07-20",
-        "index": 102.9,
+        "index": 103.0,
         "adjusted_heart_rate_bpm": 102.1,
         "windows": 638,
         "hours": 53.2
@@ -146695,7 +146990,7 @@
         "date": "2026-08-23",
         "period_start": "2026-07-27",
         "index": 104.3,
-        "adjusted_heart_rate_bpm": 100.8,
+        "adjusted_heart_rate_bpm": 100.7,
         "windows": 703,
         "hours": 58.6
       },
@@ -146726,7 +147021,7 @@
       {
         "date": "2026-09-20",
         "period_start": "2026-08-24",
-        "index": 106.5,
+        "index": 106.6,
         "adjusted_heart_rate_bpm": 98.6,
         "windows": 1218,
         "hours": 101.5
@@ -146735,35 +147030,35 @@
         "date": "2026-09-27",
         "period_start": "2026-08-31",
         "index": 106.3,
-        "adjusted_heart_rate_bpm": 98.9,
+        "adjusted_heart_rate_bpm": 98.8,
         "windows": 860,
         "hours": 71.7
       },
       {
         "date": "2026-10-04",
         "period_start": "2026-09-07",
-        "index": 105.0,
-        "adjusted_heart_rate_bpm": 100.1,
+        "index": 105.1,
+        "adjusted_heart_rate_bpm": 100.0,
         "windows": 600,
         "hours": 50.0
       },
       {
-        "date": "2026-10-05",
-        "period_start": "2026-09-08",
-        "index": 104.5,
-        "adjusted_heart_rate_bpm": 100.6,
-        "windows": 574,
-        "hours": 47.8
+        "date": "2026-10-08",
+        "period_start": "2026-09-11",
+        "index": 104.2,
+        "adjusted_heart_rate_bpm": 100.9,
+        "windows": 418,
+        "hours": 34.8
       }
     ],
     "coverage": {
-      "valid_windows": 9003,
-      "valid_hours": 750.2
+      "valid_windows": 9027,
+      "valid_hours": 752.2
     },
     "reference": {
       "metabolic_power_w_kg": 3.69,
-      "altitude_m": 102,
-      "elapsed_minutes": 292
+      "altitude_m": 103,
+      "elapsed_minutes": 291
     },
     "method": {
       "window_minutes": 5,
@@ -146799,7 +147094,7 @@
       "place": "Gorno-Badakhshan Autonomous Region · Tadjikistan",
       "local_time": "2026-09-14T09:26:48+00:00"
     },
-    "elevation_gain_m": 106500,
+    "elevation_gain_m": 106700,
     "elevation_gain_max_day": {
       "date": "2026-07-23",
       "m": 1800,
@@ -146820,8 +147115,8 @@
     }
   },
   "digital_trace": {
-    "gps_points": 1228533,
-    "sampled_hours": 2007,
+    "gps_points": 1230959,
+    "sampled_hours": 2011,
     "typical_interval_seconds": 5.15,
     "continuous_gap_limit_seconds": 3600
   }
