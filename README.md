@@ -39,6 +39,12 @@ python -m http.server 8080
 
 Després, obre `http://localhost:8080`.
 
+## Analítica de visites
+
+El web utilitza **Cloudflare Web Analytics**, mitjançant el fragment oficial inclòs al final d’`index.html`. El servei comença a comptar visites i pàgines vistes des de l’activació; no recupera dades anteriors i no identifica visitants individuals.
+
+La propietat està configurada per a `ea3igt.github.io`. Si aquest domini allotja altres projectes, al tauler de Cloudflare cal filtrar el camí `/volta-mon-peu-web/` per consultar només aquest web.
+
 ## Eficiència aeròbica relativa
 
 La secció **«Evolució de l’eficiència aeròbica»** utilitza finestres contínues de cinc minuts amb temps, altitud, cadència i freqüència cardíaca vàlids. Només admet velocitats mitjanes de 2,5 a 7,0 km/h i descarta aturades, salts GPS, lectures cardíaques fora de rang i finestres incompletes.
