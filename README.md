@@ -39,6 +39,8 @@ python -m http.server 8080
 
 Després, obre `http://localhost:8080`.
 
+En restaurar una pestanya, el web força una recàrrega amb una URL temporal sense memòria cau si Chrome la recupera des de la memòria de navegació o si les dades no s'han carregat al cap de deu segons. La protecció només ho intenta una vegada cada trenta segons per evitar bucles, i elimina el paràmetre temporal quan la càrrega acaba correctament.
+
 ## Analítica de visites
 
 El web utilitza **Cloudflare Web Analytics**, mitjançant el fragment oficial inclòs al final d’`index.html`. El servei comença a comptar visites i pàgines vistes des de l’activació; no recupera dades anteriors i no identifica visitants individuals.

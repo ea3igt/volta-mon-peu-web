@@ -679,11 +679,21 @@ try {
   if (!response.ok) throw new Error(`Error de dades: ${response.status}`);
   stats = await response.json();
   renderAll();
+  document.documentElement.dataset.appState = "ready";
+  try {
+    sessionStorage.removeItem("volta-mon-peu:recovery-reload");
+  } catch {}
+  const currentUrl = new URL(window.location.href);
+  if (currentUrl.searchParams.has("_fresh")) {
+    currentUrl.searchParams.delete("_fresh");
+    window.history.replaceState(null, "", currentUrl.toString());
+  }
   let resizeTimer;
   window.addEventListener("resize", () => {
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(renderVisuals, 120);
   });
 } catch (error) {
+  document.documentElement.dataset.appState = "error";
   showError(error);
 }

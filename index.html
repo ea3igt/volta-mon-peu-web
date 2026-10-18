@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ca">
+<html lang="ca" data-app-state="loading">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,35 @@
   <title>La volta al món a peu · Enric Luzan</title>
   <link rel="icon" href="assets/favicon.svg?v=20260715-1" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css?v=20260921-2">
+  <script>
+    (() => {
+      const retryKey = "volta-mon-peu:recovery-reload";
+      const reloadFresh = () => {
+        const now = Date.now();
+        let lastAttempt = 0;
+        try {
+          lastAttempt = Number(sessionStorage.getItem(retryKey) || 0);
+        } catch {}
+        if (now - lastAttempt < 30000) return;
+        try {
+          sessionStorage.setItem(retryKey, String(now));
+        } catch {}
+        const url = new URL(window.location.href);
+        url.searchParams.set("_fresh", String(now));
+        window.location.replace(url.toString());
+      };
+
+      window.addEventListener("pageshow", event => {
+        if (event.persisted) reloadFresh();
+      });
+      window.addEventListener("online", () => {
+        if (document.documentElement.dataset.appState !== "ready") reloadFresh();
+      }, { once: true });
+      window.setTimeout(() => {
+        if (document.documentElement.dataset.appState !== "ready") reloadFresh();
+      }, 10000);
+    })();
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#contingut">Ves al contingut</a>
@@ -240,7 +269,7 @@
     </div>
   </footer>
 
-  <script type="module" src="assets/app.js?v=20260921-5"></script>
+  <script type="module" src="assets/app.js?v=20261018-1"></script>
   <!-- Cloudflare Web Analytics -->
   <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "573b859320924ff9ab59e11b8026cae3"}'></script>
   <!-- End Cloudflare Web Analytics -->
