@@ -66,6 +66,8 @@ jobs:
       - name: Recupera el projecte
         uses: actions/checkout@v7
         with:
+          # A queued event can refer to a commit older than the previous bot update.
+          ref: main
           fetch-depth: 0
 
       - name: Prepara Python
