@@ -1,7 +1,7 @@
 const ROUTES_URL =
   "https://raw.githubusercontent.com/Ercoman2/GPX-LVM/main/routes.csv";
-const STATS_URL =
-  "https://ea3igt.github.io/volta-mon-peu-web/data/stats.json";
+const FINGERPRINT_URL =
+  "https://ea3igt.github.io/volta-mon-peu-web/data/source-fingerprint.txt";
 const DISPATCH_URL =
   "https://api.github.com/repos/ea3igt/volta-mon-peu-web/actions/workflows/actualitza-i-publica.yml/dispatches";
 
@@ -9,10 +9,37 @@ async function fetchWithoutCache(url) {
   const separator = url.includes("?") ? "&" : "?";
   return fetch(`${url}${separator}check=${Date.now()}`, {
     cache: "no-store",
+    signal: AbortSignal.timeout(10000),
     headers: {
       "Cache-Control": "no-cache",
     },
   });
+}
+
+// Limit CPU and memory independently of the size of the journey's statistics.
+// If the source grows beyond this budget, dispatch GitHub instead of parsing it.
+async function readBounded(response, limit) {
+  const reader = response.body.getReader();
+  const chunks = [];
+  let size = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > limit) throw new Error(`Resposta superior al límit de ${limit} bytes.`);
+      chunks.push(value);
+    }
+  } finally {
+    await reader.cancel();
+  }
+  const data = new Uint8Array(size);
+  let offset = 0;
+  for (const chunk of chunks) {
+    data.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return data;
 }
 
 async function sha256Prefix(data) {
@@ -24,24 +51,26 @@ async function sha256Prefix(data) {
 }
 
 async function compareSourceFingerprint() {
-  const [routesResponse, statsResponse] = await Promise.all([
+  const [routesResponse, fingerprintResponse] = await Promise.all([
     fetchWithoutCache(ROUTES_URL),
-    fetchWithoutCache(STATS_URL),
+    fetchWithoutCache(FINGERPRINT_URL),
   ]);
 
   if (!routesResponse.ok) {
     throw new Error(`No es pot llegir routes.csv: HTTP ${routesResponse.status}`);
   }
-  if (!statsResponse.ok) {
-    throw new Error(`No es pot llegir stats.json: HTTP ${statsResponse.status}`);
+  if (!fingerprintResponse.ok) {
+    throw new Error(`No es pot llegir source-fingerprint.txt: HTTP ${fingerprintResponse.status}`);
   }
 
-  const routesData = await routesResponse.arrayBuffer();
-  const stats = await statsResponse.json();
-  const previousFingerprint = stats?.meta?.source_fingerprint;
+  const [routesData, fingerprintData] = await Promise.all([
+    readBounded(routesResponse, 128 * 1024),
+    readBounded(fingerprintResponse, 128),
+  ]);
+  const previousFingerprint = new TextDecoder().decode(fingerprintData).trim();
 
   if (!/^[0-9a-f]{16}$/i.test(previousFingerprint || "")) {
-    throw new Error("stats.json no conté un source_fingerprint vàlid.");
+    throw new Error("source-fingerprint.txt no conté un fingerprint vàlid.");
   }
 
   const currentFingerprint = await sha256Prefix(routesData);

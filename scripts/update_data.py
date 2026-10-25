@@ -1033,6 +1033,9 @@ def main() -> None:
                 stats["meta"]["updated_at"] = previous_stats.get("meta", {}).get("updated_at")
 
         output_path.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        (project / "data" / "source-fingerprint.txt").write_text(
+            stats["meta"]["source_fingerprint"] + "\n", encoding="utf-8"
+        )
         cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(f"Dades actualitzades fins al {stats['meta']['data_as_of']}: {stats['summary']['total_km']:.1f} km")
     finally:

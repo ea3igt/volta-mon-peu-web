@@ -79,13 +79,13 @@ jobs:
       - name: Desa les dades noves al repositori
         id: dades
         run: |
-          if git diff --quiet -- data/stats.json data/geocode-cache.json; then
+          if git diff --quiet -- data/stats.json data/geocode-cache.json data/source-fingerprint.txt; then
             echo "No hi ha dades noves."
             echo "canvis=false" >> "$GITHUB_OUTPUT"
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/stats.json data/geocode-cache.json
+            git add data/stats.json data/geocode-cache.json data/source-fingerprint.txt
             git commit -m "Actualitza les dades del viatge"
             git push
             echo "canvis=true" >> "$GITHUB_OUTPUT"
