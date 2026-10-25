@@ -73,6 +73,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Comprova els límits i la recuperació del planificador
+        run: node scripts/test_worker.mjs
+
       - name: Recalcula les estadístiques dels GPX
         run: python scripts/update_data.py
 
