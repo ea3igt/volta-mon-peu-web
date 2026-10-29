@@ -4,7 +4,7 @@
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
     "data_as_of": "2026-10-28",
-    "updated_at": "2026-10-29T14:50:34+00:00",
+    "updated_at": "2026-10-29T15:04:07+00:00",
     "source_updated_at": "2026-10-28T11:02:22+00:00",
     "source_fingerprint": "edc2b50a5eaaeba0",
     "current_territory": "Pakistan"
@@ -154287,7 +154287,7 @@
       "time_utc": "2026-01-04T12:39:17+00:00",
       "local_time": "2026-01-04T13:39:17+01:00",
       "time_zone": "Europe/Rome",
-      "place": "Argine Destro, Arma, Taggia, Provincia di Imperia, Ligúria, 18018, Itàlia"
+      "place": "Arma · Ligúria · Itàlia"
     },
     {
       "km": 2000,
@@ -154300,7 +154300,7 @@
       "time_utc": "2026-02-11T11:06:49+00:00",
       "local_time": "2026-02-11T12:06:49+01:00",
       "time_zone": "Europe/Zagreb",
-      "place": "Adriatic Road, Ivanča, Stinica, Grad Senj, Lika-Senj County, Croàcia"
+      "place": "Ivanča · Lika-Senj County · Croàcia"
     },
     {
       "km": 3000,
@@ -154313,7 +154313,7 @@
       "time_utc": "2026-03-17T14:13:43+00:00",
       "local_time": "2026-03-17T15:13:43+01:00",
       "time_zone": "Europe/Tirane",
-      "place": "SH74, Ruçaj (Zhitom i Madh), Tërpan, Bashkia Poliçan, Comtat de Berat, 5015, Albània"
+      "place": "Ruçaj (Zhitom i Madh) · Comtat de Berat · Albània"
     },
     {
       "km": 4000,
@@ -154326,7 +154326,7 @@
       "time_utc": "2026-04-30T07:58:53+00:00",
       "local_time": "2026-04-30T10:58:53+03:00",
       "time_zone": "Europe/Athens",
-      "place": "Αρδανίου - Κήπων, Βρυσούλα, Municipality of Alexandroupoli, Unitat perifèrica d'Evros, Perifèria de Macedònia Oriental i Tràcia, Macedònia i Tràcia, 680 13, Grècia"
+      "place": "Βρυσούλα · Perifèria de Macedònia Oriental i Tràcia · Grècia"
     },
     {
       "km": 5000,
@@ -154339,7 +154339,7 @@
       "time_utc": "2026-06-15T13:42:13+00:00",
       "local_time": "2026-06-15T16:42:13+03:00",
       "time_zone": "Europe/Istanbul",
-      "place": "Doğrul, Boyabat, Sinop, Regió de la Mar Negra, Turquia"
+      "place": "Doğrul · Sinop · Turquia"
     },
     {
       "km": 6000,
@@ -154352,7 +154352,7 @@
       "time_utc": "2026-07-13T15:24:43+00:00",
       "local_time": "2026-07-13T19:24:43+04:00",
       "time_zone": "Asia/Tbilisi",
-      "place": "Kviani, ნიგოითის თემი, Lanchkhuti Municipality, Gúria, 2800, Geòrgia"
+      "place": "Kviani · Gúria · Geòrgia"
     },
     {
       "km": 7000,
@@ -154365,7 +154365,7 @@
       "time_utc": "2026-08-28T01:35:36+00:00",
       "local_time": "2026-08-28T06:35:36+05:00",
       "time_zone": "Asia/Dushanbe",
-      "place": "RB04 (M41), Jorf, Darvoz District, Gorno-Badakhshan Autonomous Region, Tadjikistan"
+      "place": "Jorf · Gorno-Badakhshan Autonomous Region · Tadjikistan"
     },
     {
       "km": 8000,
@@ -154378,7 +154378,7 @@
       "time_utc": "2026-10-17T05:05:40+00:00",
       "local_time": "2026-10-17T10:05:40+05:00",
       "time_zone": "Asia/Karachi",
-      "place": "Karakoram Highway, Gunar, Diamer District, Diamer-Astore Division, Gilgit-Baltistan, Pakistan"
+      "place": "Gunar · Gilgit-Baltistan · Pakistan"
     }
   ],
   "countries": [

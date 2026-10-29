@@ -566,10 +566,10 @@ def distance_milestones_in_track(points: list[dict], row: dict, start_km: float)
 
 
 def attach_milestone_place(record: dict, cache: dict, allow_network: bool) -> None:
-    """Keep detailed reverse-geocoding separate from the existing broad labels."""
+    """Cache only locality, region and country for each milestone."""
     if record["lat"] is None:
         return
-    key = f"milestone:{record['lat']:.6f},{record['lon']:.6f}"
+    key = f"milestone-place:{record['lat']:.6f},{record['lon']:.6f}"
     if key not in cache and allow_network:
         query = urllib.parse.urlencode({
             "format": "jsonv2", "lat": record["lat"], "lon": record["lon"],
@@ -582,8 +582,8 @@ def attach_milestone_place(record: dict, cache: dict, allow_network: bool) -> No
         try:
             with urllib.request.urlopen(request, timeout=20) as response:
                 payload = json.load(response)
-            if payload.get("display_name"):
-                cache[key] = payload["display_name"]
+            if payload.get("address"):
+                cache[key] = place_from_address(payload, record["country"])
         except Exception:
             # Do not permanently cache a failed lookup; retry on the next update.
             pass
