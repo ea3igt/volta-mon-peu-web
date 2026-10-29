@@ -3,7 +3,7 @@
 import unittest
 from datetime import date, datetime, timezone
 
-from update_data import distance_milestones_in_track
+from update_data import distance_milestones_in_track, source_distance_meters
 
 
 class DistanceMilestonesTest(unittest.TestCase):
@@ -79,6 +79,24 @@ class DistanceMilestonesTest(unittest.TestCase):
         record, = distance_milestones_in_track(self.points(), self.row(country="Nou territori"), 990)
         self.assertEqual(record["time_zone"], "UTC")
         self.assertEqual(record["local_time"], "2025-11-30T11:00:00+00:00")
+
+    def test_elevation_changes_where_threshold_is_reached(self):
+        # Two equal horizontal edges: only the first climbs. The source counts
+        # its longer 3D distance, so halfway falls before their shared vertex.
+        points = [
+            {"lat": 0, "lon": 0, "ele": 0},
+            {"lat": 0, "lon": .001, "ele": 200},
+            {"lat": 0, "lon": .002, "ele": 200},
+        ]
+        record, = distance_milestones_in_track(points, self.row(), 990)
+        self.assertLess(record["lon"], .001)
+        self.assertGreater(record["lon"], 0)
+
+    def test_source_metric_includes_raw_elevation(self):
+        self.assertEqual(source_distance_meters(
+            {"lat": 0, "lon": 0, "ele": 10},
+            {"lat": 0, "lon": 0, "ele": 110},
+        ), 100)
 
 
 if __name__ == "__main__":

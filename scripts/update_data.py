@@ -490,10 +490,29 @@ def geocode_key(lat: float, lon: float) -> str:
     return f"{lat:.4f},{lon:.4f}"
 
 
+def source_distance_meters(previous: dict, point: dict) -> float:
+    """Match the source's gpxpy length_3d metric without adding a dependency.
+
+    GPX-LVM/stravaagtx.py uses gpx.length_3d() for routes.csv. Its short-edge
+    metric uses the WGS84 radius, longitude at the current latitude and raw
+    elevation difference. This metric is only for locating manifest milestones;
+    the existing dashboard's other geographic/elevation calculations stay intact.
+    """
+    radius = 6_378_137.0
+    dlat = point["lat"] - previous["lat"]
+    dlon = point["lon"] - previous["lon"]
+    if abs(dlat) > .1 or abs(dlon) > .1:
+        return haversine((previous["lat"], previous["lon"]), (point["lat"], point["lon"])) * radius / 6_371_000.0
+    horizontal = math.hypot(dlat, dlon * math.cos(math.radians(point["lat"]))) * (2 * math.pi * radius / 360)
+    if previous.get("ele") is not None and point.get("ele") is not None:
+        return math.hypot(horizontal, point["ele"] - previous["ele"])
+    return horizontal
+
+
 def distance_milestones_in_track(points: list[dict], row: dict, start_km: float) -> list[dict]:
     """Locate manifest-distance thresholds along the recorded GPX geometry.
 
-    Each track's continuous GPS length is scaled to its manifest distance, so
+    Reproduce the source's 3D distance, normalized to the manifest if needed, so
     thresholds agree with the dashboard. Never draw across GPX segment breaks.
     Coordinates and timestamps are interpolated estimates, not exact fixes.
     """
@@ -508,7 +527,7 @@ def distance_milestones_in_track(points: list[dict], row: dict, start_km: float)
     for previous, point in zip(points, points[1:]):
         if point.get("segment_start"):
             continue
-        length = haversine((previous["lat"], previous["lon"]), (point["lat"], point["lon"]))
+        length = source_distance_meters(previous, point)
         if length > 0:
             edges.append((total_m, total_m + length, previous, point))
             total_m += length
