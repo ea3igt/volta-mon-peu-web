@@ -523,6 +523,21 @@ h3 {
   font-size: .8rem;
 }
 
+.distance-milestones { margin-top: 2.75rem; }
+.distance-milestones h3 { margin-bottom: 1.25rem; font-size: 1.25rem; font-weight: 500; }
+.distance-milestones-wrap { overflow-x: auto; scrollbar-width: thin; }
+.distance-milestones-table { width: 100%; min-width: 860px; border-collapse: collapse; font-size: .84rem; }
+.distance-milestones-table th,
+.distance-milestones-table td { padding: 1rem .8rem; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.distance-milestones-table thead th { padding-top: 0; color: var(--muted); font-size: .72rem; font-weight: 500; white-space: nowrap; }
+.distance-milestones-table th:first-child { padding-left: 0; white-space: nowrap; }
+.distance-milestones-table tbody th { font-weight: 500; color: var(--route); }
+.distance-milestones-table td:nth-child(2),
+.distance-milestones-table td:nth-child(4) { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.distance-milestones-table td:nth-child(3) { text-align: center; font-variant-numeric: tabular-nums; }
+.distance-milestones-table td:last-child { min-width: 220px; padding-right: 0; }
+.milestone-time-zone { display: block; margin-top: .2rem; color: var(--muted); font-size: .72rem; }
+
 .milestone-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

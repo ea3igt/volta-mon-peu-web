@@ -6,7 +6,7 @@
   <meta name="description" content="Magnituds, mapa i rastre digital de la volta al món a peu d’Enric Luzan, actualitzats a partir dels tracks GPX públics.">
   <title>La volta al món a peu · Enric Luzan</title>
   <link rel="icon" href="assets/favicon.svg?v=20260715-1" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/styles.css?v=20260921-2">
+  <link rel="stylesheet" href="assets/styles.css?v=20261029-1">
   <script>
     (() => {
       const retryKey = "volta-mon-peu:recovery-reload";
@@ -175,6 +175,24 @@
             <svg id="monthly-chart" viewBox="0 0 520 310" role="img" aria-label="Quilòmetres caminats cada mes"></svg>
           </figure>
         </div>
+        <section class="distance-milestones" aria-labelledby="distance-milestones-title">
+          <h3 id="distance-milestones-title">Cada 1.000 quilòmetres</h3>
+          <div class="distance-milestones-wrap" role="region" aria-labelledby="distance-milestones-title" tabindex="0">
+            <table class="distance-milestones-table" aria-describedby="distance-milestones-note">
+              <thead>
+                <tr>
+                  <th scope="col">Quilòmetre</th>
+                  <th scope="col">Dia i hora local</th>
+                  <th scope="col">Dia del viatge</th>
+                  <th scope="col">Coordenades</th>
+                  <th scope="col">Lloc</th>
+                </tr>
+              </thead>
+              <tbody id="distance-milestones-body"></tbody>
+            </table>
+          </div>
+          <p class="method-note" id="distance-milestones-note">Posició i hora estimades per interpolació del track GPX, ajustat a la distància acumulada de la web. El 30 de novembre de 2025 és el dia 1. El lloc correspon a la referència més propera d’OpenStreetMap; les coordenades enllacen al mapa.</p>
+        </section>
       </div>
     </section>
 
@@ -269,7 +287,7 @@
     </div>
   </footer>
 
-  <script type="module" src="assets/app.js?v=20261018-1"></script>
+  <script type="module" src="assets/app.js?v=20261029-1"></script>
   <!-- Cloudflare Web Analytics -->
   <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "573b859320924ff9ab59e11b8026cae3"}'></script>
   <!-- End Cloudflare Web Analytics -->

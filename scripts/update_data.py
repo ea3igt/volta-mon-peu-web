@@ -65,6 +65,14 @@ AEROBIC_ROLLING_DAYS = 28
 AEROBIC_STEP_DAYS = 7
 AEROBIC_MIN_WINDOWS = 24
 AEROBIC_BASELINE_START = date(2025, 12, 1)
+JOURNEY_START = date(2025, 11, 30)
+MILESTONE_TIMEZONES = {
+    **TIMEZONES,
+    "Oʻzbekiston": "Asia/Tashkent",
+    "Tadjikistan": "Asia/Dushanbe",
+    "Xina": "Asia/Shanghai",
+    "Pakistan": "Asia/Karachi",
+}
 CITY_NAME_ALIASES = {
     "Alexandroupoli": "Alexandrúpoli",
     "Durres": "Durrës",
@@ -482,6 +490,89 @@ def geocode_key(lat: float, lon: float) -> str:
     return f"{lat:.4f},{lon:.4f}"
 
 
+def distance_milestones_in_track(points: list[dict], row: dict, start_km: float) -> list[dict]:
+    """Locate manifest-distance thresholds along the recorded GPX geometry.
+
+    Each track's continuous GPS length is scaled to its manifest distance, so
+    thresholds agree with the dashboard. Never draw across GPX segment breaks.
+    Coordinates and timestamps are interpolated estimates, not exact fixes.
+    """
+    if row["km"] <= 0:
+        return []
+    first_km = (math.floor((start_km + 1e-9) / 1000) + 1) * 1000
+    end_km = start_km + row["km"]
+    if first_km > end_km + 1e-9:
+        return []
+    edges = []
+    total_m = 0.0
+    for previous, point in zip(points, points[1:]):
+        if point.get("segment_start"):
+            continue
+        length = haversine((previous["lat"], previous["lon"]), (point["lat"], point["lon"]))
+        if length > 0:
+            edges.append((total_m, total_m + length, previous, point))
+            total_m += length
+    results = []
+    edge_index = 0
+    for km in range(first_km, math.floor((end_km + 1e-9) / 1000) * 1000 + 1, 1000):
+        record = {
+            "km": km, "date": row["date"].isoformat(),
+            "journey_day": (row["date"] - JOURNEY_START).days + 1,
+            "country": row["country"], "file": row["file"],
+            "lat": None, "lon": None, "time_utc": None, "local_time": None,
+            "time_zone": MILESTONE_TIMEZONES.get(row["country"], "UTC"),
+            "place": None,
+        }
+        if not edges:
+            results.append(record)
+            continue
+        target_m = min(total_m, max(0, (km - start_km) / row["km"] * total_m))
+        while edge_index < len(edges) - 1 and edges[edge_index][1] < target_m:
+            edge_index += 1
+        left_m, right_m, previous, point = edges[edge_index]
+        fraction = min(1, max(0, (target_m - left_m) / (right_m - left_m)))
+        lon_delta = (point["lon"] - previous["lon"] + 180) % 360 - 180
+        record["lat"] = round(previous["lat"] + fraction * (point["lat"] - previous["lat"]), 6)
+        record["lon"] = round((previous["lon"] + fraction * lon_delta + 180) % 360 - 180, 6)
+        before, after = previous.get("time"), point.get("time")
+        if before and after and before.utcoffset() is not None and after.utcoffset() is not None and after >= before:
+            moment = before + fraction * (after - before)
+            local = moment.astimezone(ZoneInfo(record["time_zone"]))
+            record["time_utc"] = moment.astimezone(timezone.utc).isoformat(timespec="seconds")
+            record["local_time"] = local.isoformat(timespec="seconds")
+            record["date"] = local.date().isoformat()
+            record["journey_day"] = (local.date() - JOURNEY_START).days + 1
+        results.append(record)
+    return results
+
+
+def attach_milestone_place(record: dict, cache: dict, allow_network: bool) -> None:
+    """Keep detailed reverse-geocoding separate from the existing broad labels."""
+    if record["lat"] is None:
+        return
+    key = f"milestone:{record['lat']:.6f},{record['lon']:.6f}"
+    if key not in cache and allow_network:
+        query = urllib.parse.urlencode({
+            "format": "jsonv2", "lat": record["lat"], "lon": record["lon"],
+            "zoom": 18, "addressdetails": 1, "accept-language": "ca,en",
+        })
+        request = urllib.request.Request(
+            f"https://nominatim.openstreetmap.org/reverse?{query}",
+            headers={"User-Agent": "LaVoltaAlMonAPeuStats/1.0 (public data visualisation)"},
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=20) as response:
+                payload = json.load(response)
+            if payload.get("display_name"):
+                cache[key] = payload["display_name"]
+        except Exception:
+            # Do not permanently cache a failed lookup; retry on the next update.
+            pass
+        finally:
+            time.sleep(1.1)
+    record["place"] = cache.get(key)
+
+
 def place_from_address(payload: dict, fallback: str) -> str:
     address = payload.get("address", {})
     local = next((address.get(key) for key in (
@@ -681,8 +772,10 @@ def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: 
     cardinal = {"north": None, "south": None, "east": None, "west": None}
     speed_max = None
     aerobic_windows: list[dict] = []
+    distance_milestones: list[dict] = []
+    manifest_km = 0.0
 
-    for row in rows:
+    for row in ordered_rows:
         by_date[row["date"]] += row["km"]
         month_key = row["date"].strftime("%Y-%m")
         months[month_key]["km"] += row["km"]
@@ -704,6 +797,8 @@ def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: 
         country["last"] = max(country["last"], row["date"])
 
         points = read_track(source / row["file"])
+        distance_milestones.extend(distance_milestones_in_track(points, row, manifest_km))
+        manifest_km += row["km"]
         if not points:
             continue
         aerobic_windows.extend(aerobic_windows_from_points(points, row))
@@ -865,6 +960,8 @@ def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: 
             attach_place(record, cache, allow_network)
 
     temp_max_episodes = group_temperature_events(temp_max_records, cache, allow_network)
+    for record in distance_milestones:
+        attach_milestone_place(record, cache, allow_network)
 
     walking_days = sorted(by_date)
     first_day, last_day = walking_days[0], walking_days[-1]
@@ -955,6 +1052,7 @@ def build_stats(source: Path, cache: dict, allow_network: bool, city_reference: 
         "route_gaps": route_gaps,
         "map_cities": map_cities,
         "calendar": calendar,
+        "distance_milestones": distance_milestones,
         "countries": country_data,
         "territory_timeline": territory_timeline,
         "months": month_data,

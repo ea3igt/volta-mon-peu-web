@@ -124,6 +124,46 @@ function renderMilestones() {
   container.replaceChildren(...items.map(([label, value, context]) => detailItem(label, value, context)));
 }
 
+function renderDistanceMilestones() {
+  const rows = (stats.distance_milestones || []).map(record => {
+    const row = document.createElement("tr");
+    const km = document.createElement("th");
+    km.scope = "row";
+    km.textContent = `${number0.format(record.km)} km`;
+    const moment = document.createElement("td");
+    const time = document.createElement("time");
+    if (record.local_time) time.dateTime = record.local_time;
+    time.textContent = record.local_time ? formatLocal(record.local_time, true) : `${formatDate(record.date)} · hora no disponible`;
+    moment.append(time);
+    if (record.local_time) {
+      const offset = record.local_time.endsWith("Z") ? "+00:00" : record.local_time.slice(-6);
+      const zone = document.createElement("span");
+      zone.className = "milestone-time-zone";
+      zone.textContent = `UTC${offset}`;
+      moment.append(zone);
+    }
+    const day = document.createElement("td");
+    day.textContent = number0.format(record.journey_day);
+    const position = document.createElement("td");
+    if (Number.isFinite(record.lat) && Number.isFinite(record.lon)) {
+      const link = document.createElement("a");
+      link.href = `https://www.openstreetmap.org/?mlat=${record.lat}&mlon=${record.lon}#map=17/${record.lat}/${record.lon}`;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = coordinatesPrecise(record);
+      link.setAttribute("aria-label", `Veure la fita de ${number0.format(record.km)} km al mapa: ${coordinatesPrecise(record)}`);
+      position.append(link);
+    } else {
+      position.textContent = "Posició no disponible";
+    }
+    const place = document.createElement("td");
+    place.textContent = record.place || `Topònim no disponible · ${record.country}`;
+    row.append(km, moment, day, position, place);
+    return row;
+  });
+  document.getElementById("distance-milestones-body").replaceChildren(...rows);
+}
+
 function renderDetails() {
   const geographic = document.getElementById("geographic-list");
   const geographicItems = Object.entries(cardinalLabels).map(([key, [, label]]) => {
@@ -662,6 +702,7 @@ function renderVisuals() {
 function renderAll() {
   renderTextContent();
   renderMilestones();
+  renderDistanceMilestones();
   renderDetails();
   renderCountries();
   renderVisuals();

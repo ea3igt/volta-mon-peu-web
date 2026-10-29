@@ -4,7 +4,7 @@
     "traveller": "Enric Luzan",
     "source_url": "https://github.com/Ercoman2/GPX-LVM",
     "data_as_of": "2026-10-28",
-    "updated_at": "2026-10-29T05:56:18+00:00",
+    "updated_at": "2026-10-29T14:44:11+00:00",
     "source_updated_at": "2026-10-28T11:02:22+00:00",
     "source_fingerprint": "edc2b50a5eaaeba0",
     "current_territory": "Pakistan"
@@ -154273,6 +154273,112 @@
       "date": "2026-10-28",
       "km": 25.02,
       "cumulative": 8247.14
+    }
+  ],
+  "distance_milestones": [
+    {
+      "km": 1000,
+      "date": "2026-01-04",
+      "journey_day": 36,
+      "country": "Itàlia",
+      "file": "2026-01-04T071844Z.gpx",
+      "lat": 43.833047,
+      "lon": 7.857324,
+      "time_utc": "2026-01-04T12:39:56+00:00",
+      "local_time": "2026-01-04T13:39:56+01:00",
+      "time_zone": "Europe/Rome",
+      "place": "Argine Destro, Arma, Taggia, Provincia di Imperia, Ligúria, 18018, Itàlia"
+    },
+    {
+      "km": 2000,
+      "date": "2026-02-11",
+      "journey_day": 74,
+      "country": "Croàcia",
+      "file": "2026-02-11T071718Z.gpx",
+      "lat": 44.754093,
+      "lon": 14.902752,
+      "time_utc": "2026-02-11T11:06:52+00:00",
+      "local_time": "2026-02-11T12:06:52+01:00",
+      "time_zone": "Europe/Zagreb",
+      "place": "Adriatic Road, Ivanča, Stinica, Grad Senj, Lika-Senj County, Croàcia"
+    },
+    {
+      "km": 3000,
+      "date": "2026-03-17",
+      "journey_day": 108,
+      "country": "Albània",
+      "file": "2026-03-17T091858Z.gpx",
+      "lat": 40.595114,
+      "lon": 20.002025,
+      "time_utc": "2026-03-17T14:13:40+00:00",
+      "local_time": "2026-03-17T15:13:40+01:00",
+      "time_zone": "Europe/Tirane",
+      "place": "SH74, Ruçaj (Zhitom i Madh), Tërpan, Bashkia Poliçan, Comtat de Berat, 5015, Albània"
+    },
+    {
+      "km": 4000,
+      "date": "2026-04-30",
+      "journey_day": 152,
+      "country": "Grècia",
+      "file": "2026-04-30T041819Z.gpx",
+      "lat": 40.945351,
+      "lon": 26.251322,
+      "time_utc": "2026-04-30T07:58:45+00:00",
+      "local_time": "2026-04-30T10:58:45+03:00",
+      "time_zone": "Europe/Athens",
+      "place": "Αρδανίου - Κήπων, Βρυσούλα, Municipality of Alexandroupoli, Unitat perifèrica d'Evros, Perifèria de Macedònia Oriental i Tràcia, Macedònia i Tràcia, 680 13, Grècia"
+    },
+    {
+      "km": 5000,
+      "date": "2026-06-15",
+      "journey_day": 198,
+      "country": "Turquia",
+      "file": "2026-06-15T044112Z.gpx",
+      "lat": 41.372514,
+      "lon": 34.582493,
+      "time_utc": "2026-06-15T13:42:20+00:00",
+      "local_time": "2026-06-15T16:42:20+03:00",
+      "time_zone": "Europe/Istanbul",
+      "place": "Doğrul, Boyabat, Sinop, Regió de la Mar Negra, Turquia"
+    },
+    {
+      "km": 6000,
+      "date": "2026-07-13",
+      "journey_day": 226,
+      "country": "Geòrgia",
+      "file": "2026-07-13T042601Z.gpx",
+      "lat": 42.089261,
+      "lon": 42.163453,
+      "time_utc": "2026-07-13T15:24:52+00:00",
+      "local_time": "2026-07-13T19:24:52+04:00",
+      "time_zone": "Asia/Tbilisi",
+      "place": "Kviani, ნიგოითის თემი, Lanchkhuti Municipality, Gúria, 2800, Geòrgia"
+    },
+    {
+      "km": 7000,
+      "date": "2026-08-28",
+      "journey_day": 272,
+      "country": "Tadjikistan",
+      "file": "2026-08-28T011643Z.gpx",
+      "lat": 38.477267,
+      "lon": 70.963314,
+      "time_utc": "2026-08-28T01:35:37+00:00",
+      "local_time": "2026-08-28T06:35:37+05:00",
+      "time_zone": "Asia/Dushanbe",
+      "place": "RB04 (M41), Jorf, Darvoz District, Gorno-Badakhshan Autonomous Region, Tadjikistan"
+    },
+    {
+      "km": 8000,
+      "date": "2026-10-17",
+      "journey_day": 322,
+      "country": "Pakistan",
+      "file": "2026-10-17T033736Z.gpx",
+      "lat": 35.410088,
+      "lon": 74.384336,
+      "time_utc": "2026-10-17T05:05:36+00:00",
+      "local_time": "2026-10-17T10:05:36+05:00",
+      "time_zone": "Asia/Karachi",
+      "place": "Karakoram Highway, Gunar, Diamer District, Diamer-Astore Division, Gilgit-Baltistan, Pakistan"
     }
   ],
   "countries": [

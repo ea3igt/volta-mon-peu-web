@@ -41,6 +41,14 @@ Després, obre `http://localhost:8080`.
 
 En restaurar una pestanya, el web força una recàrrega amb una URL temporal sense memòria cau si Chrome la recupera des de la memòria de navegació o si les dades no s'han carregat al cap de deu segons. La protecció només ho intenta una vegada cada trenta segons per evitar bucles, i elimina el paràmetre temporal quan la càrrega acaba correctament.
 
+## Fites de cada 1.000 km
+
+Al final de «Temps i distància», la taula «Cada 1.000 quilòmetres» mostra totes les fites assolides: quilòmetre, data i hora local amb desplaçament UTC, dia natural del viatge (30/11/2025 = dia 1), coordenades enllaçades a OpenStreetMap i referència geogràfica propera.
+
+El càlcul segueix l’ordre cronològic dels tracks i les distàncies de `routes.csv`, igual que el total de la web. Dins de cada track, ajusta proporcionalment la longitud GPS contínua a la distància del manifest i interpola coordenades i hora entre els dos punts que envolten la fita. No uneix segments GPX separats ni inventa hores si falten marques temporals. La posició i l’hora són estimacions, no mesures exactes. Nominatim consulta la referència més propera amb detall de carrer i la conserva amb claus `milestone:` a `data/geocode-cache.json`; una consulta fallida es torna a intentar en actualitzacions posteriors. Les fites noves s’incorporen automàticament en cada recàlcul.
+
+Proves del càlcul: `python scripts/test_distance_milestones.py`.
+
 ## Analítica de visites
 
 El web utilitza **Cloudflare Web Analytics**, mitjançant el fragment oficial inclòs al final d’`index.html`. El servei comença a comptar visites i pàgines vistes des de l’activació; no recupera dades anteriors i no identifica visitants individuals.
